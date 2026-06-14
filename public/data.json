@@ -299,17 +299,42 @@
         {
             "title": "Web Development",
             "icon": "fa-solid fa-code",
-            "description": "Building responsive, high-performance websites using reliable technologies like React, Next.js, and Node.js."
+            "description": "Fast, responsive websites and web apps built with React, Next.js, and modern JavaScript — optimized for performance and SEO."
         },
         {
             "title": "Mobile App Development",
             "icon": "fa-solid fa-mobile-screen",
-            "description": "Creating native Android and iOS applications with Flutter and React Native for seamless user experiences."
+            "description": "Cross-platform Android and iOS apps with Flutter and React Native, focused on smooth UX and reliable offline-ready flows."
         },
         {
             "title": "AI Solutions",
             "icon": "fa-solid fa-brain",
-            "description": "Integrating machine learning models and AI agents to automate workflows and enhance business intelligence."
+            "description": "Custom AI integrations, LLM workflows, prompt engineering, and vector search to automate tasks and improve decisions."
+        },
+        {
+            "title": "UI/UX Design",
+            "icon": "fa-solid fa-pen-ruler",
+            "description": "Clean, user-first interfaces from wireframe to pixel-perfect implementation with Figma and accessible design patterns."
+        },
+        {
+            "title": "Cloud & DevOps",
+            "icon": "fa-solid fa-cloud",
+            "description": "Scalable deployments on AWS, GCP, and Vercel with Docker, CI/CD pipelines, and production-ready infrastructure setup."
+        },
+        {
+            "title": "API & Backend",
+            "icon": "fa-solid fa-server",
+            "description": "Secure REST and GraphQL APIs using Node.js, Express, Prisma, and databases tailored to your product requirements."
+        },
+        {
+            "title": "Freelance Consulting",
+            "icon": "fa-solid fa-handshake",
+            "description": "Technical guidance, code reviews, architecture planning, and MVP strategy to help teams ship faster with confidence."
+        },
+        {
+            "title": "E-Commerce Solutions",
+            "icon": "fa-solid fa-cart-shopping",
+            "description": "Online stores and payment-ready platforms with inventory flows, admin dashboards, and conversion-focused storefronts."
         }
     ],
     "testimonials": [

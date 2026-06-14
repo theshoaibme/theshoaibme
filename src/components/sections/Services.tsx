@@ -14,17 +14,32 @@ export default function Services({ services }: ServicesProps) {
         </div>
         <div className="services-grid" id="services-grid">
           {services.map((service, index) => (
-            <div
+            <article
               key={service.title}
               className="service-card reveal"
-              style={{ transitionDelay: `${index * 100}ms` }}
+              style={{ transitionDelay: `${index * 80}ms` }}
+              data-tooltip={service.title}
+              tabIndex={0}
+              aria-label={service.title}
             >
-              <div className="service-icon">
-                <i className={service.icon} />
+              <div className="service-card-header">
+                <div className={`service-icon service-icon-${index % 4}`}>
+                  <i className={service.icon} aria-hidden="true" />
+                </div>
+                <span className="service-number">{String(index + 1).padStart(2, '0')}</span>
               </div>
               <h3>{service.title}</h3>
               <p>{service.description}</p>
-            </div>
+              <a
+                href="#contact"
+                className="service-cta"
+                data-tooltip="Contact me about this service"
+                aria-label={`Contact me about ${service.title}`}
+              >
+                <span>Discuss your project</span>
+                <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+              </a>
+            </article>
           ))}
         </div>
       </div>
