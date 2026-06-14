@@ -1,5 +1,6 @@
 import emailjs from '@emailjs/browser';
-import { useCallback, useState, type FormEvent } from 'react';
+import { useCallback, useState } from 'react';
+import { isRecaptchaConfigured } from '@/config/recaptcha';
 import { getErrorMessage } from '@/utils/errors';
 
 interface ContactFormValues {
@@ -10,8 +11,10 @@ interface ContactFormValues {
   honey_pot: string;
 }
 
+type ContactFormStatusType = 'idle' | 'info' | 'success' | 'error';
+
 type ContactFormStatus = {
-  type: 'idle' | 'success' | 'error';
+  type: ContactFormStatusType;
   message: string;
 };
 
@@ -23,7 +26,28 @@ const INITIAL_VALUES: ContactFormValues = {
   honey_pot: '',
 };
 
-export function useContactForm() {
+interface UseContactFormOptions {
+  onResetCaptcha?: () => void;
+}
+
+function getValidationError(values: ContactFormValues): string | null {
+  if (values.honey_pot.trim()) {
+    return null;
+  }
+
+  if (!values.user_name.trim() || !values.user_email.trim() || !values.message.trim()) {
+    return 'Please fill in all required fields before sending your message.';
+  }
+
+  if (!isRecaptchaConfigured()) {
+    return 'Robot verification is not configured. Set VITE_RECAPTCHA_SITE_KEY to enable form submissions.';
+  }
+
+  return null;
+}
+
+export function useContactForm(options: UseContactFormOptions = {}) {
+  const { onResetCaptcha } = options;
   const [values, setValues] = useState<ContactFormValues>(INITIAL_VALUES);
   const [status, setStatus] = useState<ContactFormStatus>({ type: 'idle', message: '' });
   const [submitting, setSubmitting] = useState(false);
@@ -32,55 +56,89 @@ export function useContactForm() {
     setValues((current) => ({ ...current, [field]: value }));
   }, []);
 
-  const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const validateForm = useCallback((): boolean => {
+    const validationError = getValidationError(values);
 
-    if (values.honey_pot.trim()) {
-      return;
+    if (validationError) {
+      setStatus({ type: 'error', message: validationError });
+      return false;
     }
 
-    if (!values.user_name.trim() || !values.user_email.trim() || !values.message.trim()) {
-      setStatus({
-        type: 'error',
-        message: 'Please fill in all required fields before sending your message.',
-      });
-      return;
-    }
-
-    setSubmitting(true);
-    setStatus({ type: 'idle', message: '' });
-
-    try {
-      emailjs.init('0angy-FFhuMJiDUal');
-
-      await emailjs.send('service_rtmlnoj', 'template_o7kynn5', {
-        from_name: values.user_name.trim(),
-        from_email: values.user_email.trim(),
-        subject: values.subject.trim(),
-        message: values.message.trim(),
-      });
-
-      setStatus({
-        type: 'success',
-        message: 'Message sent successfully! I will get back to you soon.',
-      });
-      setValues(INITIAL_VALUES);
-    } catch (error) {
-      console.error('EmailJS Error:', error);
-      setStatus({
-        type: 'error',
-        message: getErrorMessage(error, 'Failed to send message. Please try again later.'),
-      });
-    } finally {
-      setSubmitting(false);
-    }
+    return true;
   }, [values]);
+
+  const sendMessage = useCallback(
+    async (captchaToken: string) => {
+      const validationError = getValidationError(values);
+
+      if (validationError) {
+        setStatus({ type: 'error', message: validationError });
+        return false;
+      }
+
+      setSubmitting(true);
+      setStatus({ type: 'idle', message: '' });
+
+      try {
+        emailjs.init('0angy-FFhuMJiDUal');
+
+        await emailjs.send('service_rtmlnoj', 'template_o7kynn5', {
+          from_name: values.user_name.trim(),
+          from_email: values.user_email.trim(),
+          subject: values.subject.trim(),
+          message: values.message.trim(),
+          'g-recaptcha-response': captchaToken,
+        });
+
+        setStatus({
+          type: 'success',
+          message: 'Message sent successfully! I will get back to you soon.',
+        });
+        setValues(INITIAL_VALUES);
+        onResetCaptcha?.();
+        return true;
+      } catch (error) {
+        console.error('EmailJS Error:', error);
+        setStatus({
+          type: 'error',
+          message: getErrorMessage(error, 'Failed to send message. Please try again later.'),
+        });
+        onResetCaptcha?.();
+        return false;
+      } finally {
+        setSubmitting(false);
+      }
+    },
+    [onResetCaptcha, values],
+  );
+
+  const requestVerification = useCallback(() => {
+    const validationError = getValidationError(values);
+
+    if (validationError) {
+      setStatus({ type: 'error', message: validationError });
+      return false;
+    }
+
+    setStatus({
+      type: 'info',
+      message: 'Please complete the robot verification below to send your message.',
+    });
+    return true;
+  }, [values]);
+
+  const clearStatus = useCallback(() => {
+    setStatus({ type: 'idle', message: '' });
+  }, []);
 
   return {
     values,
     status,
     submitting,
     updateField,
-    handleSubmit,
+    validateForm,
+    requestVerification,
+    sendMessage,
+    clearStatus,
   };
 }

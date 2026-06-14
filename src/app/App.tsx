@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 import { SiteDataProvider } from '@/app/providers/SiteDataProvider';
+import ContactPage from '@/pages/ContactPage';
 import HomePage from '@/pages/HomePage';
 import LoaderPage from '@/pages/LoaderPage';
 import NotFoundPage from '@/pages/NotFoundPage';
@@ -17,6 +18,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/contact" element={<ContactPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/loader" element={<LoaderPage />} />

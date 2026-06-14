@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import type { NavItem } from '@/types';
 import { useHeaderScroll } from '@/hooks/scroll/useHeaderScroll';
 import { buildColoredLogoText, buildLogoSpan, resolveAssetPath } from '@/utils/logo';
@@ -28,15 +29,25 @@ export default function Header({ logoText, logoSpan, favicon, nav, scrollEnabled
           />
         </a>
         <nav className="navbar" id="site-nav">
-          {nav.map((item, index) => (
-            <a
-              key={item.link}
-              href={item.link}
-              className={index === 0 ? 'active' : undefined}
-            >
-              {item.label}
-            </a>
-          ))}
+          {nav.map((item, index) =>
+            item.link.startsWith('/') ? (
+              <Link
+                key={item.link}
+                to={item.link}
+                className={index === 0 ? 'active' : undefined}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                key={item.link}
+                href={item.link}
+                className={index === 0 ? 'active' : undefined}
+              >
+                {item.label}
+              </a>
+            ),
+          )}
         </nav>
         <div className="mobile-toggle">
           <i className="fa-solid fa-bars" />
