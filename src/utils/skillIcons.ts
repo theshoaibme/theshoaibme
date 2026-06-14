@@ -11,6 +11,7 @@ const DEVICON_SKILLS: Record<string, string> = {
   HTML5: 'devicon-html5-plain colored',
   CSS3: 'devicon-css3-plain colored',
   React: 'devicon-react-original colored',
+  Angular: 'devicon-angular-plain',
   'Vue.js': 'devicon-vuejs-plain colored',
   'Tailwind CSS': 'devicon-tailwindcss-plain colored',
   Bootstrap: 'devicon-bootstrap-plain colored',
@@ -47,6 +48,7 @@ const DEVICON_SKILLS: Record<string, string> = {
   Postman: 'devicon-postman-plain colored',
   Electron: 'devicon-electron-original colored',
   'Adobe Photoshop': 'devicon-photoshop-plain colored',
+  Figma: 'devicon-figma-plain colored',
 };
 
 const FONT_AWESOME_SKILLS: Record<string, string> = {
@@ -69,4 +71,8 @@ export function getSkillIconClass(skill: string): string {
 
 export function isDeviconSkill(skill: string): boolean {
   return skill in DEVICON_SKILLS;
+}
+
+export function getSkillTooltip(skill: string): string {
+  return skill;
 }

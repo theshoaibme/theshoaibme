@@ -1,6 +1,6 @@
 import type { SiteSection } from '@/types';
 import { getSkillCategoryTitle } from '@/utils/skills';
-import { getSkillIconClass, isDeviconSkill } from '@/utils/skillIcons';
+import { getSkillIconClass, getSkillTooltip, isDeviconSkill } from '@/utils/skillIcons';
 
 interface SkillsProps {
   section: SiteSection;
@@ -10,9 +10,15 @@ interface SkillsProps {
 function SkillTag({ skill }: { skill: string }) {
   const iconClass = getSkillIconClass(skill);
   const useDevicon = isDeviconSkill(skill);
+  const tooltip = getSkillTooltip(skill);
 
   return (
-    <span className="skill-tag">
+    <span
+      className="skill-tag"
+      data-tooltip={tooltip}
+      tabIndex={0}
+      aria-label={tooltip}
+    >
       <i
         className={useDevicon ? iconClass : `skill-tag-icon ${iconClass}`}
         aria-hidden="true"
