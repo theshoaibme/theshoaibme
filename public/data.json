@@ -47,7 +47,7 @@
             },
             "portfolio": {
                 "subtitle": "My Works",
-                "title": "My Projects"
+                "title": "Featured Projects"
             },
             "contact": {
                 "subtitle": "Get in Touch",
@@ -240,7 +240,8 @@
             ],
             "repository": "https://github.com/the-shoaib2/meal-sphere",
             "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fmeal-sphere.vercel.app?w=1200",
-            "live_preview": "https://meal-sphere.vercel.app"
+            "live_preview": "https://meal-sphere.vercel.app",
+            "featured": true
         },
         {
             "name": "Daffodil Intelligence",
@@ -261,7 +262,8 @@
             ],
             "repository": "https://github.com/the-shoaib2/daffodil-intelligence",
             "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2Fdaffodil-intelligence?w=1200",
-            "live_preview": null
+            "live_preview": null,
+            "featured": true
         },
         {
             "name": "Orthopedic Surgeon Platform",
@@ -279,7 +281,8 @@
             ],
             "repository": "https://github.com/the-shoaib2/orthopedicsurgeon",
             "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Forthopedicsurgeon.vercel.app?w=1200",
-            "live_preview": "https://orthopedicsurgeon.vercel.app"
+            "live_preview": "https://orthopedicsurgeon.vercel.app",
+            "featured": true
         },
         {
             "name": "SobujBD",
@@ -299,7 +302,8 @@
             ],
             "repository": "https://github.com/zionmezba/sobujbd",
             "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fzionmezba%2Fsobujbd?w=1200",
-            "live_preview": null
+            "live_preview": null,
+            "featured": true
         },
         {
             "name": "App Pro",
@@ -312,7 +316,8 @@
             ],
             "repository": "https://github.com/the-shoaib2/app-pro",
             "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2Fapp-pro?w=1200",
-            "live_preview": null
+            "live_preview": null,
+            "featured": false
         },
         {
             "name": "Pregnify",
@@ -332,7 +337,8 @@
             ],
             "repository": "https://github.com/the-shoaib2/Pregnify",
             "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2FPregnify?w=1200",
-            "live_preview": null
+            "live_preview": null,
+            "featured": false
         },
         {
             "name": "Supershop Management System",
@@ -358,7 +364,8 @@
             ],
             "repository": "https://github.com/the-shoaib2/Super-Shop-Management",
             "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2FSuper-Shop-Management?w=1200",
-            "live_preview": null
+            "live_preview": null,
+            "featured": false
         }
     ],
     "services": [

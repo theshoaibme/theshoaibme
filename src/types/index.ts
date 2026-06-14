@@ -67,6 +67,7 @@ export interface Project {
   repository: string;
   image: string | null;
   live_preview: string | null;
+  featured?: boolean;
 }
 
 export interface Service {
