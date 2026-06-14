@@ -298,9 +298,7 @@ img {
 
 .skill-card,
 .info-item i,
-.social-links a,
-.form-group input,
-.form-group textarea {
+.social-links a {
     background: var(--glass-bg) !important;
     backdrop-filter: var(--glass-backdrop);
     -webkit-backdrop-filter: var(--glass-backdrop);
@@ -1306,28 +1304,37 @@ img {
 
 .form-group {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 22px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
 }
 
 .form-group input,
 .form-group textarea {
     width: 100%;
-    padding: 16px 20px;
+    padding: 10px 18px;
     border: 2px solid var(--border);
-    border-radius: 12px;
-    /* background: var(--muted); */
+    border-radius: 9999px;
+    background: var(--background);
+    box-shadow: none;
     color: var(--text-color);
     font-family: var(--font-body);
-    font-size: 1.05rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-group textarea {
+    min-height: 96px;
+    padding: 12px 18px;
+    border-radius: 24px;
+    resize: vertical;
 }
 
 .form-group input:focus,
@@ -1335,7 +1342,7 @@ img {
     outline: none;
     border-color: var(--google-blue);
     background: var(--background);
-    box-shadow: 0 0 0 4px rgba(66, 133, 244, 0.1);
+    box-shadow: none;
 }
 
 .form-group input::placeholder,
@@ -1347,11 +1354,12 @@ img {
 #submit-btn {
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
-    margin-top: 10px;
-    padding: 16px;
-    font-size: 1.1rem;
+    margin-top: 8px;
+    padding: 11px 24px;
+    border-radius: 9999px;
+    font-size: 1rem;
 }
 
 #submit-btn:hover {

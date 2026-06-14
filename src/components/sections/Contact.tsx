@@ -60,7 +60,7 @@ export default function Contact({ section, contact }: ContactProps) {
                 id="contact-name"
                 name="user_name"
                 required
-                placeholder="John Doe"
+                placeholder="Enter your name"
                 value={values.user_name}
                 onChange={(event) => updateField('user_name', event.target.value)}
               />
@@ -74,7 +74,7 @@ export default function Contact({ section, contact }: ContactProps) {
                 id="contact-email"
                 name="user_email"
                 required
-                placeholder="john@example.com"
+                placeholder="Enter your email"
                 value={values.user_email}
                 onChange={(event) => updateField('user_email', event.target.value)}
               />
@@ -87,7 +87,7 @@ export default function Contact({ section, contact }: ContactProps) {
                 type="text"
                 id="contact-subject"
                 name="subject"
-                placeholder="Project Inquiry"
+                placeholder="Enter your subject"
                 value={values.subject}
                 onChange={(event) => updateField('subject', event.target.value)}
               />
@@ -99,9 +99,9 @@ export default function Contact({ section, contact }: ContactProps) {
               <textarea
                 id="contact-message"
                 name="message"
-                rows={5}
+                rows={4}
                 required
-                placeholder="How can I help you?"
+                placeholder="Enter your message"
                 value={values.message}
                 onChange={(event) => updateField('message', event.target.value)}
               />
