@@ -5,7 +5,7 @@ export interface ContactPayload {
   email: string;
   subject: string;
   message: string;
-  captchaToken: string;
+  turnstileToken: string;
 }
 
 export async function sendContactViaApi(apiUrl: string, payload: ContactPayload): Promise<void> {

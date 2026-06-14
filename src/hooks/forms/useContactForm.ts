@@ -1,7 +1,6 @@
-import emailjs from '@emailjs/browser';
 import { useCallback, useState } from 'react';
-import { getContactApiUrl, getEmailJsConfig } from '@/config/contact';
-import { isRecaptchaConfigured } from '@/config/recaptcha';
+import { getContactApiUrl } from '@/config/contact';
+import { isTurnstileConfigured } from '@/config/turnstile';
 import { sendContactViaApi } from '@/utils/contactApi';
 import { getErrorMessage } from '@/utils/errors';
 
@@ -29,7 +28,7 @@ const INITIAL_VALUES: ContactFormValues = {
 };
 
 interface UseContactFormOptions {
-  onResetCaptcha?: () => void;
+  onResetSecurity?: () => void;
 }
 
 function getValidationError(values: ContactFormValues): string | null {
@@ -41,15 +40,19 @@ function getValidationError(values: ContactFormValues): string | null {
     return 'Please fill in all required fields before sending your message.';
   }
 
-  if (!isRecaptchaConfigured()) {
-    return 'Robot verification is not configured. Set VITE_RECAPTCHA_SITE_KEY to enable form submissions.';
+  if (!isTurnstileConfigured()) {
+    return 'Security verification is not configured. Set VITE_TURNSTILE_SITE_KEY to enable form submissions.';
+  }
+
+  if (!getContactApiUrl()) {
+    return 'Contact API is not configured. Set VITE_CONTACT_API_URL to enable secure form submissions.';
   }
 
   return null;
 }
 
 export function useContactForm(options: UseContactFormOptions = {}) {
-  const { onResetCaptcha } = options;
+  const { onResetSecurity } = options;
   const [values, setValues] = useState<ContactFormValues>(INITIAL_VALUES);
   const [status, setStatus] = useState<ContactFormStatus>({ type: 'idle', message: '' });
   const [submitting, setSubmitting] = useState(false);
@@ -70,7 +73,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
   }, [values]);
 
   const sendMessage = useCallback(
-    async (captchaToken: string) => {
+    async (turnstileToken: string) => {
       const validationError = getValidationError(values);
 
       if (validationError) {
@@ -82,35 +85,20 @@ export function useContactForm(options: UseContactFormOptions = {}) {
       setStatus({ type: 'idle', message: '' });
 
       try {
-        const apiUrl = getContactApiUrl();
-
-        if (apiUrl) {
-          await sendContactViaApi(apiUrl, {
-            name: values.user_name.trim(),
-            email: values.user_email.trim(),
-            subject: values.subject.trim(),
-            message: values.message.trim(),
-            captchaToken,
-          });
-        } else {
-          const emailJs = getEmailJsConfig();
-          emailjs.init(emailJs.publicKey);
-
-          await emailjs.send(emailJs.serviceId, emailJs.templateId, {
-            from_name: values.user_name.trim(),
-            from_email: values.user_email.trim(),
-            subject: values.subject.trim(),
-            message: values.message.trim(),
-            'g-recaptcha-response': captchaToken,
-          });
-        }
+        await sendContactViaApi(getContactApiUrl(), {
+          name: values.user_name.trim(),
+          email: values.user_email.trim(),
+          subject: values.subject.trim(),
+          message: values.message.trim(),
+          turnstileToken,
+        });
 
         setStatus({
           type: 'success',
           message: 'Message sent successfully! I will get back to you soon.',
         });
         setValues(INITIAL_VALUES);
-        onResetCaptcha?.();
+        onResetSecurity?.();
         return true;
       } catch (error) {
         console.error('Contact form error:', error);
@@ -118,13 +106,13 @@ export function useContactForm(options: UseContactFormOptions = {}) {
           type: 'error',
           message: getErrorMessage(error, 'Failed to send message. Please try again later.'),
         });
-        onResetCaptcha?.();
+        onResetSecurity?.();
         return false;
       } finally {
         setSubmitting(false);
       }
     },
-    [onResetCaptcha, values],
+    [onResetSecurity, values],
   );
 
   const requestVerification = useCallback(() => {
@@ -137,7 +125,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
 
     setStatus({
       type: 'info',
-      message: 'Please complete the robot verification below to send your message.',
+      message: 'Please complete the security check below to send your message.',
     });
     return true;
   }, [values]);
@@ -146,15 +134,18 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     setStatus({ type: 'idle', message: '' });
   }, []);
 
-  const applyInquiryTemplate = useCallback((template: Pick<ContactFormValues, 'subject' | 'message'>) => {
-    setValues((current) => ({
-      ...current,
-      subject: template.subject,
-      message: template.message,
-    }));
-    setStatus({ type: 'idle', message: '' });
-    onResetCaptcha?.();
-  }, [onResetCaptcha]);
+  const applyInquiryTemplate = useCallback(
+    (template: Pick<ContactFormValues, 'subject' | 'message'>) => {
+      setValues((current) => ({
+        ...current,
+        subject: template.subject,
+        message: template.message,
+      }));
+      setStatus({ type: 'idle', message: '' });
+      onResetSecurity?.();
+    },
+    [onResetSecurity],
+  );
 
   return {
     values,

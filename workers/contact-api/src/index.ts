@@ -1,5 +1,5 @@
 interface Env {
-  RECAPTCHA_SECRET: string;
+  TURNSTILE_SECRET_KEY: string;
   TELEGRAM_BOT_TOKEN: string;
   TELEGRAM_CHAT_ID: string;
   EMAILJS_PUBLIC_KEY: string;
@@ -13,7 +13,7 @@ interface ContactRequestBody {
   email?: string;
   subject?: string;
   message?: string;
-  captchaToken?: string;
+  turnstileToken?: string;
 }
 
 const corsHeaders = (origin: string) => ({
@@ -32,11 +32,11 @@ function json(data: Record<string, unknown>, status = 200, origin = '*') {
   });
 }
 
-async function verifyRecaptcha(secret: string, token: string): Promise<boolean> {
-  const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+async function verifyTurnstile(secret: string, token: string): Promise<boolean> {
+  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
       secret,
       response: token,
     }),
@@ -117,20 +117,20 @@ export default {
     const email = body.email?.trim();
     const message = body.message?.trim();
     const subject = body.subject?.trim() ?? '';
-    const captchaToken = body.captchaToken?.trim();
+    const turnstileToken = body.turnstileToken?.trim();
 
-    if (!name || !email || !message || !captchaToken) {
-      return json({ error: 'Missing required contact fields or captcha token.' }, 400, allowedOrigin);
+    if (!name || !email || !message || !turnstileToken) {
+      return json({ error: 'Missing required contact fields or security token.' }, 400, allowedOrigin);
     }
 
     try {
-      const captchaValid = await verifyRecaptcha(env.RECAPTCHA_SECRET, captchaToken);
+      const turnstileValid = await verifyTurnstile(env.TURNSTILE_SECRET_KEY, turnstileToken);
 
-      if (!captchaValid) {
-        return json({ error: 'Robot verification failed. Please try again.' }, 400, allowedOrigin);
+      if (!turnstileValid) {
+        return json({ error: 'Security verification failed. Please try again.' }, 400, allowedOrigin);
       }
 
-      const payload = { name, email, subject, message, captchaToken };
+      const payload = { name, email, subject, message, turnstileToken };
 
       await Promise.all([sendEmail(env, payload), sendTelegram(env, payload)]);
 

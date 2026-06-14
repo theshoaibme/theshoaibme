@@ -1550,16 +1550,16 @@ img {
     margin-bottom: 40px;
 }
 
-.contact-recaptcha {
+.contact-turnstile {
     margin-top: 16px;
     margin-bottom: 0;
 }
 
-.contact-recaptcha--visible {
+.contact-turnstile--visible {
     animation: fadeIn 0.4s ease;
 }
 
-.contact-recaptcha__notice {
+.contact-turnstile__notice {
     margin: 0;
     padding: 12px 16px;
     border: 1px solid var(--google-yellow);

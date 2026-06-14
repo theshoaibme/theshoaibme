@@ -1,7 +1,7 @@
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
 import type { ServiceInquiryTemplate } from '@/config/serviceInquiryTemplates';
-import { getRecaptchaSiteKey, isRecaptchaConfigured } from '@/config/recaptcha';
+import { getTurnstileSiteKey, isTurnstileConfigured } from '@/config/turnstile';
 import { useContactForm } from '@/hooks/forms/useContactForm';
 import { getCookie } from '@/utils/cookies';
 
@@ -14,10 +14,10 @@ export default function ContactForm({
   className = 'contact-form',
   inquiryTemplate = null,
 }: ContactFormProps) {
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
-  const recaptchaContainerRef = useRef<HTMLDivElement>(null);
-  const [showCaptcha, setShowCaptcha] = useState(false);
-  const [recaptchaTheme, setRecaptchaTheme] = useState<'light' | 'dark'>(() =>
+  const turnstileRef = useRef<TurnstileInstance>(null);
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const [showTurnstile, setShowTurnstile] = useState(false);
+  const [turnstileTheme, setTurnstileTheme] = useState<'light' | 'dark' | 'auto'>(() =>
     document.documentElement.classList.contains('dark') ? 'dark' : 'light',
   );
   const {
@@ -31,30 +31,30 @@ export default function ContactForm({
     clearStatus,
     applyInquiryTemplate,
   } = useContactForm({
-    onResetCaptcha: () => {
-      recaptchaRef.current?.reset();
-      setShowCaptcha(false);
+    onResetSecurity: () => {
+      turnstileRef.current?.reset();
+      setShowTurnstile(false);
     },
   });
-  const recaptchaSiteKey = getRecaptchaSiteKey();
+  const turnstileSiteKey = getTurnstileSiteKey();
 
   useEffect(() => {
     const savedTheme = getCookie('theme') || 'light';
-    setRecaptchaTheme(savedTheme === 'dark' ? 'dark' : 'light');
+    setTurnstileTheme(savedTheme === 'dark' ? 'dark' : 'light');
   }, []);
 
   useEffect(() => {
-    if (!showCaptcha) return;
+    if (!showTurnstile) return;
 
-    recaptchaContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }, [showCaptcha]);
+    turnstileContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [showTurnstile]);
 
   useEffect(() => {
     if (!inquiryTemplate) return;
 
     applyInquiryTemplate(inquiryTemplate);
-    setShowCaptcha(false);
-    recaptchaRef.current?.reset();
+    setShowTurnstile(false);
+    turnstileRef.current?.reset();
 
     window.setTimeout(() => {
       document.getElementById('contact-message')?.focus();
@@ -64,9 +64,9 @@ export default function ContactForm({
   const handleFieldChange = (field: Parameters<typeof updateField>[0], value: string) => {
     updateField(field, value);
 
-    if (showCaptcha) {
-      recaptchaRef.current?.reset();
-      setShowCaptcha(false);
+    if (showTurnstile) {
+      turnstileRef.current?.reset();
+      setShowTurnstile(false);
       clearStatus();
     }
   };
@@ -75,25 +75,19 @@ export default function ContactForm({
     event.preventDefault();
 
     if (!validateForm()) {
-      setShowCaptcha(false);
-      recaptchaRef.current?.reset();
+      setShowTurnstile(false);
+      turnstileRef.current?.reset();
       return;
     }
 
-    const captchaToken = recaptchaRef.current?.getValue();
-    if (captchaToken) {
-      await sendMessage(captchaToken);
-      return;
-    }
-
-    const shouldShowCaptcha = requestVerification();
-    if (shouldShowCaptcha) {
-      setShowCaptcha(true);
+    const shouldShowTurnstile = requestVerification();
+    if (shouldShowTurnstile) {
+      setShowTurnstile(true);
     }
   };
 
-  const onCaptchaChange = async (token: string | null) => {
-    if (!token || !showCaptcha || submitting) {
+  const onTurnstileSuccess = async (token: string) => {
+    if (!showTurnstile || submitting || !token) {
       return;
     }
 
@@ -193,20 +187,20 @@ export default function ContactForm({
         )}
       </button>
 
-      {showCaptcha && isRecaptchaConfigured() ? (
-        <div ref={recaptchaContainerRef} className="form-group contact-recaptcha contact-recaptcha--visible">
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            sitekey={recaptchaSiteKey}
-            theme={recaptchaTheme}
-            onChange={onCaptchaChange}
+      {showTurnstile && isTurnstileConfigured() ? (
+        <div ref={turnstileContainerRef} className="form-group contact-turnstile contact-turnstile--visible">
+          <Turnstile
+            ref={turnstileRef}
+            siteKey={turnstileSiteKey}
+            onSuccess={onTurnstileSuccess}
+            options={{ theme: turnstileTheme }}
           />
         </div>
       ) : null}
 
-      {!isRecaptchaConfigured() ? (
-        <p className="contact-recaptcha__notice" role="alert">
-          Robot verification is not configured. Set `VITE_RECAPTCHA_SITE_KEY` to enable form
+      {!isTurnstileConfigured() ? (
+        <p className="contact-turnstile__notice" role="alert">
+          Security verification is not configured. Set `VITE_TURNSTILE_SITE_KEY` to enable form
           submissions.
         </p>
       ) : null}
