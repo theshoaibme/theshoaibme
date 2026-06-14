@@ -47,6 +47,10 @@
     --input: #dadce0;
     --ring: #000000;
 
+    --btn-primary-hover-bg: #202124;
+    --btn-primary-hover-fg: #ffffff;
+    --btn-primary-hover-shadow: rgba(32, 33, 36, 0.2);
+
     /* Legacy Variables Mapped to New Semantic ones where possible */
     --bg-color: var(--background);
     --bg-secondary: var(--secondary);
@@ -116,6 +120,10 @@
     --border: #3c4043;
     --input: #3c4043;
     --ring: #d0d0d0;
+
+    --btn-primary-hover-bg: #e8eaed;
+    --btn-primary-hover-fg: #000000;
+    --btn-primary-hover-shadow: rgba(255, 255, 255, 0.12);
 
     /* Re-map Legacy Variables for Dark Mode */
     --bg-color: var(--background);
@@ -606,9 +614,10 @@ img {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.btn-primary:hover {
-    background: #202124;
-    box-shadow: 0 8px 24px rgba(32, 33, 36, 0.2);
+.btn-primary:hover:not(:disabled) {
+    background: var(--btn-primary-hover-bg);
+    color: var(--btn-primary-hover-fg);
+    box-shadow: 0 8px 24px var(--btn-primary-hover-shadow);
 }
 
 .btn-outline {
@@ -626,6 +635,33 @@ img {
 .btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+@keyframes btn-text-shine {
+    0% {
+        background-position: 200% center;
+    }
+
+    100% {
+        background-position: -200% center;
+    }
+}
+
+.service-cta .btn-shine-text {
+    display: inline-block;
+    background-image: linear-gradient(
+        110deg,
+        var(--shine-base, var(--text-color)) 0%,
+        var(--shine-base, var(--text-color)) 42%,
+        var(--shine-peak, var(--google-blue)) 50%,
+        var(--shine-base, var(--text-color)) 58%,
+        var(--shine-base, var(--text-color)) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: btn-text-shine 6s linear infinite;
 }
 
 /* Sections Content */
@@ -1164,6 +1200,8 @@ img {
     border-radius: 9999px;
     background: transparent;
     color: var(--text-color);
+    --shine-base: var(--text-color);
+    --shine-peak: var(--google-blue);
     font-size: 0.85rem;
     font-weight: 600;
     text-decoration: none;
@@ -1225,6 +1263,7 @@ img {
     background: var(--primary);
     border-color: var(--primary);
     color: var(--primary-foreground);
+    --shine-base: var(--primary-foreground);
 }
 
 .service-cta i {
@@ -1608,11 +1647,16 @@ img {
     padding: 11px 24px;
     border-radius: 9999px;
     font-size: 1rem;
+    border: none;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-#submit-btn:hover {
-    background-color: rgba(66, 133, 244, 0.08);
-    color: var(--google-blue);
+#submit-btn:hover:not(:disabled) {
+    background: var(--btn-primary-hover-bg);
+    color: var(--btn-primary-hover-fg);
+    box-shadow: 0 8px 24px var(--btn-primary-hover-shadow);
 }
 
 .contact-status {

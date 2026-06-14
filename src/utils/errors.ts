@@ -10,6 +10,19 @@ export function getErrorMessage(error: unknown, fallback = 'Something went wrong
   return fallback;
 }
 
+export function getDisplayErrorMessage(
+  error: unknown,
+  fallback = 'Something went wrong while loading this page. Please refresh and try again.',
+): string {
+  const message = getErrorMessage(error, fallback);
+
+  if (/Cannot read propert(y|ies) of (undefined|null)/i.test(message)) {
+    return 'Something went wrong while loading this page. Refreshing usually fixes it.';
+  }
+
+  return message;
+}
+
 export class DataLoadError extends Error {
   readonly cause?: unknown;
 

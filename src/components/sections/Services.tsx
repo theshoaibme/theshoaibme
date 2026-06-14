@@ -1,16 +1,21 @@
-import type { Service } from '@/types';
+import type { Service, SiteSection } from '@/types';
 
 interface ServicesProps {
+  section: SiteSection;
   services: Service[];
 }
 
-export default function Services({ services }: ServicesProps) {
+export default function Services({ section, services }: ServicesProps) {
   return (
     <section id="services" className="section services">
       <div className="container">
         <div className="section-header reveal">
-          <span className="section-subtitle">What I Do</span>
-          <h2 className="section-title">My Services</h2>
+          <span className="section-subtitle" id="services-subtitle">
+            {section.subtitle}
+          </span>
+          <h2 className="section-title" id="services-title">
+            {section.title}
+          </h2>
         </div>
         <div className="services-grid" id="services-grid">
           {services.map((service, index) => (
@@ -36,7 +41,7 @@ export default function Services({ services }: ServicesProps) {
                 data-tooltip="Contact me about this service"
                 aria-label={`Contact me about ${service.title}`}
               >
-                <span>Discuss your project</span>
+                <span className="btn-shine-text">Discuss your project</span>
                 <i className="fa-solid fa-arrow-right" aria-hidden="true" />
               </a>
             </article>

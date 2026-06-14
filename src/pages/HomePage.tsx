@@ -34,6 +34,7 @@ import { useMobileMenu } from '@/hooks/ui/useMobileMenu';
 import { useRippleEffect } from '@/hooks/ui/useRippleEffect';
 import { useTheme } from '@/hooks/ui/useTheme';
 import { resolveAssetPath } from '@/utils/logo';
+import { getSiteSection } from '@/utils/siteSections';
 
 export default function HomePage() {
   const { data, error, loading, retry } = useSiteData();
@@ -112,13 +113,13 @@ export default function HomePage() {
           profile={data.profile}
           onProfileClick={() => openModal(data.profile.profileImage)}
         />
-        <About section={data.site.sections.about} about={data.about} />
-        <Skills section={data.site.sections.skills} skills={data.skills} />
+        <About section={getSiteSection(data.site.sections, 'about')} about={data.about} />
+        <Skills section={getSiteSection(data.site.sections, 'skills')} skills={data.skills} />
         <Experience experience={data.experience} />
-        <Services services={data.services} />
-        <Portfolio section={data.site.sections.portfolio} projects={data.projects} />
+        <Services section={getSiteSection(data.site.sections, 'services')} services={data.services} />
+        <Portfolio section={getSiteSection(data.site.sections, 'portfolio')} projects={data.projects} />
         <Testimonials testimonials={data.testimonials} />
-        <Contact section={data.site.sections.contact} contact={data.contact} />
+        <Contact section={getSiteSection(data.site.sections, 'contact')} contact={data.contact} />
         <Footer
           footerText={data.site.footer}
           logoText={data.site.logo.text}

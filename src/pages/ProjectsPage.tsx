@@ -4,10 +4,11 @@ import PolicyHeader from '@/components/layout/PolicyHeader';
 import ProjectCard from '@/components/sections/ProjectCard';
 import { useDocumentTitle, useSiteData } from '@/hooks/data/useSiteData';
 import { usePolicyTheme } from '@/hooks/ui/useTheme';
+import { getSiteSection } from '@/utils/siteSections';
 
 export default function ProjectsPage() {
   const { data, loading, error, retry } = useSiteData();
-  const section = data?.site.sections.portfolio;
+  const section = data ? getSiteSection(data.site.sections, 'portfolio') : undefined;
 
   usePolicyTheme();
   useDocumentTitle(section ? `${section.title} | Projects` : 'All Projects');

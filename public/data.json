@@ -20,6 +20,10 @@
                 "link": "#skills"
             },
             {
+                "label": "Services",
+                "link": "#services"
+            },
+            {
                 "label": "Portfolio",
                 "link": "#portfolio"
             },
@@ -36,6 +40,10 @@
             "skills": {
                 "subtitle": "My Stack",
                 "title": "Technical Skills"
+            },
+            "services": {
+                "subtitle": "What I Do",
+                "title": "My Services"
             },
             "portfolio": {
                 "subtitle": "My Works",

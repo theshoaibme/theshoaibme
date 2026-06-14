@@ -1,6 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import ErrorMessage from '@/components/common/ErrorMessage';
-import { getErrorMessage } from '@/utils/errors';
+import { getDisplayErrorMessage } from '@/utils/errors';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -26,7 +26,7 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
   }
 
   handleRetry = () => {
-    this.setState({ error: null });
+    window.location.reload();
   };
 
   render() {
@@ -35,10 +35,10 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
     if (error) {
       return (
         <ErrorMessage
-          title={this.props.fallbackTitle ?? 'Application Error'}
-          message={getErrorMessage(error, 'An unexpected error occurred. Please refresh the page.')}
+          title={this.props.fallbackTitle ?? 'Something went wrong'}
+          message={getDisplayErrorMessage(error)}
           onRetry={this.handleRetry}
-          retryLabel="Retry"
+          retryLabel="Refresh page"
           fullscreen
         />
       );

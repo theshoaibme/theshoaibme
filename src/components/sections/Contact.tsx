@@ -123,12 +123,12 @@ export default function Contact({ section, contact }: ContactProps) {
               {submitting ? (
                 <>
                   <i className="fa-solid fa-spinner fa-spin" />
-                  <span>Sending...</span>
+                  Sending...
                 </>
               ) : (
                 <>
                   <i className="fa-solid fa-paper-plane" />
-                  <span>Send Message</span>
+                  Send Message
                 </>
               )}
             </button>

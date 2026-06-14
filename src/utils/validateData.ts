@@ -1,5 +1,6 @@
 import type { PortfolioData } from '@/types';
 import { DataValidationError } from './errors';
+import { normalizeSiteSections } from './siteSections';
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
@@ -55,5 +56,11 @@ export function validatePortfolioData(data: unknown): PortfolioData {
     throw new DataValidationError('Missing "contact" object in data.json.');
   }
 
-  return data as unknown as PortfolioData;
+  return {
+    ...(data as Record<string, unknown>),
+    site: {
+      ...(data.site as Record<string, unknown>),
+      sections: normalizeSiteSections(data.site.sections),
+    },
+  } as unknown as PortfolioData;
 }
