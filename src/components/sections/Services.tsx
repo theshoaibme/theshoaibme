@@ -3,9 +3,10 @@ import type { Service, SiteSection } from '@/types';
 interface ServicesProps {
   section: SiteSection;
   services: Service[];
+  onDiscussProject?: (service: Service) => void;
 }
 
-export default function Services({ section, services }: ServicesProps) {
+export default function Services({ section, services, onDiscussProject }: ServicesProps) {
   return (
     <section id="services" className="section services">
       <div className="container">
@@ -40,6 +41,7 @@ export default function Services({ section, services }: ServicesProps) {
                 className="service-cta"
                 data-tooltip="Contact me about this service"
                 aria-label={`Contact me about ${service.title}`}
+                onClick={() => onDiscussProject?.(service)}
               >
                 <span className="btn-shine-text">Discuss your project</span>
                 <i className="fa-solid fa-arrow-right" aria-hidden="true" />

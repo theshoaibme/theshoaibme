@@ -1,4 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  buildServiceInquiryTemplate,
+  type ServiceInquiryTemplate,
+} from '@/config/serviceInquiryTemplates';
 import Loader from '@/components/common/Loader';
 import CustomScrollbar from '@/components/layout/CustomScrollbar';
 import Footer from '@/components/layout/Footer';
@@ -35,10 +39,12 @@ import { useRippleEffect } from '@/hooks/ui/useRippleEffect';
 import { useTheme } from '@/hooks/ui/useTheme';
 import { resolveAssetPath } from '@/utils/logo';
 import { getSiteSection } from '@/utils/siteSections';
+import type { Service } from '@/types';
 
 export default function HomePage() {
   const { data, error, loading, retry } = useSiteData();
   const [interactionsReady, setInteractionsReady] = useState(false);
+  const [serviceInquiry, setServiceInquiry] = useState<ServiceInquiryTemplate | null>(null);
   const sectionsHiddenRef = useRef(false);
   const reinitParticlesRef = useRef<(() => void) | null>(null);
 
@@ -54,6 +60,10 @@ export default function HomePage() {
 
   const handleThemeChange = useCallback(() => {
     reinitParticlesRef.current?.();
+  }, []);
+
+  const handleDiscussProject = useCallback((service: Service) => {
+    setServiceInquiry(buildServiceInquiryTemplate(service));
   }, []);
 
   const { theme, toggleTheme } = useTheme(handleThemeChange);
@@ -116,10 +126,18 @@ export default function HomePage() {
         <About section={getSiteSection(data.site.sections, 'about')} about={data.about} />
         <Skills section={getSiteSection(data.site.sections, 'skills')} skills={data.skills} />
         <Experience experience={data.experience} />
-        <Services section={getSiteSection(data.site.sections, 'services')} services={data.services} />
+        <Services
+          section={getSiteSection(data.site.sections, 'services')}
+          services={data.services}
+          onDiscussProject={handleDiscussProject}
+        />
         <Portfolio section={getSiteSection(data.site.sections, 'portfolio')} projects={data.projects} />
         <Testimonials testimonials={data.testimonials} />
-        <Contact section={getSiteSection(data.site.sections, 'contact')} contact={data.contact} />
+        <Contact
+          section={getSiteSection(data.site.sections, 'contact')}
+          contact={data.contact}
+          inquiryTemplate={serviceInquiry}
+        />
         <Footer
           footerText={data.site.footer}
           logoText={data.site.logo.text}

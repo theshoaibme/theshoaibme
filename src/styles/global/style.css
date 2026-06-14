@@ -245,7 +245,7 @@ img {
     opacity: 0;
     filter: blur(10px);
     margin-bottom: 80px;
-    text-align: left;
+    text-align: center;
     transition: opacity 1.5s var(--easing-smooth), filter 1.5s var(--easing-smooth);
 }
 

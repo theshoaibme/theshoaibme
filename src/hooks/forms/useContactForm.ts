@@ -146,6 +146,16 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     setStatus({ type: 'idle', message: '' });
   }, []);
 
+  const applyInquiryTemplate = useCallback((template: Pick<ContactFormValues, 'subject' | 'message'>) => {
+    setValues((current) => ({
+      ...current,
+      subject: template.subject,
+      message: template.message,
+    }));
+    setStatus({ type: 'idle', message: '' });
+    onResetCaptcha?.();
+  }, [onResetCaptcha]);
+
   return {
     values,
     status,
@@ -155,5 +165,6 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     requestVerification,
     sendMessage,
     clearStatus,
+    applyInquiryTemplate,
   };
 }

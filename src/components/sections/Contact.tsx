@@ -1,9 +1,11 @@
-import type { Contact, SiteSection } from '@/types';
+import type { ServiceInquiryTemplate } from '@/config/serviceInquiryTemplates';
 import ContactForm from '@/components/sections/ContactForm';
+import type { Contact, SiteSection } from '@/types';
 
 interface ContactProps {
   section: SiteSection;
   contact: Contact;
+  inquiryTemplate?: ServiceInquiryTemplate | null;
 }
 
 const CONTACT_ICONS: Record<keyof Contact, string> = {
@@ -12,7 +14,7 @@ const CONTACT_ICONS: Record<keyof Contact, string> = {
   phone: 'fa-phone',
 };
 
-export default function Contact({ section, contact }: ContactProps) {
+export default function Contact({ section, contact, inquiryTemplate = null }: ContactProps) {
   return (
     <section id="contact" className="section contact">
       <div className="container">
@@ -36,7 +38,7 @@ export default function Contact({ section, contact }: ContactProps) {
               </div>
             ))}
           </div>
-          <ContactForm />
+          <ContactForm inquiryTemplate={inquiryTemplate} />
         </div>
       </div>
     </section>

@@ -1,14 +1,19 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
+import type { ServiceInquiryTemplate } from '@/config/serviceInquiryTemplates';
 import { getRecaptchaSiteKey, isRecaptchaConfigured } from '@/config/recaptcha';
 import { useContactForm } from '@/hooks/forms/useContactForm';
 import { getCookie } from '@/utils/cookies';
 
 interface ContactFormProps {
   className?: string;
+  inquiryTemplate?: ServiceInquiryTemplate | null;
 }
 
-export default function ContactForm({ className = 'contact-form' }: ContactFormProps) {
+export default function ContactForm({
+  className = 'contact-form',
+  inquiryTemplate = null,
+}: ContactFormProps) {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const recaptchaContainerRef = useRef<HTMLDivElement>(null);
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -24,6 +29,7 @@ export default function ContactForm({ className = 'contact-form' }: ContactFormP
     requestVerification,
     sendMessage,
     clearStatus,
+    applyInquiryTemplate,
   } = useContactForm({
     onResetCaptcha: () => {
       recaptchaRef.current?.reset();
@@ -42,6 +48,18 @@ export default function ContactForm({ className = 'contact-form' }: ContactFormP
 
     recaptchaContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [showCaptcha]);
+
+  useEffect(() => {
+    if (!inquiryTemplate) return;
+
+    applyInquiryTemplate(inquiryTemplate);
+    setShowCaptcha(false);
+    recaptchaRef.current?.reset();
+
+    window.setTimeout(() => {
+      document.getElementById('contact-message')?.focus();
+    }, 350);
+  }, [applyInquiryTemplate, inquiryTemplate]);
 
   const handleFieldChange = (field: Parameters<typeof updateField>[0], value: string) => {
     updateField(field, value);
