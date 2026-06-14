@@ -10,5 +10,6 @@ ALLOWED_ORIGIN = "https://the-shoaib2.github.io"
 
 # Set secrets with:
 # npx wrangler secret put TURNSTILE_SECRET_KEY
+# npx wrangler secret put EMAILJS_PRIVATE_KEY
 # npx wrangler secret put TELEGRAM_BOT_TOKEN
 # npx wrangler secret put TELEGRAM_CHAT_ID

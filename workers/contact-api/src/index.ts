@@ -3,6 +3,7 @@ interface Env {
   TELEGRAM_BOT_TOKEN: string;
   TELEGRAM_CHAT_ID: string;
   EMAILJS_PUBLIC_KEY: string;
+  EMAILJS_PRIVATE_KEY: string;
   EMAILJS_SERVICE_ID: string;
   EMAILJS_TEMPLATE_ID: string;
   ALLOWED_ORIGIN?: string;
@@ -47,6 +48,12 @@ async function verifyTurnstile(secret: string, token: string): Promise<boolean> 
 }
 
 async function sendEmail(env: Env, payload: Required<ContactRequestBody>) {
+  if (!env.EMAILJS_PRIVATE_KEY) {
+    throw new Error(
+      'EmailJS private key is not configured. Run: npx wrangler secret put EMAILJS_PRIVATE_KEY',
+    );
+  }
+
   const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -54,6 +61,7 @@ async function sendEmail(env: Env, payload: Required<ContactRequestBody>) {
       service_id: env.EMAILJS_SERVICE_ID,
       template_id: env.EMAILJS_TEMPLATE_ID,
       user_id: env.EMAILJS_PUBLIC_KEY,
+      accessToken: env.EMAILJS_PRIVATE_KEY,
       template_params: {
         from_name: payload.name,
         from_email: payload.email,
@@ -64,7 +72,12 @@ async function sendEmail(env: Env, payload: Required<ContactRequestBody>) {
   });
 
   if (!response.ok) {
-    throw new Error(`Email delivery failed (${response.status}).`);
+    const details = (await response.text()).trim();
+    const hint =
+      response.status === 403
+        ? ' Enable non-browser API access in EmailJS Account → Security and set EMAILJS_PRIVATE_KEY on the worker.'
+        : '';
+    throw new Error(`Email delivery failed (${response.status})${details ? `: ${details}` : ''}.${hint}`);
   }
 }
 
@@ -132,7 +145,18 @@ export default {
 
       const payload = { name, email, subject, message, turnstileToken };
 
-      await Promise.all([sendEmail(env, payload), sendTelegram(env, payload)]);
+      const [emailResult, telegramResult] = await Promise.allSettled([
+        sendEmail(env, payload),
+        sendTelegram(env, payload),
+      ]);
+
+      if (telegramResult.status === 'rejected') {
+        throw telegramResult.reason;
+      }
+
+      if (emailResult.status === 'rejected') {
+        throw emailResult.reason;
+      }
 
       return json({ success: true }, 200, allowedOrigin);
     } catch (error) {
