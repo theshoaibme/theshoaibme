@@ -243,17 +243,75 @@
             "live_preview": "https://meal-sphere.vercel.app"
         },
         {
-            "name": "AI Agent",
-            "description": "Intelligent agent platform leveraging NLP and automation for productivity.",
+            "name": "Daffodil Intelligence",
+            "description": "360° multi-agent AI operating system for university life — academic, library, career, research, voice, and automation agents with real-time WebSocket chat, Telegram, and MCP integration.",
             "tech_stack": [
-                "Python",
-                "TensorFlow",
-                "PyTorch",
-                "NLP",
-                "Docker"
+                "React",
+                "Vite",
+                "FastAPI",
+                "LangGraph",
+                "LangChain",
+                "PostgreSQL",
+                "Redis",
+                "Qdrant",
+                "WebSockets",
+                "Docker",
+                "OpenAI",
+                "Gemini"
             ],
-            "repository": "https://github.com/the-shoaib2/ai-agent",
-            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2Fai-agent?w=1200",
+            "repository": "https://github.com/the-shoaib2/daffodil-intelligence",
+            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2Fdaffodil-intelligence?w=1200",
+            "live_preview": null
+        },
+        {
+            "name": "Orthopedic Surgeon Platform",
+            "description": "Full-stack healthcare platform with a public website, doctor portal, and admin dashboard for appointments, patient records, and clinic operations.",
+            "tech_stack": [
+                "Angular",
+                "Spring Boot",
+                "PostgreSQL",
+                "Redis",
+                "MinIO",
+                "Docker",
+                "Turborepo",
+                "Grafana",
+                "Playwright"
+            ],
+            "repository": "https://github.com/the-shoaib2/orthopedicsurgeon",
+            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Forthopedicsurgeon.vercel.app?w=1200",
+            "live_preview": "https://orthopedicsurgeon.vercel.app"
+        },
+        {
+            "name": "SobujBD",
+            "description": "National tree plantation tracking and transparency platform with AR verification, agent-based rural registration, and an AI engine for tree detection and NID OCR.",
+            "tech_stack": [
+                "React",
+                "Vite",
+                "Spring Boot",
+                "FastAPI",
+                "PostGIS",
+                "Redis",
+                "MinIO",
+                "YOLOv8",
+                "Tesseract",
+                "Docker",
+                "Turborepo"
+            ],
+            "repository": "https://github.com/zionmezba/sobujbd",
+            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fzionmezba%2Fsobujbd?w=1200",
+            "live_preview": null
+        },
+        {
+            "name": "App Pro",
+            "description": "Native Linux desktop app manager built with Rust and GTK4 — install packages, uninstall apps, monitor processes, clean caches, and view live system stats.",
+            "tech_stack": [
+                "Rust",
+                "GTK4",
+                "Linux",
+                "Cargo"
+            ],
+            "repository": "https://github.com/the-shoaib2/app-pro",
+            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2Fapp-pro?w=1200",
             "live_preview": null
         },
         {
