@@ -1,9 +1,25 @@
 import type { SiteSection } from '@/types';
 import { getSkillCategoryTitle } from '@/utils/skills';
+import { getSkillIconClass, isDeviconSkill } from '@/utils/skillIcons';
 
 interface SkillsProps {
   section: SiteSection;
   skills: Record<string, string[]>;
+}
+
+function SkillTag({ skill }: { skill: string }) {
+  const iconClass = getSkillIconClass(skill);
+  const useDevicon = isDeviconSkill(skill);
+
+  return (
+    <span className="skill-tag">
+      <i
+        className={useDevicon ? iconClass : `skill-tag-icon ${iconClass}`}
+        aria-hidden="true"
+      />
+      <span>{skill}</span>
+    </span>
+  );
 }
 
 export default function Skills({ section, skills }: SkillsProps) {
@@ -28,9 +44,7 @@ export default function Skills({ section, skills }: SkillsProps) {
               <h3>{getSkillCategoryTitle(key)}</h3>
               <div className="skill-list">
                 {skills[key].map((skill) => (
-                  <span key={skill} className="skill-tag">
-                    {skill}
-                  </span>
+                  <SkillTag key={skill} skill={skill} />
                 ))}
               </div>
             </div>
