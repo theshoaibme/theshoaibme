@@ -316,7 +316,7 @@ ALLOWED_ORIGIN = "https://the-shoaib2.github.io"
 | Variable | Value |
 |---|---|
 | `EMAILJS_PUBLIC_KEY` | `0angy-FFhuMJiDUal` |
-| `EMAILJS_SERVICE_ID` | `service_rtmlnoj` |
+| `EMAILJS_SERVICE_ID` | `service_c4ug6xj` |
 | `EMAILJS_TEMPLATE_ID` | `template_o7kynn5` |
 | `ALLOWED_ORIGIN` | `https://the-shoaib2.github.io` |
 

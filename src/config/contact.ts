@@ -1,6 +1,6 @@
 const DEFAULT_EMAILJS = {
   publicKey: '0angy-FFhuMJiDUal',
-  serviceId: 'service_rtmlnoj',
+  serviceId: 'service_c4ug6xj',
   templateId: 'template_o7kynn5',
 };
 
