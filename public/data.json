@@ -134,12 +134,14 @@
             "PHP",
             "JavaScript",
             "TypeScript",
+            "Rust",
             "Dart"
         ],
         "frontend": [
             "HTML5",
             "CSS3",
             "React",
+            "Next.js",
             "Angular",
             "Vue.js",
             "Tailwind CSS",
@@ -153,13 +155,9 @@
             "Laravel",
             "Spring Boot",
             "GraphQL",
-            "Kafka"
-        ],
-        "mobile_development": [
-            "Android",
-            "Kotlin",
-            "Flutter",
-            "React Native"
+            "Kafka",
+            "Prisma",
+            "TypeORM"
         ],
         "ai_machine_learning": [
             "TensorFlow",
@@ -168,7 +166,9 @@
             "Scikit-learn",
             "Pandas",
             "Seaborn",
-            "NLP"
+            "NLP",
+            "Prompt Engineering",
+            "Vector DB"
         ],
         "databases": [
             "MySQL",
@@ -180,10 +180,23 @@
         "devops_and_tools": [
             "AWS",
             "GCP",
+            "Azure",
             "Docker",
+            "Kubernetes",
+            "Terraform",
+            "GitHub Actions",
+            "Nginx",
+            "Vercel",
+            "Ansible",
             "Linux",
             "Git",
             "Bash"
+        ],
+        "mobile_development": [
+            "Android",
+            "Kotlin",
+            "Flutter",
+            "React Native"
         ],
         "tools_and_ides": [
             "VS Code",
