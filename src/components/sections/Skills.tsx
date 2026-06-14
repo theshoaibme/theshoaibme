@@ -1,5 +1,5 @@
 import type { SiteSection } from '@/types';
-import { getSkillCategoryTitle } from '@/utils/skills';
+import { getSkillCategoryTitle, sortSkills } from '@/utils/skills';
 import { getSkillIconClass, getSkillTooltip, isDeviconSkill } from '@/utils/skillIcons';
 
 interface SkillsProps {
@@ -49,7 +49,7 @@ export default function Skills({ section, skills }: SkillsProps) {
             >
               <h3>{getSkillCategoryTitle(key)}</h3>
               <div className="skill-list">
-                {skills[key].map((skill) => (
+                {sortSkills(skills[key]).map((skill) => (
                   <SkillTag key={skill} skill={skill} />
                 ))}
               </div>

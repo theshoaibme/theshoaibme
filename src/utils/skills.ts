@@ -13,3 +13,9 @@ export const SKILL_CATEGORIES: Record<string, string> = {
 export function getSkillCategoryTitle(key: string): string {
   return SKILL_CATEGORIES[key] || key.replace(/_/g, ' ');
 }
+
+export function sortSkills(skills: string[]): string[] {
+  return [...skills].sort((a, b) =>
+    a.localeCompare(b, undefined, { sensitivity: 'base', numeric: true }),
+  );
+}

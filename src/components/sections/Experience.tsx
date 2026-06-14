@@ -13,12 +13,8 @@ export default function Experience({ experience }: ExperienceProps) {
           <h2 className="section-title">Work Experience</h2>
         </div>
         <div className="experience-timeline" id="experience-timeline">
-          {experience.map((item, index) => (
-            <div
-              key={`${item.role}-${item.company}`}
-              className="timeline-item reveal"
-              style={{ transitionDelay: `${index * 150}ms` }}
-            >
+          {experience.map((item) => (
+            <div key={`${item.role}-${item.company}`} className="timeline-item">
               <div className="timeline-dot" />
               <div className="timeline-content">
                 <span className="timeline-date">{item.duration}</span>

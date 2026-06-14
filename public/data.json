@@ -106,103 +106,103 @@
     },
     "experience": [
         {
-            "role": "Senior Full Stack Dev",
-            "company": "Tech Solutions Inc.",
+            "role": "Freelance Full Stack Developer",
+            "company": "Freelancer",
             "duration": "2023 - Present",
-            "description": "Leading a team of developers to build scalable AI-driven web applications. Architecting cloud solutions using AWS and Docker."
+            "description": "Building scalable web apps, AI integrations, and cloud deployments for clients worldwide using React, Next.js, Node.js, and AWS."
         },
         {
-            "role": "Full Stack Developer",
-            "company": "Creative Agency",
+            "role": "Freelance Web Developer",
+            "company": "Freelancer",
             "duration": "2021 - 2023",
-            "description": "Developed and maintained multiple client websites using React and Node.js. Improved site performance by 40%."
+            "description": "Designed and developed responsive websites and REST APIs for startups and agencies. Improved performance, SEO, and user experience across client projects."
         },
         {
-            "role": "Junior Web Developer",
-            "company": "StartUp Hub",
+            "role": "Freelance Frontend Developer",
+            "company": "Freelancer",
             "duration": "2019 - 2021",
-            "description": "Collaborated with designers to implement responsive UI/UX. Built RESTful APIs for mobile applications."
+            "description": "Created pixel-perfect UIs from Figma designs, implemented modern JavaScript frameworks, and collaborated remotely with design and backend teams."
         }
     ],
     "skills": {
         "programming_languages": [
             "C",
             "C++",
-            "Python",
-            "Java",
             "C#",
-            "PHP",
+            "Dart",
+            "Java",
             "JavaScript",
-            "TypeScript",
+            "PHP",
+            "Python",
             "Rust",
-            "Dart"
+            "TypeScript"
         ],
         "frontend": [
-            "HTML5",
-            "CSS3",
-            "React",
-            "Next.js",
             "Angular",
-            "Vue.js",
+            "Bootstrap",
+            "CSS3",
+            "HTML5",
+            "Next.js",
+            "React",
             "Tailwind CSS",
-            "Bootstrap"
+            "Vue.js"
         ],
         "backend_and_apis": [
-            "Node.js",
-            "Express.js",
             "Django",
+            "Express.js",
             "Flask",
-            "Laravel",
-            "Spring Boot",
             "GraphQL",
             "Kafka",
+            "Laravel",
+            "Node.js",
             "Prisma",
+            "Spring Boot",
             "TypeORM"
         ],
         "ai_machine_learning": [
-            "TensorFlow",
-            "PyTorch",
-            "OpenCV",
-            "Scikit-learn",
-            "Pandas",
-            "Seaborn",
             "NLP",
+            "OpenCV",
+            "Pandas",
             "Prompt Engineering",
+            "PyTorch",
+            "Scikit-learn",
+            "Seaborn",
+            "TensorFlow",
             "Vector DB"
         ],
         "databases": [
+            "MongoDB",
             "MySQL",
             "PostgreSQL",
-            "MongoDB",
-            "SQLite",
-            "Redis"
+            "Redis",
+            "SQLite"
         ],
         "devops_and_tools": [
-            "AWS",
-            "GCP",
-            "Azure",
-            "Docker",
-            "Kubernetes",
-            "Terraform",
-            "GitHub Actions",
-            "Nginx",
-            "Vercel",
             "Ansible",
-            "Linux",
+            "AWS",
+            "Azure",
+            "Bash",
+            "Docker",
+            "GCP",
             "Git",
-            "Bash"
+            "GitHub Actions",
+            "Kubernetes",
+            "Linux",
+            "Nginx",
+            "Terraform",
+            "Vercel"
         ],
         "mobile_development": [
             "Android",
-            "Kotlin",
             "Flutter",
+            "Kotlin",
             "React Native"
         ],
         "tools_and_ides": [
-            "VS Code",
+            "Electron",
             "Firebase",
             "Postman",
-            "Electron"
+            "VS Code"
         ],
         "design_and_media": [
             "Adobe Photoshop",
