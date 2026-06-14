@@ -173,6 +173,17 @@ export default function ContactForm({
         {status.message}
       </div>
 
+      {showTurnstile && isTurnstileConfigured() ? (
+        <div ref={turnstileContainerRef} className="form-group contact-turnstile contact-turnstile--visible">
+          <Turnstile
+            ref={turnstileRef}
+            siteKey={turnstileSiteKey}
+            onSuccess={onTurnstileSuccess}
+            options={{ theme: turnstileTheme }}
+          />
+        </div>
+      ) : null}
+
       <button type="submit" className="btn btn-primary ripple" id="submit-btn" disabled={submitting}>
         {submitting ? (
           <>
@@ -186,17 +197,6 @@ export default function ContactForm({
           </>
         )}
       </button>
-
-      {showTurnstile && isTurnstileConfigured() ? (
-        <div ref={turnstileContainerRef} className="form-group contact-turnstile contact-turnstile--visible">
-          <Turnstile
-            ref={turnstileRef}
-            siteKey={turnstileSiteKey}
-            onSuccess={onTurnstileSuccess}
-            options={{ theme: turnstileTheme }}
-          />
-        </div>
-      ) : null}
 
       {!isTurnstileConfigured() ? (
         <p className="contact-turnstile__notice" role="alert">

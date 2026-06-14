@@ -1551,8 +1551,8 @@ img {
 }
 
 .contact-turnstile {
-    margin-top: 16px;
-    margin-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 16px;
 }
 
 .contact-turnstile--visible {
@@ -1703,32 +1703,32 @@ img {
 
 .contact-status {
     display: none;
-    margin-bottom: 20px;
-    padding: 12px 16px;
-    border-radius: 8px;
+    margin-bottom: 16px;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 9999px;
     font-size: 0.95rem;
     font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
     animation: fadeIn 0.4s ease;
 }
 
 .contact-status.success {
     display: block;
-    border: 1px solid var(--google-green);
-    background: rgba(52, 168, 83, 0.1);
+    background: color-mix(in srgb, var(--google-green) 14%, var(--background));
     color: var(--google-green);
 }
 
 .contact-status.error {
     display: block;
-    border: 1px solid var(--google-red);
-    background: rgba(234, 67, 53, 0.1);
+    background: color-mix(in srgb, var(--google-red) 14%, var(--background));
     color: var(--google-red);
 }
 
 .contact-status.info {
     display: block;
-    border: 1px solid var(--google-blue);
-    background: rgba(66, 133, 244, 0.1);
+    background: color-mix(in srgb, var(--google-blue) 14%, var(--background));
     color: var(--google-blue);
 }
 

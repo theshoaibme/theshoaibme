@@ -125,7 +125,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
 
     setStatus({
       type: 'info',
-      message: 'Please complete the security check below to send your message.',
+      message: 'Complete the security check to send your message.',
     });
     return true;
   }, [values]);
