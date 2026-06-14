@@ -153,9 +153,9 @@
 
 html,
 body {
-    height: 100%;
+    min-height: 100%;
     margin: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
@@ -175,17 +175,17 @@ body {
     font-family: var(--font-body);
     line-height: 1.7;
     overflow-x: hidden;
-    user-select: none;
-    -webkit-user-select: none;
     cursor: default;
+    user-select: text;
+    -webkit-user-select: text;
 }
 
 input,
 textarea,
 [contenteditable="true"] {
+    cursor: text;
     user-select: text;
     -webkit-user-select: text;
-    cursor: text;
 }
 
 body.loading {
@@ -297,7 +297,6 @@ img {
 }
 
 .skill-card,
-.project-card .project-img,
 .info-item i,
 .social-links a,
 .form-group input,
@@ -764,7 +763,7 @@ img {
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 50px;
+    gap: 32px;
 }
 
 .project-card {
@@ -777,12 +776,14 @@ img {
 
 .project-img {
     position: relative;
-    margin-bottom: 24px;
-    border-radius: 16px;
+    margin-bottom: 14px;
+    border: 2px solid transparent;
+    border-radius: 12px;
     background: var(--card);
-    transition: box-shadow 0.3s;
+    box-shadow: none;
+    transition: border-color 0.3s;
     overflow: hidden;
-    aspect-ratio: 12 / 9;
+    aspect-ratio: 16 / 9;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -994,21 +995,19 @@ img {
 
 /* Testimonials Section */
 .testimonials {
-    height: 300vh;
-    /* Increased height for scroll distance */
-    padding: 0;
-    margin-bottom: 100px;
-    /* Reduced space to prevent dead scroll zone */
-    display: block;
-    /* Override .section's flex display */
-    min-height: auto;
-    /* Override .section's min-height */
+    padding: 100px 0;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    height: auto;
 }
 
 .sticky-inner {
-    position: sticky;
-    top: 0;
-    height: 100vh;
+    position: relative;
+    top: auto;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1018,7 +1017,6 @@ img {
 .testimonials-marquee {
     padding: 20px 0;
     width: 100%;
-    /* Blurry fade on sides */
     mask-image: linear-gradient(to right,
             transparent,
             black 10%,
@@ -1031,18 +1029,43 @@ img {
             transparent);
 }
 
-.marquee-row {
-    display: flex;
-    flex-wrap: nowrap;
-    width: max-content;
-    gap: 30px;
-    padding: 15px 0;
+.scroll-velocity-container {
+    position: relative;
+    width: 100%;
+}
+
+.scroll-velocity-row {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.scroll-velocity-track {
+    display: inline-flex;
+    align-items: center;
     will-change: transform;
+    transform: translateZ(0);
     backface-visibility: hidden;
 }
 
-.marquee-row#testimonials-row-1 {
-    margin-bottom: 20px;
+.scroll-velocity-block {
+    --scroll-velocity-gap: 30px;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: stretch;
+    gap: var(--scroll-velocity-gap);
+    /* Trailing space so the loop seam matches in-block card spacing */
+    padding-right: var(--scroll-velocity-gap);
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.marquee-row {
+    padding: 0;
+}
+
+.marquee-row-first {
+    margin-bottom: 8px;
 }
 
 .testimonial-card {
@@ -1129,45 +1152,45 @@ img {
 }
 
 .project-content {
-    padding: 0 10px;
+    padding: 0 6px;
 }
 
 .project-content h3 {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     color: var(--text-color);
     font-family: var(--font-heading);
-    font-size: 1.6rem;
+    font-size: 1.25rem;
     font-weight: 600;
     line-height: 1.2;
 }
 
 .project-content p {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     color: var(--text-secondary);
-    font-size: 1.05rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .tech-stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin: 12px 0 20px;
+    gap: 5px;
+    margin: 8px 0 12px;
 }
 
 .tech-tag {
-    padding: 4px 12px;
+    padding: 3px 10px;
     border-radius: 100px;
     background: var(--muted);
     color: var(--muted-foreground);
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 500;
 }
 
 .project-links {
     display: flex;
-    gap: 20px;
-    margin-top: 15px;
+    gap: 16px;
+    margin-top: 8px;
 }
 
 .project-link {
@@ -1175,13 +1198,65 @@ img {
     align-items: center;
     gap: 6px;
     color: var(--primary);
-    font-size: 0.9rem;
+    font-size: 0.82rem;
     font-weight: 600;
     transition: opacity 0.2s;
 }
 
 .project-link:hover {
     opacity: 0.7;
+}
+
+.portfolio-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 36px;
+}
+
+.view-all-projects {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    text-decoration: none;
+}
+
+.projects-page {
+    min-height: calc(100vh - 80px);
+    padding: 120px 0 80px;
+}
+
+.projects-page-header {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.projects-page-description {
+    max-width: 560px;
+    margin: 16px auto 0;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.projects-page-grid {
+    margin-bottom: 40px;
+}
+
+.back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.back-home:hover {
+    color: var(--google-blue);
 }
 
 .contact-wrapper {
