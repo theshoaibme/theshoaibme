@@ -26,7 +26,7 @@ export default function PolicyHeader({ logoText, logoSpan, favicon }: PolicyHead
         </Link>
         <nav className="navbar">
           <Link to="/">Home</Link>
-          <Link to="/contact">Contact</Link>
+          <Link to={{ pathname: '/', hash: 'contact' }}>Contact</Link>
         </nav>
       </div>
     </header>

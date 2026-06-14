@@ -1,0 +1,12 @@
+{
+  "name": "portfolio-contact-api",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.24.0",
+    "@cloudflare/workers-types": "^4.20250628.0",
+    "typescript": "~5.8.3"
+  }
+}

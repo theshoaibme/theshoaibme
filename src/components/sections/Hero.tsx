@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import type { Profile } from '@/types';
 
 interface HeroProps {
@@ -22,9 +21,9 @@ export default function Hero({ profile, onProfileClick }: HeroProps) {
             <a href="#portfolio" className="btn btn-primary ripple">
               View My Work
             </a>
-            <Link to="/contact" className="btn btn-outline ripple">
+            <a href="#contact" className="btn btn-outline ripple">
               Contact Me
-            </Link>
+            </a>
           </div>
           <div className="social-links" id="hero-social">
             {profile.social.map((link) => (

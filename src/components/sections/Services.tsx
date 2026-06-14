@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import type { Service, SiteSection } from '@/types';
 
 interface ServicesProps {
@@ -36,15 +35,15 @@ export default function Services({ section, services }: ServicesProps) {
               </div>
               <h3>{service.title}</h3>
               <p>{service.description}</p>
-              <Link
-                to="/contact"
+              <a
+                href="#contact"
                 className="service-cta"
                 data-tooltip="Contact me about this service"
                 aria-label={`Contact me about ${service.title}`}
               >
                 <span className="btn-shine-text">Discuss your project</span>
                 <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-              </Link>
+              </a>
             </article>
           ))}
         </div>

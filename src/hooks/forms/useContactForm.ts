@@ -1,6 +1,8 @@
 import emailjs from '@emailjs/browser';
 import { useCallback, useState } from 'react';
+import { getContactApiUrl, getEmailJsConfig } from '@/config/contact';
 import { isRecaptchaConfigured } from '@/config/recaptcha';
+import { sendContactViaApi } from '@/utils/contactApi';
 import { getErrorMessage } from '@/utils/errors';
 
 interface ContactFormValues {
@@ -80,15 +82,28 @@ export function useContactForm(options: UseContactFormOptions = {}) {
       setStatus({ type: 'idle', message: '' });
 
       try {
-        emailjs.init('0angy-FFhuMJiDUal');
+        const apiUrl = getContactApiUrl();
 
-        await emailjs.send('service_rtmlnoj', 'template_o7kynn5', {
-          from_name: values.user_name.trim(),
-          from_email: values.user_email.trim(),
-          subject: values.subject.trim(),
-          message: values.message.trim(),
-          'g-recaptcha-response': captchaToken,
-        });
+        if (apiUrl) {
+          await sendContactViaApi(apiUrl, {
+            name: values.user_name.trim(),
+            email: values.user_email.trim(),
+            subject: values.subject.trim(),
+            message: values.message.trim(),
+            captchaToken,
+          });
+        } else {
+          const emailJs = getEmailJsConfig();
+          emailjs.init(emailJs.publicKey);
+
+          await emailjs.send(emailJs.serviceId, emailJs.templateId, {
+            from_name: values.user_name.trim(),
+            from_email: values.user_email.trim(),
+            subject: values.subject.trim(),
+            message: values.message.trim(),
+            'g-recaptcha-response': captchaToken,
+          });
+        }
 
         setStatus({
           type: 'success',
@@ -98,7 +113,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
         onResetCaptcha?.();
         return true;
       } catch (error) {
-        console.error('EmailJS Error:', error);
+        console.error('Contact form error:', error);
         setStatus({
           type: 'error',
           message: getErrorMessage(error, 'Failed to send message. Please try again later.'),
