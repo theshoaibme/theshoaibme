@@ -1,4 +1,11 @@
 import { useCallback, useState } from 'react';
+import {
+  clampContactField,
+  getContactFieldErrors,
+  getFirstContactFieldError,
+  type ContactFieldErrors,
+  type ContactFieldKey,
+} from '@/config/contactValidation';
 import { getContactApiUrl } from '@/config/contact';
 import { isTurnstileConfigured } from '@/config/turnstile';
 import { sendContactViaApi } from '@/utils/contactApi';
@@ -27,15 +34,6 @@ const INITIAL_VALUES: ContactFormValues = {
   honey_pot: '',
 };
 
-const FIELD_LIMITS = {
-  name: 100,
-  email: 254,
-  subject: 200,
-  message: 5000,
-} as const;
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 interface UseContactFormOptions {
   onResetSecurity?: () => void;
 }
@@ -44,36 +42,7 @@ function isHoneypotTriggered(values: ContactFormValues): boolean {
   return Boolean(values.honey_pot.trim());
 }
 
-function getValidationError(values: ContactFormValues): string | null {
-  if (isHoneypotTriggered(values)) {
-    return null;
-  }
-
-  const name = values.user_name.trim();
-  const email = values.user_email.trim();
-  const message = values.message.trim();
-  const subject = values.subject.trim();
-
-  if (!name || !email || !message) {
-    return 'Please fill in all required fields before sending your message.';
-  }
-
-  if (name.length > FIELD_LIMITS.name) {
-    return 'Name is too long.';
-  }
-
-  if (email.length > FIELD_LIMITS.email || !EMAIL_PATTERN.test(email)) {
-    return 'Please provide a valid email address.';
-  }
-
-  if (subject.length > FIELD_LIMITS.subject) {
-    return 'Subject is too long.';
-  }
-
-  if (message.length > FIELD_LIMITS.message) {
-    return 'Message is too long.';
-  }
-
+function getConfigError(): string | null {
   if (!isTurnstileConfigured()) {
     return 'Security verification is not configured. Set VITE_TURNSTILE_SITE_KEY to enable form submissions.';
   }
@@ -88,6 +57,7 @@ function getValidationError(values: ContactFormValues): string | null {
 function showSilentSuccess(
   setStatus: (status: ContactFormStatus) => void,
   setValues: (values: ContactFormValues) => void,
+  setFieldErrors: (errors: ContactFieldErrors) => void,
   onResetSecurity?: () => void,
 ): void {
   setStatus({
@@ -95,6 +65,7 @@ function showSilentSuccess(
     message: 'Message sent successfully! I will get back to you soon.',
   });
   setValues(INITIAL_VALUES);
+  setFieldErrors({});
   onResetSecurity?.();
 }
 
@@ -102,56 +73,95 @@ function handleHoneypot(
   values: ContactFormValues,
   setStatus: (status: ContactFormStatus) => void,
   setValues: (values: ContactFormValues) => void,
+  setFieldErrors: (errors: ContactFieldErrors) => void,
   onResetSecurity?: () => void,
 ): boolean {
   if (!isHoneypotTriggered(values)) {
     return false;
   }
 
-  showSilentSuccess(setStatus, setValues, onResetSecurity);
+  showSilentSuccess(setStatus, setValues, setFieldErrors, onResetSecurity);
   return true;
+}
+
+function validateValues(values: ContactFormValues): {
+  fieldErrors: ContactFieldErrors;
+  formError: string | null;
+} {
+  const fieldErrors = getContactFieldErrors(values);
+  const firstFieldError = getFirstContactFieldError(fieldErrors);
+
+  if (firstFieldError) {
+    return { fieldErrors, formError: firstFieldError };
+  }
+
+  const configError = getConfigError();
+  if (configError) {
+    return { fieldErrors: {}, formError: configError };
+  }
+
+  return { fieldErrors: {}, formError: null };
 }
 
 export function useContactForm(options: UseContactFormOptions = {}) {
   const { onResetSecurity } = options;
   const [values, setValues] = useState<ContactFormValues>(INITIAL_VALUES);
+  const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
   const [status, setStatus] = useState<ContactFormStatus>({ type: 'idle', message: '' });
   const [submitting, setSubmitting] = useState(false);
 
-  const updateField = useCallback((field: keyof ContactFormValues, value: string) => {
-    setValues((current) => ({ ...current, [field]: value }));
+  const updateField = useCallback((field: ContactFieldKey | 'honey_pot', value: string) => {
+    const nextValue = field === 'honey_pot' ? value : clampContactField(field, value);
+
+    setValues((current) => ({ ...current, [field]: nextValue }));
+
+    if (field !== 'honey_pot') {
+      setFieldErrors((current) => {
+        if (!current[field]) {
+          return current;
+        }
+
+        const next = { ...current };
+        delete next[field];
+        return next;
+      });
+    }
   }, []);
 
   const validateForm = useCallback((): boolean => {
-    if (handleHoneypot(values, setStatus, setValues, onResetSecurity)) {
+    if (handleHoneypot(values, setStatus, setValues, setFieldErrors, onResetSecurity)) {
       return false;
     }
 
-    const validationError = getValidationError(values);
+    const { fieldErrors: nextFieldErrors, formError } = validateValues(values);
 
-    if (validationError) {
-      setStatus({ type: 'error', message: validationError });
+    if (formError) {
+      setFieldErrors(nextFieldErrors);
+      setStatus({ type: 'error', message: formError });
       return false;
     }
 
+    setFieldErrors({});
     return true;
   }, [onResetSecurity, values]);
 
   const sendMessage = useCallback(
     async (turnstileToken: string) => {
-      if (handleHoneypot(values, setStatus, setValues, onResetSecurity)) {
+      if (handleHoneypot(values, setStatus, setValues, setFieldErrors, onResetSecurity)) {
         return true;
       }
 
-      const validationError = getValidationError(values);
+      const { fieldErrors: nextFieldErrors, formError } = validateValues(values);
 
-      if (validationError) {
-        setStatus({ type: 'error', message: validationError });
+      if (formError) {
+        setFieldErrors(nextFieldErrors);
+        setStatus({ type: 'error', message: formError });
         return false;
       }
 
       setSubmitting(true);
       setStatus({ type: 'idle', message: '' });
+      setFieldErrors({});
 
       try {
         await sendContactViaApi(getContactApiUrl(), {
@@ -168,6 +178,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
           message: 'Message sent successfully! I will get back to you soon.',
         });
         setValues(INITIAL_VALUES);
+        setFieldErrors({});
         onResetSecurity?.();
         return true;
       } catch (error) {
@@ -186,17 +197,19 @@ export function useContactForm(options: UseContactFormOptions = {}) {
   );
 
   const requestVerification = useCallback(() => {
-    if (handleHoneypot(values, setStatus, setValues, onResetSecurity)) {
+    if (handleHoneypot(values, setStatus, setValues, setFieldErrors, onResetSecurity)) {
       return false;
     }
 
-    const validationError = getValidationError(values);
+    const { fieldErrors: nextFieldErrors, formError } = validateValues(values);
 
-    if (validationError) {
-      setStatus({ type: 'error', message: validationError });
+    if (formError) {
+      setFieldErrors(nextFieldErrors);
+      setStatus({ type: 'error', message: formError });
       return false;
     }
 
+    setFieldErrors({});
     setStatus({
       type: 'info',
       message: 'Complete the security check to send your message.',
@@ -212,9 +225,10 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     (template: Pick<ContactFormValues, 'subject' | 'message'>) => {
       setValues((current) => ({
         ...current,
-        subject: template.subject,
-        message: template.message,
+        subject: clampContactField('subject', template.subject),
+        message: clampContactField('message', template.message),
       }));
+      setFieldErrors({});
       setStatus({ type: 'idle', message: '' });
       onResetSecurity?.();
     },
@@ -223,6 +237,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
 
   return {
     values,
+    fieldErrors,
     status,
     submitting,
     updateField,

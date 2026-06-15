@@ -1,9 +1,13 @@
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
+import { CONTACT_FIELD_LIMITS } from '@/config/contactValidation';
 import type { ServiceInquiryTemplate } from '@/config/serviceInquiryTemplates';
 import { getTurnstileSiteKey, isTurnstileConfigured } from '@/config/turnstile';
 import { useContactForm } from '@/hooks/forms/useContactForm';
 import { getCookie } from '@/utils/cookies';
+
+const MESSAGE_MIN_HEIGHT = 96;
+const MESSAGE_MAX_HEIGHT = 360;
 
 interface ContactFormProps {
   className?: string;
@@ -16,12 +20,14 @@ export default function ContactForm({
 }: ContactFormProps) {
   const turnstileRef = useRef<TurnstileInstance>(null);
   const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
   const [showTurnstile, setShowTurnstile] = useState(false);
   const [turnstileTheme, setTurnstileTheme] = useState<'light' | 'dark' | 'auto'>(() =>
     document.documentElement.classList.contains('dark') ? 'dark' : 'light',
   );
   const {
     values,
+    fieldErrors,
     status,
     submitting,
     updateField,
@@ -38,10 +44,27 @@ export default function ContactForm({
   });
   const turnstileSiteKey = getTurnstileSiteKey();
 
+  const adjustMessageHeight = useCallback(() => {
+    const textarea = messageRef.current;
+    if (!textarea) return;
+
+    textarea.style.height = 'auto';
+    const scrollHeight = textarea.scrollHeight;
+    const nextHeight = Math.min(Math.max(scrollHeight, MESSAGE_MIN_HEIGHT), MESSAGE_MAX_HEIGHT);
+    const isScrollable = scrollHeight > MESSAGE_MAX_HEIGHT;
+
+    textarea.style.height = `${nextHeight}px`;
+    textarea.classList.toggle('is-scrollable', isScrollable);
+  }, []);
+
   useEffect(() => {
     const savedTheme = getCookie('theme') || 'light';
     setTurnstileTheme(savedTheme === 'dark' ? 'dark' : 'light');
   }, []);
+
+  useEffect(() => {
+    adjustMessageHeight();
+  }, [values.message, adjustMessageHeight]);
 
   useEffect(() => {
     if (!showTurnstile) return;
@@ -57,12 +80,18 @@ export default function ContactForm({
     turnstileRef.current?.reset();
 
     window.setTimeout(() => {
-      document.getElementById('contact-message')?.focus();
-    }, 350);
-  }, [applyInquiryTemplate, inquiryTemplate]);
+      adjustMessageHeight();
+      messageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      messageRef.current?.focus();
+    }, 400);
+  }, [adjustMessageHeight, applyInquiryTemplate, inquiryTemplate]);
 
   const handleFieldChange = (field: Parameters<typeof updateField>[0], value: string) => {
     updateField(field, value);
+
+    if (field === 'message') {
+      window.requestAnimationFrame(adjustMessageHeight);
+    }
 
     if (showTurnstile) {
       turnstileRef.current?.reset();
@@ -117,10 +146,21 @@ export default function ContactForm({
           id="contact-name"
           name="user_name"
           required
+          minLength={CONTACT_FIELD_LIMITS.name.min}
+          maxLength={CONTACT_FIELD_LIMITS.name.max}
+          autoComplete="name"
           placeholder="Enter your name"
           value={values.user_name}
+          aria-invalid={Boolean(fieldErrors.user_name)}
+          aria-describedby={fieldErrors.user_name ? 'contact-name-error' : undefined}
+          className={fieldErrors.user_name ? 'is-invalid' : undefined}
           onChange={(event) => handleFieldChange('user_name', event.target.value)}
         />
+        {fieldErrors.user_name ? (
+          <p className="field-error" id="contact-name-error" role="alert">
+            {fieldErrors.user_name}
+          </p>
+        ) : null}
       </div>
       <div className="form-group">
         <label className="floating-label" htmlFor="contact-email">
@@ -131,10 +171,20 @@ export default function ContactForm({
           id="contact-email"
           name="user_email"
           required
+          maxLength={CONTACT_FIELD_LIMITS.email.max}
+          autoComplete="email"
           placeholder="Enter your email"
           value={values.user_email}
+          aria-invalid={Boolean(fieldErrors.user_email)}
+          aria-describedby={fieldErrors.user_email ? 'contact-email-error' : undefined}
+          className={fieldErrors.user_email ? 'is-invalid' : undefined}
           onChange={(event) => handleFieldChange('user_email', event.target.value)}
         />
+        {fieldErrors.user_email ? (
+          <p className="field-error" id="contact-email-error" role="alert">
+            {fieldErrors.user_email}
+          </p>
+        ) : null}
       </div>
       <div className="form-group">
         <label className="floating-label" htmlFor="contact-subject">
@@ -144,24 +194,54 @@ export default function ContactForm({
           type="text"
           id="contact-subject"
           name="subject"
+          maxLength={CONTACT_FIELD_LIMITS.subject.max}
           placeholder="Enter your subject"
           value={values.subject}
+          aria-invalid={Boolean(fieldErrors.subject)}
+          aria-describedby={fieldErrors.subject ? 'contact-subject-error' : undefined}
+          className={fieldErrors.subject ? 'is-invalid' : undefined}
           onChange={(event) => handleFieldChange('subject', event.target.value)}
         />
+        {fieldErrors.subject ? (
+          <p className="field-error" id="contact-subject-error" role="alert">
+            {fieldErrors.subject}
+          </p>
+        ) : null}
       </div>
       <div className="form-group">
-        <label className="floating-label" htmlFor="contact-message">
-          Message
-        </label>
+        <div className="form-group__label-row">
+          <label className="floating-label" htmlFor="contact-message">
+            Message
+          </label>
+          <span
+            className={`field-counter${
+              values.message.length >= CONTACT_FIELD_LIMITS.message.max ? ' is-limit' : ''
+            }`}
+            aria-live="polite"
+          >
+            {values.message.length}/{CONTACT_FIELD_LIMITS.message.max}
+          </span>
+        </div>
         <textarea
+          ref={messageRef}
           id="contact-message"
+          className={`contact-message-input${fieldErrors.message ? ' is-invalid' : ''}`}
           name="message"
           rows={4}
           required
+          minLength={CONTACT_FIELD_LIMITS.message.min}
+          maxLength={CONTACT_FIELD_LIMITS.message.max}
           placeholder="Enter your message"
           value={values.message}
+          aria-invalid={Boolean(fieldErrors.message)}
+          aria-describedby={fieldErrors.message ? 'contact-message-error' : undefined}
           onChange={(event) => handleFieldChange('message', event.target.value)}
         />
+        {fieldErrors.message ? (
+          <p className="field-error" id="contact-message-error" role="alert">
+            {fieldErrors.message}
+          </p>
+        ) : null}
       </div>
 
       <div

@@ -102,7 +102,8 @@ test.describe('Home page', () => {
     await expect(page.locator('#contact-info')).toContainText(portfolioData.contact.location);
 
     await page.locator('#submit-btn').click();
-    await expect(page.locator('#contact-status')).toContainText(/fill in all required fields/i);
+    await expect(page.locator('#contact-name-error')).toContainText(/please enter your name/i);
+    await expect(page.locator('#contact-status')).toContainText(/please enter your name/i);
   });
 
   test('prefills contact subject from a service inquiry CTA', async ({ page }) => {

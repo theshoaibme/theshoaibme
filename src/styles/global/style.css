@@ -1670,6 +1670,19 @@ img {
     resize: vertical;
 }
 
+.form-group textarea.contact-message-input {
+    resize: none;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    max-height: 360px;
+}
+
+.form-group textarea.contact-message-input.is-scrollable {
+    overflow-y: auto;
+    scrollbar-width: auto;
+    -ms-overflow-style: auto;
+}
+
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
@@ -1682,6 +1695,42 @@ img {
 .form-group textarea::placeholder {
     opacity: 0.7;
     color: #9aa0a6;
+}
+
+.form-group__label-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.form-group__label-row .floating-label {
+    margin-bottom: 0;
+}
+
+.form-group input.is-invalid,
+.form-group textarea.is-invalid {
+    border-color: #d93025;
+}
+
+.field-error {
+    margin: 8px 18px 0;
+    color: #d93025;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.field-counter {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.field-counter.is-limit {
+    color: #d93025;
+    font-weight: 600;
 }
 
 #submit-btn {
