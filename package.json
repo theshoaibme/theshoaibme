@@ -17,7 +17,13 @@
     "lint:fix": "eslint . --fix",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed"
+    "test:e2e:headed": "playwright test --headed",
+    "cdn:fetch-images": "node scripts/fetch-images.mjs",
+    "cdn:sync": "node scripts/sync-images-to-r2.mjs",
+    "cdn:deploy": "npm run deploy --prefix workers/image-cdn",
+    "cdn:verify": "node scripts/verify-cdn.mjs",
+    "cdn:setup": "node scripts/setup-cdn.mjs && pnpm cdn:fetch-images && cd workers/image-cdn && npm ci && npx wrangler r2 bucket create portfolio-images || true && cd ../.. && pnpm cdn:sync && pnpm cdn:deploy",
+    "test:unit": "node --test scripts/images.test.mjs"
   },
   "dependencies": {
     "@marsidev/react-turnstile": "^1.5.3",

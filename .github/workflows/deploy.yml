@@ -44,6 +44,7 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           VITE_TURNSTILE_SITE_KEY: ${{ secrets.VITE_TURNSTILE_SITE_KEY }}
           VITE_CONTACT_API_URL: ${{ secrets.VITE_CONTACT_API_URL }}
+          VITE_CDN_BASE_URL: ${{ secrets.VITE_CDN_BASE_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

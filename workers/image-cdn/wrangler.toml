@@ -1,0 +1,14 @@
+name = "portfolio-image-cdn"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "portfolio-images"
+
+[vars]
+ALLOWED_ORIGINS = "https://theshoaib.me,https://www.theshoaib.me,https://the-shoaib2.github.io,https://www.the-shoaib2.github.io,http://localhost:5173,http://127.0.0.1:5173,http://127.0.0.1:4173"
+
+[[routes]]
+pattern = "images.theshoaib.me"
+custom_domain = true

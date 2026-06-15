@@ -38,6 +38,7 @@ export default defineConfig({
       VITE_TURNSTILE_SITE_KEY: process.env.VITE_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA',
       VITE_CONTACT_API_URL:
         process.env.VITE_CONTACT_API_URL ?? 'https://portfolio-contact-api.the-shoaib2.workers.dev',
+      VITE_CDN_BASE_URL: process.env.VITE_CDN_BASE_URL ?? '',
     },
   },
 });

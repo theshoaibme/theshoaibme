@@ -1,0 +1,89 @@
+name: Deploy Image CDN
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - public/images/**
+      - workers/image-cdn/**
+      - scripts/sync-images-to-r2.mjs
+      - scripts/fetch-images.mjs
+      - scripts/verify-cdn.mjs
+      - .github/workflows/deploy-images.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-images
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: cloudflare-workers
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: workers/image-cdn/package-lock.json
+
+      - name: Install image-cdn dependencies
+        working-directory: workers/image-cdn
+        run: npm ci
+
+      - name: Ensure R2 bucket exists
+        working-directory: workers/image-cdn
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler r2 bucket create portfolio-images || true
+
+      - name: Check R2 is enabled
+        working-directory: workers/image-cdn
+        id: r2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if npx wrangler r2 bucket list > /dev/null 2>&1; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::R2 is not enabled. Enable at https://dash.cloudflare.com/?to=/:account/r2/overview then re-run this workflow."
+          fi
+
+      - name: Sync images to R2
+        if: steps.r2.outputs.enabled == 'true'
+        working-directory: workers/image-cdn
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npm run sync
+
+      - name: Deploy image CDN Worker
+        if: steps.r2.outputs.enabled == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: workers/image-cdn
+          command: deploy
+
+      - name: Verify CDN endpoints
+        if: steps.r2.outputs.enabled == 'true'
+        env:
+          CDN_BASE_URL: ${{ secrets.VITE_CDN_BASE_URL }}
+        run: |
+          if [ -n "$CDN_BASE_URL" ]; then
+            node scripts/verify-cdn.mjs
+          else
+            echo "Skipping CDN verify — set VITE_CDN_BASE_URL secret after custom domain is live."
+          fi
