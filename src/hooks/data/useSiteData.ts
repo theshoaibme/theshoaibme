@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSiteDataContext } from '@/app/providers/SiteDataProvider';
 
 export function useSiteData() {
@@ -23,33 +23,4 @@ export function useBodyClass(className: string, enabled: boolean) {
       document.body.classList.remove(className);
     };
   }, [className, enabled]);
-}
-
-export function useLoaderTransition(loading: boolean, onReady: () => void) {
-  const [visible, setVisible] = useState(true);
-  const [display, setDisplay] = useState<'flex' | 'none'>('flex');
-
-  useEffect(() => {
-    if (loading) {
-      setVisible(true);
-      setDisplay('flex');
-      return;
-    }
-
-    const hideTimer = window.setTimeout(() => {
-      setVisible(false);
-    }, 120);
-
-    const removeTimer = window.setTimeout(() => {
-      setDisplay('none');
-      onReady();
-    }, 380);
-
-    return () => {
-      window.clearTimeout(hideTimer);
-      window.clearTimeout(removeTimer);
-    };
-  }, [loading, onReady]);
-
-  return { visible, display };
 }

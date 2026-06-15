@@ -42,7 +42,6 @@ export const secondaryProjects = portfolioData.projects.filter((project) => !pro
 export async function waitForHomeReady(page: Page) {
   await page.goto('/');
   await expect(page.locator('#hero')).toBeVisible({ timeout: 20_000 });
-  await expect(page.locator('body')).not.toHaveClass(/loading/, { timeout: 15_000 });
 }
 
 export async function scrollToSection(page: Page, sectionId: string) {
