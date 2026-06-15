@@ -209,4 +209,20 @@ test.describe('Mobile layout', () => {
     await expect(page.locator('#portfolio-grid .project-card')).toHaveCount(featuredProjects.length);
     await expect(page.getByRole('link', { name: /View All Projects/i })).toBeVisible();
   });
+
+  test('opens and closes the mobile navigation menu', async ({ page }) => {
+    await waitForHomeReady(page);
+
+    const nav = page.locator('#site-nav');
+    const menuButton = page.getByRole('button', { name: /open menu/i });
+
+    await expect(nav).not.toHaveClass(/active/);
+
+    await menuButton.click();
+    await expect(nav).toHaveClass(/active/);
+    await expect(page.getByRole('button', { name: /close menu/i })).toBeVisible();
+
+    await page.getByRole('button', { name: /close menu/i }).click();
+    await expect(nav).not.toHaveClass(/active/);
+  });
 });

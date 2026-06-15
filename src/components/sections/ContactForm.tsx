@@ -21,10 +21,18 @@ export default function ContactForm({
   const turnstileRef = useRef<TurnstileInstance>(null);
   const turnstileContainerRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const appliedInquiryKeyRef = useRef<string | null>(null);
   const [showTurnstile, setShowTurnstile] = useState(false);
+  const [messageScrollable, setMessageScrollable] = useState(false);
   const [turnstileTheme, setTurnstileTheme] = useState<'light' | 'dark' | 'auto'>(() =>
     document.documentElement.classList.contains('dark') ? 'dark' : 'light',
   );
+
+  const resetSecurity = useCallback(() => {
+    turnstileRef.current?.reset();
+    setShowTurnstile(false);
+  }, []);
+
   const {
     values,
     fieldErrors,
@@ -37,10 +45,7 @@ export default function ContactForm({
     clearStatus,
     applyInquiryTemplate,
   } = useContactForm({
-    onResetSecurity: () => {
-      turnstileRef.current?.reset();
-      setShowTurnstile(false);
-    },
+    onResetSecurity: resetSecurity,
   });
   const turnstileSiteKey = getTurnstileSiteKey();
 
@@ -55,6 +60,7 @@ export default function ContactForm({
 
     textarea.style.height = `${nextHeight}px`;
     textarea.classList.toggle('is-scrollable', isScrollable);
+    setMessageScrollable(isScrollable);
   }, []);
 
   useEffect(() => {
@@ -73,8 +79,16 @@ export default function ContactForm({
   }, [showTurnstile]);
 
   useEffect(() => {
-    if (!inquiryTemplate) return;
+    if (!inquiryTemplate) {
+      appliedInquiryKeyRef.current = null;
+      return;
+    }
 
+    if (appliedInquiryKeyRef.current === inquiryTemplate.key) {
+      return;
+    }
+
+    appliedInquiryKeyRef.current = inquiryTemplate.key;
     applyInquiryTemplate(inquiryTemplate);
     setShowTurnstile(false);
     turnstileRef.current?.reset();
@@ -225,7 +239,9 @@ export default function ContactForm({
         <textarea
           ref={messageRef}
           id="contact-message"
-          className={`contact-message-input${fieldErrors.message ? ' is-invalid' : ''}`}
+          className={`contact-message-input${messageScrollable ? ' is-scrollable' : ''}${
+            fieldErrors.message ? ' is-invalid' : ''
+          }`}
           name="message"
           rows={4}
           required

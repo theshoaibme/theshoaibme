@@ -34,7 +34,12 @@ function validateName(value: string): string | null {
     return `Name must be ${CONTACT_FIELD_LIMITS.name.max} characters or less.`;
   }
 
-  if (!/^[\p{L}\p{M}][\p{L}\p{M}\s'.-]*$/u.test(name)) {
+  const letterCount = (name.match(/[\p{L}\p{M}]/gu) ?? []).length;
+  if (letterCount < CONTACT_FIELD_LIMITS.name.min) {
+    return 'Please enter a valid name.';
+  }
+
+  if (!/^[\p{L}\p{M}0-9\s'.-]+$/u.test(name)) {
     return 'Please enter a valid name.';
   }
 

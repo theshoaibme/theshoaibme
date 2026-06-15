@@ -16,23 +16,25 @@ export default function ProjectCard({ project, index = 0, animate = true }: Proj
       className={`project-card${animate ? ' reveal' : ''}`}
       style={animate ? { transitionDelay: `${index * 150}ms` } : undefined}
     >
-      <div className="project-img loading">
-        <img
-          src={projectImg}
-          alt={project.name}
-          className="project-card-img"
-          onLoad={(event) => {
-            const img = event.currentTarget;
-            img.classList.add('loaded');
-            img.parentElement?.classList.remove('loading');
-          }}
-          onError={(event) => {
-            const img = event.currentTarget;
-            img.style.display = 'none';
-            img.parentElement?.classList.remove('loading');
-            img.parentElement?.classList.add('no-image');
-          }}
-        />
+      <div className={`project-img${projectImg ? ' loading' : ' no-image'}`}>
+        {projectImg ? (
+          <img
+            src={projectImg}
+            alt={project.name}
+            className="project-card-img"
+            onLoad={(event) => {
+              const img = event.currentTarget;
+              img.classList.add('loaded');
+              img.parentElement?.classList.remove('loading');
+            }}
+            onError={(event) => {
+              const img = event.currentTarget;
+              img.style.display = 'none';
+              img.parentElement?.classList.remove('loading');
+              img.parentElement?.classList.add('no-image');
+            }}
+          />
+        ) : null}
         <div className="img-fallback" />
       </div>
       <div className="project-content">
