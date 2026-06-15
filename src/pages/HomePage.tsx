@@ -56,7 +56,7 @@ export default function HomePage() {
   }, []);
 
   const { theme, toggleTheme } = useTheme(handleThemeChange);
-  const { isOpen, imageSrc, openModal, closeModal, clearModal } = useImageModal();
+  const { isOpen, imageSrc, variant, openModal, closeModal, clearModal } = useImageModal();
 
   useDocumentTitle(data?.site.title ?? 'Portfolio');
 
@@ -101,6 +101,7 @@ export default function HomePage() {
   }
 
   const profileImageUrl = resolveImageUrl(data.profile.profileImage);
+  const aboutImageUrl = resolveImageUrl(data.about.image);
 
   return (
     <>
@@ -117,14 +118,14 @@ export default function HomePage() {
         <Hero
           profile={data.profile}
           profileImageUrl={profileImageUrl}
-          onProfileClick={() => openModal(profileImageUrl)}
+          onProfileClick={() => openModal(profileImageUrl, 'round')}
         />
         <About
           section={getSiteSection(data.site.sections, 'about')}
           about={data.about}
-          profileImage={profileImageUrl}
+          aboutImage={aboutImageUrl}
           profileName={data.profile.name}
-          onImageClick={() => openModal(profileImageUrl)}
+          onImageClick={() => openModal(aboutImageUrl, 'square')}
         />
         <Skills section={getSiteSection(data.site.sections, 'skills')} skills={data.skills} />
         <Experience experience={data.experience} />
@@ -152,6 +153,7 @@ export default function HomePage() {
       {imageSrc ? (
         <ImageModal
           imageSrc={imageSrc}
+          variant={variant}
           isOpen={isOpen}
           onClose={closeModal}
           onClosed={clearModal}

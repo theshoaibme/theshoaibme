@@ -22,6 +22,7 @@
     "cdn:sync": "node scripts/sync-images-to-r2.mjs",
     "cdn:deploy": "npm run deploy --prefix workers/image-cdn",
     "cdn:verify": "node scripts/verify-cdn.mjs",
+    "cdn:upload": "node scripts/upload-images-cloudinary.mjs",
     "cdn:setup": "node scripts/setup-cdn.mjs && pnpm cdn:fetch-images && cd workers/image-cdn && npm ci && npx wrangler r2 bucket create portfolio-images || true && cd ../.. && pnpm cdn:sync && pnpm cdn:deploy",
     "test:unit": "node --test scripts/images.test.mjs"
   },

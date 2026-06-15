@@ -82,6 +82,7 @@ export function validatePortfolioData(data: unknown): PortfolioData {
   if (!isObject(data.about) || !Array.isArray(data.about.text) || !Array.isArray(data.about.stats)) {
     throw new DataValidationError('Invalid "about" section in data.json.');
   }
+  requireSafeImageUrl(data.about.image, 'about.image');
 
   if (!isObject(data.skills)) {
     throw new DataValidationError('Missing "skills" object in data.json.');

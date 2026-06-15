@@ -14,7 +14,10 @@ const portfolioData = JSON.parse(
   readFileSync(resolve(process.cwd(), 'public/data.json'), 'utf-8'),
 ) as PortfolioData;
 
-const cdnBase = process.env.VITE_CDN_BASE_URL?.replace(/\/+$/, '') ?? '';
+const cloudName = process.env.VITE_CLOUDINARY_CLOUD_NAME ?? '';
+const cdnBase =
+  process.env.VITE_CDN_BASE_URL?.replace(/\/+$/, '') ??
+  (cloudName ? `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto` : '');
 
 function expectedSrc(localPath: string): string | RegExp {
   if (/^https?:\/\//i.test(localPath)) {
@@ -24,7 +27,10 @@ function expectedSrc(localPath: string): string | RegExp {
   const normalized = localPath.replace(/^public\//, '').replace(/^\/+/, '');
 
   if (cdnBase) {
-    return `${cdnBase}/${normalized}`;
+    const assetPath = cdnBase.includes('res.cloudinary.com')
+      ? normalized.replace(/\.[a-z0-9]+$/i, '')
+      : normalized;
+    return `${cdnBase}/${assetPath}`;
   }
 
   return new RegExp(`/${normalized.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`);

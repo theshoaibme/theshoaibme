@@ -3,7 +3,7 @@ import type { About, SiteSection } from '@/types';
 interface AboutProps {
   section: SiteSection;
   about: About;
-  profileImage: string;
+  aboutImage: string;
   profileName: string;
   onImageClick?: () => void;
 }
@@ -11,7 +11,7 @@ interface AboutProps {
 export default function About({
   section,
   about,
-  profileImage,
+  aboutImage,
   profileName,
   onImageClick,
 }: AboutProps) {
@@ -47,7 +47,7 @@ export default function About({
               aria-label={onImageClick ? `View ${profileName} profile photo` : undefined}
             >
               <img
-                src={profileImage}
+                src={aboutImage}
                 alt={profileName}
                 className="about-img"
                 id="about-img"

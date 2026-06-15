@@ -1,15 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
+import type { ImageModalVariant } from '@/hooks/ui/useImageModal';
 
 const MODAL_CLOSE_MS = 420;
 
 interface ImageModalProps {
   imageSrc: string;
+  variant?: ImageModalVariant;
   isOpen: boolean;
   onClose: () => void;
   onClosed: () => void;
 }
 
-export default function ImageModal({ imageSrc, isOpen, onClose, onClosed }: ImageModalProps) {
+export default function ImageModal({
+  imageSrc,
+  variant = 'round',
+  isOpen,
+  onClose,
+  onClosed,
+}: ImageModalProps) {
   const closeTimerRef = useRef<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const safeSrc = imageSrc.trim();
@@ -77,13 +85,13 @@ export default function ImageModal({ imageSrc, isOpen, onClose, onClosed }: Imag
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label="Profile image preview"
+      aria-label={variant === 'round' ? 'Profile image preview' : 'About image preview'}
     >
       <div className="modal-backdrop" />
       <button
         type="button"
         className="modal-close"
-        aria-label="Close profile image"
+        aria-label={variant === 'round' ? 'Close profile image' : 'Close about image'}
         onClick={(event) => {
           event.stopPropagation();
           onClose();
@@ -91,11 +99,12 @@ export default function ImageModal({ imageSrc, isOpen, onClose, onClosed }: Imag
       >
         <i className="fa-solid fa-xmark" aria-hidden="true" />
       </button>
-      <div className="modal-content">
+      <div className={`modal-content modal-content--${variant}`}>
         <img
           src={safeSrc}
-          alt="Profile Full"
+          alt={variant === 'round' ? 'Profile full size' : 'About full size'}
           id="modal-img"
+          className={`modal-img modal-img--${variant}`}
           onError={(event) => {
             event.currentTarget.alt = 'Image failed to load';
           }}

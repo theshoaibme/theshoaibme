@@ -39,6 +39,7 @@ export default defineConfig({
       VITE_CONTACT_API_URL:
         process.env.VITE_CONTACT_API_URL ?? 'https://portfolio-contact-api.the-shoaib2.workers.dev',
       VITE_CDN_BASE_URL: process.env.VITE_CDN_BASE_URL ?? '',
+      VITE_CLOUDINARY_CLOUD_NAME: process.env.VITE_CLOUDINARY_CLOUD_NAME ?? '',
     },
   },
 });

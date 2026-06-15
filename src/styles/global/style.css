@@ -742,8 +742,8 @@ img {
 
 .about-img-container {
     position: relative;
-    width: min(100%, 340px);
-    aspect-ratio: 1;
+    width: min(100%, 380px);
+    aspect-ratio: 5 / 6;
     border: 4px solid var(--card);
     border-radius: 24px;
     background: var(--card);
@@ -767,6 +767,7 @@ img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center top;
     transition: transform 0.8s var(--easing-standard);
 }
 
@@ -2185,12 +2186,22 @@ img {
 }
 
 .modal-content img {
-    max-width: 85vw;
+    width: min(85vw, 85vh, 480px);
+    aspect-ratio: 1 / 1;
     max-height: 85vh;
-    border-radius: 50%;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
     object-fit: cover;
     transition: transform 0.28s var(--motion-fade-easing);
+}
+
+.modal-img--round {
+    border-radius: 50%;
+    object-position: center center;
+}
+
+.modal-img--square {
+    border-radius: 24px;
+    object-position: center top;
 }
 
 .image-modal.active .modal-content img {
@@ -2581,9 +2592,13 @@ img {
     }
 
     .modal-content img {
-        width: 320px;
-        height: 320px;
-        border-radius: 50%;
+        width: min(90vw, 320px);
+        aspect-ratio: 1 / 1;
+        height: auto;
+    }
+
+    .modal-img--square {
+        border-radius: 20px;
     }
 
     .modal-close {

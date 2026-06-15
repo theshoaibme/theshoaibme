@@ -1,10 +1,26 @@
 #!/usr/bin/env node
 /**
- * Smoke-test image CDN endpoints (R2 + Worker).
- * Usage: CDN_BASE_URL=https://images.theshoaib.me node scripts/verify-cdn.mjs
+ * Smoke-test image CDN endpoints (Cloudinary, R2, or custom base URL).
  */
-const CDN_BASE_URL = (process.env.CDN_BASE_URL ?? process.env.VITE_CDN_BASE_URL ?? 'https://images.theshoaib.me')
-  .replace(/\/+$/, '');
+const CLOUD_NAME = process.env.VITE_CLOUDINARY_CLOUD_NAME ?? process.env.CLOUDINARY_CLOUD_NAME ?? 'ddp8owdtu';
+const TRANSFORMS = process.env.VITE_CLOUDINARY_TRANSFORMS ?? 'f_auto,q_auto';
+
+function getCdnBaseUrl() {
+  if (process.env.CDN_BASE_URL || process.env.VITE_CDN_BASE_URL) {
+    return (process.env.CDN_BASE_URL ?? process.env.VITE_CDN_BASE_URL).replace(/\/+$/, '');
+  }
+  return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${TRANSFORMS}`;
+}
+
+function toAssetPath(key) {
+  const base = getCdnBaseUrl();
+  if (base.includes('res.cloudinary.com')) {
+    return key.replace(/\.[a-z0-9]+$/i, '');
+  }
+  return key;
+}
+
+const CDN_BASE_URL = getCdnBaseUrl();
 
 const REQUIRED_KEYS = [
   'profile.jpg',
@@ -13,26 +29,17 @@ const REQUIRED_KEYS = [
   'testimonials/avatar-01.jpg',
 ];
 
-const OPTIONAL_ORIGIN = process.env.ORIGIN ?? 'https://theshoaib.me';
-
 async function checkAsset(key) {
-  const url = `${CDN_BASE_URL}/${key}`;
-  const response = await fetch(url, {
-    method: 'HEAD',
-    headers: { Origin: OPTIONAL_ORIGIN },
-  });
-
-  const cacheControl = response.headers.get('cache-control') ?? '';
-  const contentType = response.headers.get('content-type') ?? '';
+  const url = `${CDN_BASE_URL}/${toAssetPath(key)}`;
+  const response = await fetch(url, { method: 'HEAD' });
 
   return {
     key,
     url,
     ok: response.ok,
     status: response.status,
-    contentType,
-    cacheControl,
-    cors: response.headers.get('access-control-allow-origin'),
+    contentType: response.headers.get('content-type') ?? '',
+    cacheControl: response.headers.get('cache-control') ?? '',
   };
 }
 
@@ -44,19 +51,15 @@ async function main() {
   for (const key of REQUIRED_KEYS) {
     const result = await checkAsset(key);
     const pass = result.ok && result.contentType.startsWith('image/');
-    const icon = pass ? '✓' : '✗';
-    console.log(`${icon} ${key} → ${result.status} ${result.contentType}`);
-
+    console.log(`${pass ? '✓' : '✗'} ${key} → ${result.status} ${result.contentType}`);
     if (!pass) {
       failed += 1;
       console.log(`  URL: ${result.url}`);
-    } else if (!result.cacheControl.includes('max-age')) {
-      console.log(`  warn: missing long-lived cache header (${result.cacheControl || 'none'})`);
     }
   }
 
   if (failed > 0) {
-    console.error(`\n${failed} CDN check(s) failed.`);
+    console.error(`\n${failed} CDN check(s) failed. Run: pnpm cdn:upload`);
     process.exit(1);
   }
 
