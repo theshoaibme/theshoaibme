@@ -6,6 +6,10 @@
     "sync": "node ../../scripts/sync-images-to-r2.mjs",
     "verify": "node ../../scripts/verify-cdn.mjs"
   },
+  "overrides": {
+    "esbuild": "^0.28.1",
+    "ws": "^8.21.0"
+  },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250628.0",
     "typescript": "~5.8.3",
