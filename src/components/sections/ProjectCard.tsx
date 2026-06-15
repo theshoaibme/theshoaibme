@@ -14,7 +14,7 @@ export default function ProjectCard({ project, index = 0, animate = true }: Proj
   return (
     <div
       className={`project-card${animate ? ' reveal' : ''}`}
-      style={animate ? { transitionDelay: `${index * 150}ms` } : undefined}
+      style={animate ? { transitionDelay: `${index * 80}ms` } : undefined}
     >
       <div className={`project-img${projectImg ? ' loading' : ' no-image'}`}>
         {projectImg ? (

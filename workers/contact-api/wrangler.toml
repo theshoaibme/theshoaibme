@@ -7,7 +7,7 @@ compatibility_date = "2024-01-01"
 EMAILJS_PUBLIC_KEY = "0angy-FFhuMJiDUal"
 EMAILJS_SERVICE_ID = "service_c4ug6xj"
 EMAILJS_TEMPLATE_ID = "template_o7kynn5"
-ALLOWED_ORIGIN = "https://the-shoaib2.github.io"
+ALLOWED_ORIGINS = "https://theshoaib.me,https://www.theshoaib.me,https://the-shoaib2.github.io,https://www.the-shoaib2.github.io"
 
 # Set secrets with:
 # npx wrangler secret put TURNSTILE_SECRET_KEY

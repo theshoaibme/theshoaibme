@@ -1,11 +1,50 @@
 import { copyFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import type { ProxyOptions } from 'vite';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { SITE_URL } from './src/config/site';
 
 const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'the-shoaib2.github.io';
 const isUserPage = repoName.endsWith('.github.io');
 const base = isUserPage ? '/' : `/${repoName}/`;
+
+const contactApiTarget =
+  process.env.VITE_CONTACT_API_URL?.trim() ||
+  'https://portfolio-contact-api.the-shoaib2.workers.dev';
+
+// Either production origin works with the contact API (both are allowlisted).
+const productionOrigin = SITE_URL;
+
+function createContactApiProxy(): ProxyOptions {
+  return {
+    target: contactApiTarget,
+    changeOrigin: true,
+    secure: true,
+    rewrite: () => '',
+    configure: (proxy) => {
+      proxy.on('proxyReq', (proxyReq) => {
+        // Local dev hits /api/contact same-origin; forward with the allowlisted production Origin.
+        proxyReq.setHeader('Origin', productionOrigin);
+        proxyReq.setHeader('Referer', `${productionOrigin}/`);
+      });
+    },
+  };
+}
+
+const devCsp = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+  "script-src 'self' blob: 'unsafe-inline' https://challenges.cloudflare.com",
+  "worker-src 'self' blob:",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
+  "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net data:",
+  "img-src 'self' data: https:",
+  "connect-src 'self' ws: wss: http://localhost:5173 http://127.0.0.1:5173 https://portfolio-contact-api.the-shoaib2.workers.dev https://challenges.cloudflare.com",
+  "frame-src https://challenges.cloudflare.com",
+].join('; ');
 
 export default defineConfig({
   resolve: {
@@ -18,14 +57,30 @@ export default defineConfig({
     port: 5173,
     strictPort: false,
     open: false,
+    proxy: {
+      '/api/contact': createContactApiProxy(),
+    },
   },
   preview: {
     host: true,
     port: 4173,
     strictPort: false,
+    proxy: {
+      '/api/contact': createContactApiProxy(),
+    },
   },
   plugins: [
     react(),
+    {
+      name: 'dev-csp-relax',
+      apply: 'serve',
+      transformIndexHtml(html) {
+        return html.replace(
+          /http-equiv="Content-Security-Policy"\s+content="[^"]+"/,
+          `http-equiv="Content-Security-Policy" content="${devCsp}"`,
+        );
+      },
+    },
     {
       name: 'github-pages-spa-fallback',
       closeBundle() {

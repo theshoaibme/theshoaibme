@@ -2,7 +2,11 @@ import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { CONTACT_FIELD_LIMITS } from '@/config/contactValidation';
 import type { ServiceInquiryTemplate } from '@/config/serviceInquiryTemplates';
-import { getTurnstileSiteKey, isTurnstileConfigured } from '@/config/turnstile';
+import {
+  getTurnstileSetupMessage,
+  getTurnstileSiteKey,
+  isTurnstileConfigured,
+} from '@/config/turnstile';
 import { useContactForm } from '@/hooks/forms/useContactForm';
 import { getCookie } from '@/utils/cookies';
 
@@ -43,6 +47,7 @@ export default function ContactForm({
     requestVerification,
     sendMessage,
     clearStatus,
+    setFormError,
     applyInquiryTemplate,
   } = useContactForm({
     onResetSecurity: resetSecurity,
@@ -275,6 +280,14 @@ export default function ContactForm({
             ref={turnstileRef}
             siteKey={turnstileSiteKey}
             onSuccess={onTurnstileSuccess}
+            onExpire={() => {
+              resetSecurity();
+              setFormError('Security check expired. Please submit the form again.');
+            }}
+            onError={() => {
+              resetSecurity();
+              setFormError('Security verification failed to load. Please refresh and try again.');
+            }}
             options={{ theme: turnstileTheme }}
           />
         </div>
@@ -296,8 +309,7 @@ export default function ContactForm({
 
       {!isTurnstileConfigured() ? (
         <p className="contact-turnstile__notice" role="alert">
-          Security verification is not configured. Set `VITE_TURNSTILE_SITE_KEY` to enable form
-          submissions.
+          {getTurnstileSetupMessage()}
         </p>
       ) : null}
     </form>

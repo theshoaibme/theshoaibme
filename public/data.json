@@ -94,21 +94,22 @@
     },
     "about": {
         "text": [
-            "I'm a versatile developer specializing in the intersection of design and cutting-edge technology. My journey began with web customization years ago, and today I build high-performance, AI-powered solutions across multiple platforms.",
-            "I specialize in developing intelligent web ecosystems, machine learning integrations, and native Android and iOS applications. I focus on creating AI-integrated experiences that are not only visually stunning but also redefine user interaction through smart, efficient technology."
+            "I'm a Full Stack Developer who helps businesses and founders turn ideas into reliable, user-friendly digital products. I focus on clean design, solid engineering, and building solutions that work well long after launch.",
+            "With experience across React, Next.js, Node.js, and cloud deployment, I deliver websites and web applications that are fast, accessible, and easy to maintain. I work closely with clients from planning to delivery — so every project is clear, on track, and built to meet real business goals.",
+            "Whether you need a new product from scratch, improvements to an existing app, or smart AI features integrated the right way, I'm here to help you ship with confidence."
         ],
         "stats": [
             {
                 "value": "05+",
-                "label": "Years Experience"
+                "label": "Years of Experience"
             },
             {
                 "value": "20+",
-                "label": "Projects Completed"
+                "label": "Projects Delivered"
             },
             {
                 "value": "20+",
-                "label": "Happy Clients"
+                "label": "Clients Worldwide"
             }
         ]
     },

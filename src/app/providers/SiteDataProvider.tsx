@@ -1,7 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { PortfolioData } from '@/types';
-import { DataLoadError, getErrorMessage } from '@/utils/errors';
-import { validatePortfolioData } from '@/utils/validateData';
+import {
+  clearPortfolioDataCache,
+  getCachedPortfolioData,
+  loadPortfolioData,
+} from '@/data/loadPortfolioData';
+import { getErrorMessage } from '@/utils/errors';
 
 interface SiteDataContextValue {
   data: PortfolioData | null;
@@ -12,45 +16,22 @@ interface SiteDataContextValue {
 
 const SiteDataContext = createContext<SiteDataContextValue | null>(null);
 
-async function fetchPortfolioData(): Promise<PortfolioData> {
-  let response: Response;
-
-  try {
-    response = await fetch(`${import.meta.env.BASE_URL}data.json`);
-  } catch (error) {
-    throw new DataLoadError(
-      'Unable to reach data.json. Check your network connection and try again.',
-      error,
-    );
-  }
-
-  if (!response.ok) {
-    throw new DataLoadError(`Failed to load data.json (${response.status} ${response.statusText}).`);
-  }
-
-  let json: unknown;
-
-  try {
-    json = await response.json();
-  } catch (error) {
-    throw new DataLoadError('data.json contains invalid JSON.', error);
-  }
-
-  return validatePortfolioData(json);
-}
-
 export function SiteDataProvider({ children }: { children: ReactNode }) {
-  const [data, setData] = useState<PortfolioData | null>(null);
+  const initialCache = getCachedPortfolioData();
+  const [data, setData] = useState<PortfolioData | null>(initialCache);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialCache);
   const [attempt, setAttempt] = useState(0);
 
-  const loadData = useCallback(async (signal: AbortSignal) => {
-    setLoading(true);
+  const loadData = useCallback(async (signal: AbortSignal, force: boolean) => {
+    if (!getCachedPortfolioData()) {
+      setLoading(true);
+    }
+
     setError(null);
 
     try {
-      const portfolioData = await fetchPortfolioData();
+      const portfolioData = await loadPortfolioData({ force });
 
       if (signal.aborted) return;
 
@@ -71,12 +52,13 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const controller = new AbortController();
-    void loadData(controller.signal);
+    void loadData(controller.signal, attempt > 0);
 
     return () => controller.abort();
   }, [attempt, loadData]);
 
   const retry = useCallback(() => {
+    clearPortfolioDataCache();
     setAttempt((current) => current + 1);
   }, []);
 

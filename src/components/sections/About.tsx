@@ -3,9 +3,18 @@ import type { About, SiteSection } from '@/types';
 interface AboutProps {
   section: SiteSection;
   about: About;
+  profileImage: string;
+  profileName: string;
+  onImageClick?: () => void;
 }
 
-export default function About({ section, about }: AboutProps) {
+export default function About({
+  section,
+  about,
+  profileImage,
+  profileName,
+  onImageClick,
+}: AboutProps) {
   return (
     <section id="about" className="section about">
       <div className="container">
@@ -22,6 +31,29 @@ export default function About({ section, about }: AboutProps) {
             {about.text.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
+          </div>
+          <div className="about-visual">
+            <div
+              className="about-img-container"
+              onClick={onImageClick}
+              onKeyDown={(event) => {
+                if (onImageClick && (event.key === 'Enter' || event.key === ' ')) {
+                  event.preventDefault();
+                  onImageClick();
+                }
+              }}
+              role={onImageClick ? 'button' : undefined}
+              tabIndex={onImageClick ? 0 : undefined}
+              aria-label={onImageClick ? `View ${profileName} profile photo` : undefined}
+            >
+              <img
+                src={profileImage}
+                alt={profileName}
+                className="about-img"
+                id="about-img"
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
         <div className="stats reveal" id="about-stats">

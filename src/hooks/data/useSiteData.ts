@@ -38,12 +38,12 @@ export function useLoaderTransition(loading: boolean, onReady: () => void) {
 
     const hideTimer = window.setTimeout(() => {
       setVisible(false);
-    }, 200);
+    }, 120);
 
     const removeTimer = window.setTimeout(() => {
       setDisplay('none');
       onReady();
-    }, 500);
+    }, 380);
 
     return () => {
       window.clearTimeout(hideTimer);
