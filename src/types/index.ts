@@ -49,6 +49,7 @@ export interface AboutStat {
 }
 
 export interface About {
+  image: string;
   text: string[];
   stats: AboutStat[];
 }
