@@ -1,20 +1,26 @@
 import { useCallback, useState } from 'react';
 
 export function useImageModal() {
-  const [active, setActive] = useState(false);
-  const [imageSrc, setImageSrc] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
 
   const openModal = useCallback((src: string) => {
-    if (!src) return;
-    setImageSrc(src);
-    setActive(true);
+    const nextSrc = src.trim();
+    if (!nextSrc) return;
+
+    setImageSrc(nextSrc);
+    setIsOpen(true);
     document.body.style.overflow = 'hidden';
   }, []);
 
   const closeModal = useCallback(() => {
-    setActive(false);
+    setIsOpen(false);
     document.body.style.overflow = '';
   }, []);
 
-  return { active, imageSrc, openModal, closeModal };
+  const clearModal = useCallback(() => {
+    setImageSrc(null);
+  }, []);
+
+  return { isOpen, imageSrc, openModal, closeModal, clearModal };
 }

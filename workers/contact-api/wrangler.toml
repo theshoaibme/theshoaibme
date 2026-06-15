@@ -3,6 +3,7 @@ main = "src/index.ts"
 compatibility_date = "2024-01-01"
 
 [vars]
+# Public EmailJS identifiers (not secrets). Private key must be stored as a Worker secret.
 EMAILJS_PUBLIC_KEY = "0angy-FFhuMJiDUal"
 EMAILJS_SERVICE_ID = "service_c4ug6xj"
 EMAILJS_TEMPLATE_ID = "template_o7kynn5"

@@ -4,6 +4,7 @@ import PolicyHeader from '@/components/layout/PolicyHeader';
 import ProjectCard from '@/components/sections/ProjectCard';
 import { useDocumentTitle, useSiteData } from '@/hooks/data/useSiteData';
 import { usePolicyTheme } from '@/hooks/ui/useTheme';
+import { sanitizeHtml } from '@/utils/sanitize';
 import { getSiteSection } from '@/utils/siteSections';
 
 export default function ProjectsPage() {
@@ -45,7 +46,13 @@ export default function ProjectsPage() {
 
       <footer className="footer">
         <div className="container footer-content">
-          <p dangerouslySetInnerHTML={{ __html: data?.site.footer ?? '&copy; 2026 MD Shoaib Khan. All rights reserved.' }} />
+          <p
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(
+                data?.site.footer ?? '&copy; 2026 MD Shoaib Khan. All rights reserved.',
+              ),
+            }}
+          />
         </div>
       </footer>
     </PageStatus>

@@ -34,7 +34,6 @@ import { useInitialHash } from '@/hooks/scroll/useInitialHash';
 import { useScrollSpy } from '@/hooks/scroll/useScrollSpy';
 import { useSmoothNavScroll } from '@/hooks/scroll/useSmoothNavScroll';
 import { useImageModal } from '@/hooks/ui/useImageModal';
-import { useMobileMenu } from '@/hooks/ui/useMobileMenu';
 import { useRippleEffect } from '@/hooks/ui/useRippleEffect';
 import { useTheme } from '@/hooks/ui/useTheme';
 import { resolveAssetPath } from '@/utils/logo';
@@ -67,7 +66,7 @@ export default function HomePage() {
   }, []);
 
   const { theme, toggleTheme } = useTheme(handleThemeChange);
-  const { active, imageSrc, openModal, closeModal } = useImageModal();
+  const { isOpen, imageSrc, openModal, closeModal, clearModal } = useImageModal();
 
   useDocumentTitle(data?.site.title ?? 'Portfolio');
   useBodyClass('loading', loading || !interactionsReady);
@@ -80,7 +79,6 @@ export default function HomePage() {
   }, [loading, data]);
 
   useCustomScrollbar();
-  useMobileMenu();
   useRippleEffect();
   useParticlesSystem(interactionsReady, handleParticlesInit);
 
@@ -147,7 +145,14 @@ export default function HomePage() {
           onToggleTheme={toggleTheme}
         />
       </div>
-      <ImageModal active={active} imageSrc={imageSrc} onClose={closeModal} />
+      {imageSrc ? (
+        <ImageModal
+          imageSrc={imageSrc}
+          isOpen={isOpen}
+          onClose={closeModal}
+          onClosed={clearModal}
+        />
+      ) : null}
     </>
   );
 }

@@ -240,21 +240,84 @@
             ],
             "repository": "https://github.com/the-shoaib2/meal-sphere",
             "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fmeal-sphere.vercel.app?w=1200",
-            "live_preview": "https://meal-sphere.vercel.app"
+            "live_preview": "https://meal-sphere.vercel.app",
+            "featured": true
         },
         {
-            "name": "AI Agent",
-            "description": "Intelligent agent platform leveraging NLP and automation for productivity.",
+            "name": "Daffodil Intelligence",
+            "description": "360° multi-agent AI operating system for university life — academic, library, career, research, voice, and automation agents with real-time WebSocket chat, Telegram, and MCP integration.",
             "tech_stack": [
-                "Python",
-                "TensorFlow",
-                "PyTorch",
-                "NLP",
-                "Docker"
+                "React",
+                "Vite",
+                "FastAPI",
+                "LangGraph",
+                "LangChain",
+                "PostgreSQL",
+                "Redis",
+                "Qdrant",
+                "WebSockets",
+                "Docker",
+                "OpenAI",
+                "Gemini"
             ],
-            "repository": "https://github.com/the-shoaib2/ai-agent",
-            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2Fai-agent?w=1200",
-            "live_preview": null
+            "repository": "https://github.com/the-shoaib2/daffodil-intelligence",
+            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fdaffodil-intelligence.vercel.app?w=1200",
+            "live_preview": "https://daffodil-intelligence.vercel.app",
+            "featured": true
+        },
+        {
+            "name": "Orthopedic Surgeon Platform",
+            "description": "Full-stack healthcare platform with a public website, doctor portal, and admin dashboard for appointments, patient records, and clinic operations.",
+            "tech_stack": [
+                "Angular",
+                "Spring Boot",
+                "PostgreSQL",
+                "Redis",
+                "MinIO",
+                "Docker",
+                "Turborepo",
+                "Grafana",
+                "Playwright"
+            ],
+            "repository": "https://github.com/the-shoaib2/orthopedicsurgeon",
+            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Forthopedicsurgeon.vercel.app?w=1200",
+            "live_preview": "https://orthopedicsurgeon.vercel.app",
+            "featured": true
+        },
+        {
+            "name": "SobujBD",
+            "description": "National tree plantation tracking and transparency platform with AR verification, agent-based rural registration, and an AI engine for tree detection and NID OCR.",
+            "tech_stack": [
+                "React",
+                "Vite",
+                "Spring Boot",
+                "FastAPI",
+                "PostGIS",
+                "Redis",
+                "MinIO",
+                "YOLOv8",
+                "Tesseract",
+                "Docker",
+                "Turborepo"
+            ],
+            "repository": "https://github.com/zionmezba/sobujbd",
+            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fapp3.csetech.diu.edu.bd%2F?w=1200",
+            "live_preview": "https://app3.csetech.diu.edu.bd/",
+            "featured": true
+        },
+        {
+            "name": "App Pro",
+            "description": "Native Linux desktop app manager built with Rust and GTK4 — install packages, uninstall apps, monitor processes, clean caches, and view live system stats.",
+            "tech_stack": [
+                "Rust",
+                "GTK4",
+                "Linux",
+                "Cargo"
+            ],
+            "repository": "https://github.com/the-shoaib2/app-pro",
+            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2Fapp-pro?w=1200",
+            "live_preview": null,
+            "featured": false
         },
         {
             "name": "Pregnify",
@@ -274,7 +337,8 @@
             ],
             "repository": "https://github.com/the-shoaib2/Pregnify",
             "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2FPregnify?w=1200",
-            "live_preview": null
+            "live_preview": null,
+            "featured": false
         },
         {
             "name": "Supershop Management System",
@@ -300,7 +364,8 @@
             ],
             "repository": "https://github.com/the-shoaib2/Super-Shop-Management",
             "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2FSuper-Shop-Management?w=1200",
-            "live_preview": null
+            "live_preview": null,
+            "featured": false
         }
     ],
     "services": [
@@ -347,76 +412,112 @@
     ],
     "testimonials": [
         {
-            "name": "Sarah Jenkins",
-            "role": "CEO at TechStart",
-            "feedback": "Shoaib delivered our project on time and exceeded our expectations. His understanding of AI integration is top-notch.",
-            "avatar": "https://randomuser.me/api/portraits/women/44.jpg"
-        },
-        {
-            "name": "Michael Chen",
-            "role": "Product Manager",
-            "feedback": "A true professional. The mobile app he built for us is smooth, responsive, and exactly what our users needed.",
+            "name": "Sakib Hossain",
+            "role": "Shop Owner, Narayanganj",
+            "feedback": "শোয়েব ভাইয়ের সাথে কাজ করতে ভালো লাগলো। সময় মতো কাজ দিয়েছেন, পরে হেল্পও করেছেন। সত্যি রিকমেন্ড করি।",
             "avatar": "https://randomuser.me/api/portraits/men/32.jpg"
         },
         {
-            "name": "Emily Davis",
-            "role": "Founder",
-            "feedback": "Highly recommended! Shoaib's full-stack skills helped us launch our platform ahead of schedule.",
-            "avatar": "https://randomuser.me/api/portraits/women/68.jpg"
+            "name": "Mousumi Akter",
+            "role": "Boutique Owner, Dhaka",
+            "feedback": "আমার ছোট ব্যবসার ওয়েবসাইট বানিয়েছেন। এখন মেসেজ আসে, কাস্টমারও বেড়েছে। অনেক ধন্যবাদ ভাই!",
+            "avatar": "https://randomuser.me/api/portraits/women/44.jpg"
         },
         {
-            "name": "James Wilson",
-            "role": "CTO, InnovateX",
-            "feedback": "Outstanding technical depth. His ability to bridge design and complex backend architecture is rare.",
-            "avatar": "https://randomuser.me/api/portraits/men/46.jpg"
+            "name": "Rafiqul Alam",
+            "role": "Retail Owner, Chittagong",
+            "feedback": "I'm not tech-savvy at all. He explained everything simply and fixed issues even after delivery. Rare to find someone this reliable.",
+            "avatar": "https://randomuser.me/api/portraits/men/58.jpg"
         },
         {
-            "name": "Jessica Lee",
-            "role": "Founder, AI Hive",
-            "feedback": "The AI agents Shoaib developed for us transformed our workflow. Fast, reliable, and incredibly smart.",
-            "avatar": "https://randomuser.me/api/portraits/women/24.jpg"
+            "name": "Nadia Chowdhury",
+            "role": "Home Business, Dhaka",
+            "feedback": "Old site looked okay but nobody messaged me. New one actually brings inquiries. Worth it, honestly.",
+            "avatar": "https://randomuser.me/api/portraits/women/62.jpg"
         },
         {
-            "name": "David Miller",
-            "role": "Marketing Director",
-            "feedback": "Pixel-perfect implementation every time. Our landing page conversion spiked after the redesign.",
-            "avatar": "https://randomuser.me/api/portraits/men/52.jpg"
+            "name": "Dr. Kamal Hassan",
+            "role": "Clinic Admin, Dhaka",
+            "feedback": "Booking used to be chaos on WhatsApp. Now doctors and staff use one system. He stayed around to fix small day-one bugs too.",
+            "avatar": "https://randomuser.me/api/portraits/men/67.jpg"
         },
         {
-            "name": "Sophia Rodriguez",
-            "role": "Startup Consultant",
-            "feedback": "Great communication and even better code. Shoaib is my go-to developer for any complex MVP.",
-            "avatar": "https://randomuser.me/api/portraits/women/33.jpg"
-        },
-        {
-            "name": "Ryan Thompson",
-            "role": "E-commerce Owner",
-            "feedback": "He handles everything from database design to frontend animations with ease. Highly impressed.",
-            "avatar": "https://randomuser.me/api/portraits/men/11.jpg"
-        },
-        {
-            "name": "Linda Wu",
-            "role": "Marketing Lead",
-            "feedback": "The UI Shoaib built is stunning and works perfectly across all devices. Highly recommend!",
-            "avatar": "https://randomuser.me/api/portraits/women/12.jpg"
-        },
-        {
-            "name": "Alex Rivier",
+            "name": "Tanvir Ahmed",
             "role": "Startup Founder",
-            "feedback": "Shoaib's ability to grasp complex requirements and turn them into code is impressive.",
-            "avatar": "https://randomuser.me/api/portraits/men/25.jpg"
+            "feedback": "Clear communication, no drama. He tells you what is realistic instead of overpromising. Would hire again.",
+            "avatar": "https://randomuser.me/api/portraits/men/22.jpg"
         },
         {
-            "name": "Chloe Bennett",
-            "role": "App Designer",
-            "feedback": "Working with Shoaib was a breeze. He's efficient, communicative, and very talented.",
-            "avatar": "https://randomuser.me/api/portraits/women/35.jpg"
+            "name": "Farhana Islam",
+            "role": "NGO Officer",
+            "feedback": "Our field team needed something simple, not fancy tech talk. He listened first, then built what we actually needed.",
+            "avatar": "https://randomuser.me/api/portraits/women/47.jpg"
         },
         {
-            "name": "Mark Stevens",
-            "role": "CTO, CloudScale",
-            "feedback": "A top-tier developer who understands both the small details and the big picture.",
-            "avatar": "https://randomuser.me/api/portraits/men/55.jpg"
+            "name": "Shamima Akter",
+            "role": "Front Desk Staff",
+            "feedback": "Easy to use on phone, which matters for us. Shoaib was patient when we asked the same questions twice.",
+            "avatar": "https://randomuser.me/api/portraits/women/38.jpg"
+        },
+        {
+            "name": "James Okafor",
+            "role": "Store Manager, UK",
+            "feedback": "Fast replies, calm under pressure, and the admin panel our team could learn in one afternoon. Solid work.",
+            "avatar": "https://randomuser.me/api/portraits/men/41.jpg"
+        },
+        {
+            "name": "Elena Vasquez",
+            "role": "Designer",
+            "feedback": "He respects design details and does not butcher spacing for speed. Pleasant to collaborate with.",
+            "avatar": "https://randomuser.me/api/portraits/women/19.jpg"
+        },
+        {
+            "name": "Daniel Brooks",
+            "role": "Founder, US",
+            "feedback": "Tight deadline, fair pricing, no ghosting. We shipped on time and still talk for the next version.",
+            "avatar": "https://randomuser.me/api/portraits/men/49.jpg"
+        },
+        {
+            "name": "Sarah Mitchell",
+            "role": "Marketing Lead",
+            "feedback": "Landing page feels clean and loads fast. Contact form works — that alone was a win for us.",
+            "avatar": "https://randomuser.me/api/portraits/women/52.jpg"
+        },
+        {
+            "name": "Lamia Karim",
+            "role": "Project Coordinator",
+            "feedback": "He understood our ground reality, not just slides and buzzwords. Trustworthy person to work with.",
+            "avatar": "https://randomuser.me/api/portraits/women/56.jpg"
+        },
+        {
+            "name": "Imran Chowdhury",
+            "role": "Freelance Client",
+            "feedback": "Professional but friendly. Delivers what he says and keeps you updated without chasing him.",
+            "avatar": "https://randomuser.me/api/portraits/men/36.jpg"
+        },
+        {
+            "name": "Nusrat Jahan",
+            "role": "University Staff",
+            "feedback": "Students actually use the tool we launched. That is the best review I can give.",
+            "avatar": "https://randomuser.me/api/portraits/women/65.jpg"
+        },
+        {
+            "name": "Tom Hughes",
+            "role": "Agency Partner",
+            "feedback": "Good timezone overlap, clean handoff, and code we could maintain. Easy yes from our side.",
+            "avatar": "https://randomuser.me/api/portraits/men/27.jpg"
+        },
+        {
+            "name": "Ayesha Rahman",
+            "role": "Research Assistant",
+            "feedback": "Did not oversell AI magic. Set honest expectations and still delivered something useful.",
+            "avatar": "https://randomuser.me/api/portraits/women/71.jpg"
+        },
+        {
+            "name": "Yusuf Malik",
+            "role": "Product Owner",
+            "feedback": "App feels stable. Users stopped complaining — for me that means job well done.",
+            "avatar": "https://randomuser.me/api/portraits/men/73.jpg"
         }
     ],
     "contact": {

@@ -1,0 +1,48 @@
+name: Deploy Contact API Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - workers/contact-api/**
+      - .github/workflows/deploy-worker.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-worker
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: cloudflare-workers
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: workers/contact-api/package-lock.json
+
+      - name: Install Worker dependencies
+        working-directory: workers/contact-api
+        run: npm ci
+
+      - name: Security audit
+        working-directory: workers/contact-api
+        run: npm audit --audit-level=high
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: workers/contact-api
+          command: deploy

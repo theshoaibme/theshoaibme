@@ -1,4 +1,5 @@
 import type { Profile } from '@/types';
+import { isSafeExternalUrl } from '@/utils/urlValidation';
 
 interface HeroProps {
   profile: Profile;
@@ -26,11 +27,13 @@ export default function Hero({ profile, onProfileClick }: HeroProps) {
             </a>
           </div>
           <div className="social-links" id="hero-social">
-            {profile.social.map((link) => (
-              <a key={link.url} href={link.url}>
-                <i className={link.icon} />
-              </a>
-            ))}
+            {profile.social.map((link) =>
+              isSafeExternalUrl(link.url) ? (
+                <a key={link.url} href={link.url} rel="noreferrer noopener">
+                  <i className={link.icon} />
+                </a>
+              ) : null,
+            )}
           </div>
         </div>
         <div className="hero-visual fade-in-left">

@@ -1,81 +1,39 @@
-# DevPortfolio
+# MD Shoaib Khan — Portfolio
 
-> **A modern, fully responsive developer portfolio built with React + TypeScript + Vite.**
+Personal portfolio website showcasing my work, skills, services, and contact details.
 
-[![Homepage](https://s0.wp.com/mshots/v1/https://the-shoaib2.github.io/#hero)](https://the-shoaib2.github.io/#hero)
+**Live site:** [the-shoaib2.github.io](https://the-shoaib2.github.io)
+
+[![Homepage preview](https://s0.wp.com/mshots/v1/https://the-shoaib2.github.io/#hero)](https://the-shoaib2.github.io/#hero)
 
 ---
 
-## Tech Stack
+## Edit your content
 
-- [React 19](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/) (strict mode)
-- [Vite 6](https://vite.dev/)
-- [React Router](https://reactrouter.com/)
-- [EmailJS](https://www.emailjs.com/) (contact form)
+Most of the site text, projects, skills, and contact info live in one file:
 
-## Requirements
+**`public/data.json`**
 
-- **Node.js 20+**
-- **npm 10+**
+Open that file, update what you need, save, and refresh the site.
 
-## Getting Started
+---
+
+## Run locally
+
+You need [Node.js](https://nodejs.org/) and [pnpm](https://pnpm.io/) installed.
 
 ```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
+pnpm install
+pnpm dev
 ```
 
-Open the URL shown in the terminal (default: `http://localhost:5173`).
+Then open **http://localhost:5173** in your browser.
 
-## Available Scripts
+---
 
-| Command | Description |
-| :--- | :--- |
-| `npm run dev` | Start Vite dev server with HMR |
-| `npm run build` | Type-check and build for production |
-| `npm run preview` | Preview the production build locally |
-| `npm run typecheck` | Run TypeScript checks only |
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Auto-fix ESLint issues |
+## Publish changes
 
-## Project Structure
-
-```text
-src/
-├── app/                 # App shell, providers, routing entry
-├── components/
-│   ├── common/          # Loader, errors, shared UI
-│   ├── layout/          # Header, footer, policy layout
-│   ├── sections/        # Home page sections
-│   └── effects/         # Particles, modals
-├── hooks/               # Custom React hooks
-├── pages/               # Route pages
-├── styles/              # Global and module CSS
-├── types/               # TypeScript types
-└── utils/               # Helpers
-public/
-├── data.json            # Portfolio content (edit this!)
-└── images/              # Static assets
-```
-
-## Configuration
-
-| File | Purpose |
-| :--- | :--- |
-| **`public/data.json`** | Edit name, links, projects, skills, and all site content |
-| **`src/styles/global/style.css`** | Colors, layout, and visual design (`:root` variables) |
-| **`vite.config.ts`** | Vite + GitHub Pages base path |
-| **`.github/workflows/deploy.yml`** | GitHub Pages CI/CD deploy |
-
-## Deployment
-
-Push to the `main` branch. GitHub Actions builds the React app and deploys to GitHub Pages automatically.
-
-Ensure **GitHub Pages** source is set to **GitHub Actions** in repository settings.
+Push to the **`main`** branch. The site updates automatically on GitHub Pages.
 
 ---
 

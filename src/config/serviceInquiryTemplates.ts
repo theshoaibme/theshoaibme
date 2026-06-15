@@ -1,6 +1,7 @@
 import type { Service } from '@/types';
 
 export interface ServiceInquiryTemplate {
+  key: string;
   subject: string;
   message: string;
 }
@@ -24,6 +25,7 @@ export function buildServiceInquiryTemplate(service: Service): ServiceInquiryTem
   const keywords = getServiceKeywords(service.title, service.description);
 
   return {
+    key: service.title,
     subject: `${service.title} — Project Discussion`,
     message: `Hello,
 

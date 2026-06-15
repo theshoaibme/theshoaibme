@@ -1,5 +1,6 @@
 import type { Project } from '@/types';
 import { getProjectImage } from '@/utils/projects';
+import { isSafeExternalUrl } from '@/utils/urlValidation';
 
 interface ProjectCardProps {
   project: Project;
@@ -15,23 +16,25 @@ export default function ProjectCard({ project, index = 0, animate = true }: Proj
       className={`project-card${animate ? ' reveal' : ''}`}
       style={animate ? { transitionDelay: `${index * 150}ms` } : undefined}
     >
-      <div className="project-img loading">
-        <img
-          src={projectImg}
-          alt={project.name}
-          className="project-card-img"
-          onLoad={(event) => {
-            const img = event.currentTarget;
-            img.classList.add('loaded');
-            img.parentElement?.classList.remove('loading');
-          }}
-          onError={(event) => {
-            const img = event.currentTarget;
-            img.style.display = 'none';
-            img.parentElement?.classList.remove('loading');
-            img.parentElement?.classList.add('no-image');
-          }}
-        />
+      <div className={`project-img${projectImg ? ' loading' : ' no-image'}`}>
+        {projectImg ? (
+          <img
+            src={projectImg}
+            alt={project.name}
+            className="project-card-img"
+            onLoad={(event) => {
+              const img = event.currentTarget;
+              img.classList.add('loaded');
+              img.parentElement?.classList.remove('loading');
+            }}
+            onError={(event) => {
+              const img = event.currentTarget;
+              img.style.display = 'none';
+              img.parentElement?.classList.remove('loading');
+              img.parentElement?.classList.add('no-image');
+            }}
+          />
+        ) : null}
         <div className="img-fallback" />
       </div>
       <div className="project-content">
@@ -45,14 +48,16 @@ export default function ProjectCard({ project, index = 0, animate = true }: Proj
           ))}
         </div>
         <div className="project-links">
-          <a href={project.repository} target="_blank" rel="noreferrer" className="project-link">
-            <i className="fa-brands fa-github" /> Source
-          </a>
-          {project.live_preview ? (
+          {isSafeExternalUrl(project.repository) ? (
+            <a href={project.repository} target="_blank" rel="noreferrer noopener" className="project-link">
+              <i className="fa-brands fa-github" /> Source
+            </a>
+          ) : null}
+          {project.live_preview && isSafeExternalUrl(project.live_preview) ? (
             <a
               href={project.live_preview}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               className="project-link demo-link"
             >
               <i className="fa-solid fa-arrow-up-right-from-square" /> Live Preview Link
