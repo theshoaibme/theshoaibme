@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import type { NavItem } from '@/types';
+import LogoMark from '@/components/common/LogoMark';
 import { useHeaderScroll } from '@/hooks/scroll/useHeaderScroll';
-import { buildColoredLogoText, buildLogoSpan, resolveAssetPath } from '@/utils/logo';
+import { resolveAssetPath } from '@/utils/logo';
+import { isSafeNavLink } from '@/utils/urlValidation';
 
 interface HeaderProps {
   logoText: string;
@@ -13,8 +15,6 @@ interface HeaderProps {
 
 export default function Header({ logoText, logoSpan, favicon, nav, scrollEnabled = true }: HeaderProps) {
   const { headerClassName } = useHeaderScroll({ enabled: scrollEnabled });
-  const coloredText = buildColoredLogoText(logoText);
-  const spanHtml = buildLogoSpan(logoSpan);
   const faviconSrc = resolveAssetPath(favicon);
 
   return (
@@ -22,15 +22,13 @@ export default function Header({ logoText, logoSpan, favicon, nav, scrollEnabled
       <div className="container">
         <a href="#hero" className="logo" id="site-logo">
           <img src={faviconSrc} alt="Icon" className="logo-icon" />
-          <div
-            dangerouslySetInnerHTML={{
-              __html: `${coloredText}<span>${spanHtml}</span>`,
-            }}
-          />
+          <div>
+            <LogoMark logoText={logoText} logoSpan={logoSpan} />
+          </div>
         </a>
         <nav className="navbar" id="site-nav">
           {nav.map((item, index) =>
-            item.link.startsWith('/') ? (
+            !isSafeNavLink(item.link) ? null : item.link.startsWith('/') ? (
               <Link
                 key={item.link}
                 to={item.link}

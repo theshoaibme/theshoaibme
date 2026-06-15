@@ -1,5 +1,6 @@
 import type { Project } from '@/types';
 import { getProjectImage } from '@/utils/projects';
+import { isSafeExternalUrl } from '@/utils/urlValidation';
 
 interface ProjectCardProps {
   project: Project;
@@ -45,14 +46,16 @@ export default function ProjectCard({ project, index = 0, animate = true }: Proj
           ))}
         </div>
         <div className="project-links">
-          <a href={project.repository} target="_blank" rel="noreferrer" className="project-link">
-            <i className="fa-brands fa-github" /> Source
-          </a>
-          {project.live_preview ? (
+          {isSafeExternalUrl(project.repository) ? (
+            <a href={project.repository} target="_blank" rel="noreferrer noopener" className="project-link">
+              <i className="fa-brands fa-github" /> Source
+            </a>
+          ) : null}
+          {project.live_preview && isSafeExternalUrl(project.live_preview) ? (
             <a
               href={project.live_preview}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               className="project-link demo-link"
             >
               <i className="fa-solid fa-arrow-up-right-from-square" /> Live Preview Link

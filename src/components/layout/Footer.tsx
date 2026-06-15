@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import type { Profile } from '@/types';
-import { buildColoredLogoText, buildLogoSpan } from '@/utils/logo';
+import LogoMark from '@/components/common/LogoMark';
+import { sanitizeHtml } from '@/utils/sanitize';
+import { isSafeExternalUrl } from '@/utils/urlValidation';
 
 interface FooterProps {
   footerText: string;
@@ -19,30 +21,25 @@ export default function Footer({
   theme,
   onToggleTheme,
 }: FooterProps) {
-  const coloredText = buildColoredLogoText(logoText);
-  const spanHtml = buildLogoSpan(logoSpan);
-
   return (
     <footer className="footer">
-      <div
-        id="footer-big-logo"
-        className="footer-big-logo"
-        dangerouslySetInnerHTML={{
-          __html: `${coloredText}<span>${spanHtml}</span>`,
-        }}
-      />
+      <div id="footer-big-logo" className="footer-big-logo">
+        <LogoMark logoText={logoText} logoSpan={logoSpan} />
+      </div>
       <div className="container footer-content">
         <div className="footer-social" id="footer-social">
-          {profile.social.map((link) => (
-            <a key={link.url} href={link.url}>
-              <i className={link.icon} />
-            </a>
-          ))}
+          {profile.social.map((link) =>
+            isSafeExternalUrl(link.url) ? (
+              <a key={link.url} href={link.url} rel="noreferrer noopener">
+                <i className={link.icon} />
+              </a>
+            ) : null,
+          )}
         </div>
         <p
           id="footer-text"
           className="footer-text"
-          dangerouslySetInnerHTML={{ __html: footerText }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(footerText) }}
         />
         <div className="footer-links">
           <Link to="/terms">Terms of Service</Link>

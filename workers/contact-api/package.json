@@ -4,8 +4,11 @@
   "scripts": {
     "deploy": "wrangler deploy"
   },
+  "overrides": {
+    "esbuild": "^0.28.1"
+  },
   "devDependencies": {
-    "wrangler": "^4.24.0",
+    "wrangler": "^4.100.0",
     "@cloudflare/workers-types": "^4.20250628.0",
     "typescript": "~5.8.3"
   }

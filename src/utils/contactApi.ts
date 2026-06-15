@@ -6,6 +6,7 @@ export interface ContactPayload {
   subject: string;
   message: string;
   turnstileToken: string;
+  honey_pot?: string;
 }
 
 export async function sendContactViaApi(apiUrl: string, payload: ContactPayload): Promise<void> {

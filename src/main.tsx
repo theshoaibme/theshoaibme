@@ -1,12 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from '@/app/App';
+import { getInitialTheme } from '@/utils/cookies';
 import '@/styles/global/style.css';
 import '@/styles/modules/errors.css';
 
-const savedTheme =
-  document.cookie.split('; ').find((row) => row.startsWith('theme='))?.split('=')[1] || 'light';
-if (savedTheme === 'dark') {
+if (getInitialTheme() === 'dark') {
   document.documentElement.classList.add('dark');
 }
 
