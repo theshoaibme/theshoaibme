@@ -44,6 +44,22 @@ export async function waitForHomeReady(page: Page) {
   await expect(page.locator('#hero')).toBeVisible({ timeout: 20_000 });
 }
 
+async function revealHeader(page: Page) {
+  const header = page.locator('.header');
+  const isHidden = await header.evaluate((element) => element.classList.contains('hidden'));
+
+  if (isHidden) {
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+  }
+
+  await expect(header).not.toHaveClass(/hidden/);
+}
+
+export async function clickHeaderNavLink(page: Page, label: string) {
+  await revealHeader(page);
+  await page.locator('#site-nav').getByRole('link', { name: label, exact: true }).click();
+}
+
 export async function scrollToSection(page: Page, sectionId: string) {
   await page.locator(`#${sectionId}`).scrollIntoViewIfNeeded();
   await expect(page.locator(`#${sectionId}`)).toBeVisible();

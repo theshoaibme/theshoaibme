@@ -1,6 +1,7 @@
 import type { ServiceInquiryTemplate } from '@/config/serviceInquiryTemplates';
 import ContactForm from '@/components/sections/ContactForm';
 import type { Contact, SiteSection } from '@/types';
+import { getContactInfoHref, type ContactInfoKey } from '@/utils/contactLinks';
 
 interface ContactProps {
   section: SiteSection;
@@ -8,11 +9,56 @@ interface ContactProps {
   inquiryTemplate?: ServiceInquiryTemplate | null;
 }
 
-const CONTACT_ICONS: Record<keyof Contact, string> = {
+const CONTACT_ICONS: Record<ContactInfoKey, string> = {
   location: 'fa-location-dot',
   email: 'fa-envelope',
   phone: 'fa-phone',
 };
+
+const CONTACT_LABELS: Record<ContactInfoKey, string> = {
+  location: 'Location',
+  email: 'Email',
+  phone: 'Phone',
+};
+
+const CONTACT_ORDER: ContactInfoKey[] = ['location', 'email', 'phone'];
+
+function ContactInfoItem({ type, value }: { type: ContactInfoKey; value: string }) {
+  const href = getContactInfoHref(type, value);
+  const label = CONTACT_LABELS[type];
+  const content = (
+    <>
+      <i className={`fa-solid ${CONTACT_ICONS[type]}`} aria-hidden="true" />
+      <div>
+        <h4>{label}</h4>
+        <p>{value}</p>
+      </div>
+    </>
+  );
+
+  if (!href) {
+    return <div className="info-item">{content}</div>;
+  }
+
+  const external = type === 'location';
+
+  return (
+    <a
+      className="info-item info-item--link"
+      href={href}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      aria-label={
+        type === 'phone'
+          ? `Call ${value}`
+          : type === 'email'
+            ? `Email ${value}`
+            : `Open ${value} in Google Maps`
+      }
+    >
+      {content}
+    </a>
+  );
+}
 
 export default function Contact({ section, contact, inquiryTemplate = null }: ContactProps) {
   return (
@@ -28,14 +74,8 @@ export default function Contact({ section, contact, inquiryTemplate = null }: Co
         </div>
         <div className="contact-wrapper reveal">
           <div className="contact-info" id="contact-info">
-            {(Object.keys(contact) as Array<keyof Contact>).map((key) => (
-              <div key={key} className="info-item">
-                <i className={`fa-solid ${CONTACT_ICONS[key]}`} />
-                <div>
-                  <h4>{key.charAt(0).toUpperCase() + key.slice(1)}</h4>
-                  <p>{contact[key]}</p>
-                </div>
-              </div>
+            {CONTACT_ORDER.map((key) => (
+              <ContactInfoItem key={key} type={key} value={contact[key]} />
             ))}
           </div>
           <ContactForm inquiryTemplate={inquiryTemplate} />
