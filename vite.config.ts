@@ -3,6 +3,7 @@ import { join, resolve } from 'node:path';
 import type { ProxyOptions } from 'vite';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { SITE_URL } from './src/config/site';
 
 const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'the-shoaib2.github.io';
 const isUserPage = repoName.endsWith('.github.io');
@@ -12,7 +13,8 @@ const contactApiTarget =
   process.env.VITE_CONTACT_API_URL?.trim() ||
   'https://portfolio-contact-api.the-shoaib2.workers.dev';
 
-const productionOrigin = 'https://theshoaib.me';
+// Either production origin works with the contact API (both are allowlisted).
+const productionOrigin = SITE_URL;
 
 function createContactApiProxy(): ProxyOptions {
   return {

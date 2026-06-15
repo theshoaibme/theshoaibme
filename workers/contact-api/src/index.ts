@@ -1,3 +1,4 @@
+import { DEFAULT_ALLOWED_ORIGINS } from './allowedOrigins';
 import { corsHeaders, parseAllowedOrigins, resolveRequestOrigin } from './cors';
 import { checkRateLimit } from './rateLimit';
 import {
@@ -29,7 +30,8 @@ interface ContactRequestBody {
 }
 
 function getAllowedOrigins(env: Env): string[] {
-  return parseAllowedOrigins(env.ALLOWED_ORIGINS ?? env.ALLOWED_ORIGIN);
+  const configured = parseAllowedOrigins(env.ALLOWED_ORIGINS ?? env.ALLOWED_ORIGIN);
+  return [...new Set([...DEFAULT_ALLOWED_ORIGINS, ...configured])];
 }
 
 function json(

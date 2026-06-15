@@ -4,6 +4,8 @@ Personal portfolio website showcasing my work, skills, services, and contact det
 
 **Live site:** [theshoaib.me](https://theshoaib.me) · [the-shoaib2.github.io](https://the-shoaib2.github.io)
 
+Both URLs serve the same portfolio. The contact form works on either domain.
+
 [![Homepage preview](https://s0.wp.com/mshots/v1/https://theshoaib.me/#hero)](https://theshoaib.me/#hero)
 
 ---
