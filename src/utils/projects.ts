@@ -3,14 +3,26 @@ import { resolveImageUrl } from '@/utils/images';
 
 export const FEATURED_PROJECT_LIMIT = 4;
 
+function getProjectSlug(project: Project): string {
+  try {
+    const repoPath = new URL(project.repository).pathname.split('/').filter(Boolean);
+    const repoName = repoPath[repoPath.length - 1] ?? '';
+    return repoName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  } catch {
+    return '';
+  }
+}
+
 export function getProjectImage(project: Project): string {
   if (project.image) {
     return resolveImageUrl(project.image);
   }
-  if (project.live_preview || project.repository) {
-    const previewUrl = project.live_preview || project.repository;
-    return `https://s0.wp.com/mshots/v1/${encodeURIComponent(previewUrl)}?w=1200`;
+
+  const slug = getProjectSlug(project);
+  if (slug) {
+    return resolveImageUrl(`/images/projects/${slug}.jpg`);
   }
+
   return '';
 }
 

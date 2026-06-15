@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-image-cdn",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "sync": "node ../../scripts/sync-images-to-r2.mjs",
+    "verify": "node ../../scripts/verify-cdn.mjs"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250628.0",
+    "typescript": "~5.8.3",
+    "wrangler": "^4.100.0"
+  }
+}

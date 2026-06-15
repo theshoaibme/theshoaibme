@@ -5,7 +5,7 @@
             "text": "Dev",
             "span": "Portfolio."
         },
-        "favicon": "public/images/favicon.ico",
+        "favicon": "/images/favicon.ico",
         "nav": [
             {
                 "label": "Home",
@@ -71,7 +71,7 @@
     "profile": {
         "name": "MD Shoaib Khan",
         "subtitle": "Full Stack Developer",
-        "profileImage": "https://avatars.githubusercontent.com/u/125272364?v=4",
+        "profileImage": "/images/profile.jpg",
         "description": "I build accessible, pixel-perfect, and performant web experiences. Turning ideas into real-life products is my calling.",
         "social": [
             {
@@ -240,7 +240,7 @@
                 "Nodemailer"
             ],
             "repository": "https://github.com/the-shoaib2/meal-sphere",
-            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fmeal-sphere.vercel.app?w=1200",
+            "image": "/images/projects/meal-sphere.jpg",
             "live_preview": "https://meal-sphere.vercel.app",
             "featured": true
         },
@@ -262,7 +262,7 @@
                 "Gemini"
             ],
             "repository": "https://github.com/the-shoaib2/daffodil-intelligence",
-            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fdaffodil-intelligence.vercel.app?w=1200",
+            "image": "/images/projects/daffodil-intelligence.jpg",
             "live_preview": "https://daffodil-intelligence.vercel.app",
             "featured": true
         },
@@ -281,7 +281,7 @@
                 "Playwright"
             ],
             "repository": "https://github.com/the-shoaib2/orthopedicsurgeon",
-            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Forthopedicsurgeon.vercel.app?w=1200",
+            "image": "/images/projects/orthopedicsurgeon.jpg",
             "live_preview": "https://orthopedicsurgeon.vercel.app",
             "featured": true
         },
@@ -302,7 +302,7 @@
                 "Turborepo"
             ],
             "repository": "https://github.com/zionmezba/sobujbd",
-            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fapp3.csetech.diu.edu.bd%2F?w=1200",
+            "image": "/images/projects/sobujbd.jpg",
             "live_preview": "https://app3.csetech.diu.edu.bd/",
             "featured": true
         },
@@ -316,7 +316,7 @@
                 "Cargo"
             ],
             "repository": "https://github.com/the-shoaib2/app-pro",
-            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2Fapp-pro?w=1200",
+            "image": "/images/projects/app-pro.jpg",
             "live_preview": null,
             "featured": false
         },
@@ -337,7 +337,7 @@
                 "Chart.js"
             ],
             "repository": "https://github.com/the-shoaib2/Pregnify",
-            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2FPregnify?w=1200",
+            "image": "/images/projects/pregnify.jpg",
             "live_preview": null,
             "featured": false
         },
@@ -364,7 +364,7 @@
                 "Recharts"
             ],
             "repository": "https://github.com/the-shoaib2/Super-Shop-Management",
-            "image": "https://s0.wp.com/mshots/v1/https%3A%2F%2Fgithub.com%2Fthe-shoaib2%2FSuper-Shop-Management?w=1200",
+            "image": "/images/projects/super-shop-management.jpg",
             "live_preview": null,
             "featured": false
         }
@@ -416,109 +416,109 @@
             "name": "Sakib Hossain",
             "role": "Shop Owner, Narayanganj",
             "feedback": "শোয়েব ভাইয়ের সাথে কাজ করতে ভালো লাগলো। সময় মতো কাজ দিয়েছেন, পরে হেল্পও করেছেন। সত্যি রিকমেন্ড করি।",
-            "avatar": "https://randomuser.me/api/portraits/men/32.jpg"
+            "avatar": "/images/testimonials/avatar-01.jpg"
         },
         {
             "name": "Mousumi Akter",
             "role": "Boutique Owner, Dhaka",
             "feedback": "আমার ছোট ব্যবসার ওয়েবসাইট বানিয়েছেন। এখন মেসেজ আসে, কাস্টমারও বেড়েছে। অনেক ধন্যবাদ ভাই!",
-            "avatar": "https://randomuser.me/api/portraits/women/44.jpg"
+            "avatar": "/images/testimonials/avatar-02.jpg"
         },
         {
             "name": "Rafiqul Alam",
             "role": "Retail Owner, Chittagong",
             "feedback": "I'm not tech-savvy at all. He explained everything simply and fixed issues even after delivery. Rare to find someone this reliable.",
-            "avatar": "https://randomuser.me/api/portraits/men/58.jpg"
+            "avatar": "/images/testimonials/avatar-03.jpg"
         },
         {
             "name": "Nadia Chowdhury",
             "role": "Home Business, Dhaka",
             "feedback": "Old site looked okay but nobody messaged me. New one actually brings inquiries. Worth it, honestly.",
-            "avatar": "https://randomuser.me/api/portraits/women/62.jpg"
+            "avatar": "/images/testimonials/avatar-04.jpg"
         },
         {
             "name": "Dr. Kamal Hassan",
             "role": "Clinic Admin, Dhaka",
             "feedback": "Booking used to be chaos on WhatsApp. Now doctors and staff use one system. He stayed around to fix small day-one bugs too.",
-            "avatar": "https://randomuser.me/api/portraits/men/67.jpg"
+            "avatar": "/images/testimonials/avatar-05.jpg"
         },
         {
             "name": "Tanvir Ahmed",
             "role": "Startup Founder",
             "feedback": "Clear communication, no drama. He tells you what is realistic instead of overpromising. Would hire again.",
-            "avatar": "https://randomuser.me/api/portraits/men/22.jpg"
+            "avatar": "/images/testimonials/avatar-06.jpg"
         },
         {
             "name": "Farhana Islam",
             "role": "NGO Officer",
             "feedback": "Our field team needed something simple, not fancy tech talk. He listened first, then built what we actually needed.",
-            "avatar": "https://randomuser.me/api/portraits/women/47.jpg"
+            "avatar": "/images/testimonials/avatar-07.jpg"
         },
         {
             "name": "Shamima Akter",
             "role": "Front Desk Staff",
             "feedback": "Easy to use on phone, which matters for us. Shoaib was patient when we asked the same questions twice.",
-            "avatar": "https://randomuser.me/api/portraits/women/38.jpg"
+            "avatar": "/images/testimonials/avatar-08.jpg"
         },
         {
             "name": "James Okafor",
             "role": "Store Manager, UK",
             "feedback": "Fast replies, calm under pressure, and the admin panel our team could learn in one afternoon. Solid work.",
-            "avatar": "https://randomuser.me/api/portraits/men/41.jpg"
+            "avatar": "/images/testimonials/avatar-09.jpg"
         },
         {
             "name": "Elena Vasquez",
             "role": "Designer",
             "feedback": "He respects design details and does not butcher spacing for speed. Pleasant to collaborate with.",
-            "avatar": "https://randomuser.me/api/portraits/women/19.jpg"
+            "avatar": "/images/testimonials/avatar-10.jpg"
         },
         {
             "name": "Daniel Brooks",
             "role": "Founder, US",
             "feedback": "Tight deadline, fair pricing, no ghosting. We shipped on time and still talk for the next version.",
-            "avatar": "https://randomuser.me/api/portraits/men/49.jpg"
+            "avatar": "/images/testimonials/avatar-11.jpg"
         },
         {
             "name": "Sarah Mitchell",
             "role": "Marketing Lead",
             "feedback": "Landing page feels clean and loads fast. Contact form works — that alone was a win for us.",
-            "avatar": "https://randomuser.me/api/portraits/women/52.jpg"
+            "avatar": "/images/testimonials/avatar-12.jpg"
         },
         {
             "name": "Lamia Karim",
             "role": "Project Coordinator",
             "feedback": "He understood our ground reality, not just slides and buzzwords. Trustworthy person to work with.",
-            "avatar": "https://randomuser.me/api/portraits/women/56.jpg"
+            "avatar": "/images/testimonials/avatar-13.jpg"
         },
         {
             "name": "Imran Chowdhury",
             "role": "Freelance Client",
             "feedback": "Professional but friendly. Delivers what he says and keeps you updated without chasing him.",
-            "avatar": "https://randomuser.me/api/portraits/men/36.jpg"
+            "avatar": "/images/testimonials/avatar-14.jpg"
         },
         {
             "name": "Nusrat Jahan",
             "role": "University Staff",
             "feedback": "Students actually use the tool we launched. That is the best review I can give.",
-            "avatar": "https://randomuser.me/api/portraits/women/65.jpg"
+            "avatar": "/images/testimonials/avatar-15.jpg"
         },
         {
             "name": "Tom Hughes",
             "role": "Agency Partner",
             "feedback": "Good timezone overlap, clean handoff, and code we could maintain. Easy yes from our side.",
-            "avatar": "https://randomuser.me/api/portraits/men/27.jpg"
+            "avatar": "/images/testimonials/avatar-16.jpg"
         },
         {
             "name": "Ayesha Rahman",
             "role": "Research Assistant",
             "feedback": "Did not oversell AI magic. Set honest expectations and still delivered something useful.",
-            "avatar": "https://randomuser.me/api/portraits/women/71.jpg"
+            "avatar": "/images/testimonials/avatar-17.jpg"
         },
         {
             "name": "Yusuf Malik",
             "role": "Product Owner",
             "feedback": "App feels stable. Users stopped complaining — for me that means job well done.",
-            "avatar": "https://randomuser.me/api/portraits/men/73.jpg"
+            "avatar": "/images/testimonials/avatar-18.jpg"
         }
     ],
     "contact": {

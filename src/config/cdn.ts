@@ -1,6 +1,8 @@
+import { IMAGE_CDN_URL } from '@/config/site';
+
 /**
- * Optional image CDN base URL (e.g. Cloudflare R2 custom domain).
- * Set VITE_CDN_BASE_URL=https://images.theshoaib.me in .env / GitHub Actions secrets.
+ * Image CDN base URL (Cloudflare R2 + Worker).
+ * Set VITE_CDN_BASE_URL to override. Unset = same-origin /images/ fallback.
  */
 export function getCdnBaseUrl(): string {
   return import.meta.env.VITE_CDN_BASE_URL?.trim().replace(/\/+$/, '') ?? '';
@@ -9,3 +11,6 @@ export function getCdnBaseUrl(): string {
 export function isCdnConfigured(): boolean {
   return Boolean(getCdnBaseUrl());
 }
+
+/** Canonical CDN URL used in setup docs and CI verify scripts. */
+export { IMAGE_CDN_URL };
