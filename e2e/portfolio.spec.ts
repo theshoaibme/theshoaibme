@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import {
+  clickHeaderNavLink,
   featuredProjects,
   portfolioData,
   secondaryProjects,
@@ -32,14 +33,12 @@ test.describe('Home page', () => {
   });
 
   test('navigates to hash sections from the header', async ({ page }) => {
-    await page.locator('#site-nav').getByRole('link', { name: 'Services', exact: true }).click();
+    await clickHeaderNavLink(page, 'Services');
     await expect(page).toHaveURL(/#services$/);
-    await page.locator('#services').scrollIntoViewIfNeeded();
     await expect(page.locator('#services-title')).toBeVisible();
 
-    await page.locator('#site-nav').getByRole('link', { name: 'Portfolio', exact: true }).click();
+    await clickHeaderNavLink(page, 'Portfolio');
     await expect(page).toHaveURL(/#portfolio$/);
-    await page.locator('#portfolio').scrollIntoViewIfNeeded();
     await expect(page.locator('#portfolio-title')).toBeVisible();
   });
 
