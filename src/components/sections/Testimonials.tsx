@@ -3,6 +3,7 @@ import {
   ScrollVelocityContainer,
   ScrollVelocityRow,
 } from '@/components/effects/ScrollVelocity';
+import { resolveImageUrl } from '@/utils/images';
 
 interface TestimonialsProps {
   testimonials: Testimonial[];
@@ -16,7 +17,12 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
         <p>&quot;{testimonial.feedback}&quot;</p>
       </div>
       <div className="testimonial-author">
-        <img src={testimonial.avatar} alt={testimonial.name} className="author-img" />
+        <img
+          src={resolveImageUrl(testimonial.avatar)}
+          alt={testimonial.name}
+          className="author-img"
+          loading="lazy"
+        />
         <div className="author-info">
           <h4>{testimonial.name}</h4>
           <p>{testimonial.role}</p>

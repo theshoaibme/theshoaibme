@@ -31,6 +31,7 @@ import { useSmoothNavScroll } from '@/hooks/scroll/useSmoothNavScroll';
 import { useImageModal } from '@/hooks/ui/useImageModal';
 import { useRippleEffect } from '@/hooks/ui/useRippleEffect';
 import { useTheme } from '@/hooks/ui/useTheme';
+import { resolveImageUrl } from '@/utils/images';
 import { resolveAssetPath } from '@/utils/logo';
 import { getSiteSection } from '@/utils/siteSections';
 import type { Service } from '@/types';
@@ -99,6 +100,8 @@ export default function HomePage() {
     return null;
   }
 
+  const profileImageUrl = resolveImageUrl(data.profile.profileImage);
+
   return (
     <>
       <ParticleCanvas />
@@ -113,14 +116,15 @@ export default function HomePage() {
       <div className="scroll-container" id="scroll-container">
         <Hero
           profile={data.profile}
-          onProfileClick={() => openModal(data.profile.profileImage)}
+          profileImageUrl={profileImageUrl}
+          onProfileClick={() => openModal(profileImageUrl)}
         />
         <About
           section={getSiteSection(data.site.sections, 'about')}
           about={data.about}
-          profileImage={data.profile.profileImage}
+          profileImage={profileImageUrl}
           profileName={data.profile.name}
-          onImageClick={() => openModal(data.profile.profileImage)}
+          onImageClick={() => openModal(profileImageUrl)}
         />
         <Skills section={getSiteSection(data.site.sections, 'skills')} skills={data.skills} />
         <Experience experience={data.experience} />

@@ -3,10 +3,11 @@ import { isSafeExternalUrl } from '@/utils/urlValidation';
 
 interface HeroProps {
   profile: Profile;
+  profileImageUrl: string;
   onProfileClick: () => void;
 }
 
-export default function Hero({ profile, onProfileClick }: HeroProps) {
+export default function Hero({ profile, profileImageUrl, onProfileClick }: HeroProps) {
   return (
     <section id="hero" className="hero">
       <div className="container hero-container">
@@ -37,7 +38,7 @@ export default function Hero({ profile, onProfileClick }: HeroProps) {
           </div>
         </div>
         <div className="hero-visual fade-in-left">
-          {profile.profileImage ? (
+          {profileImageUrl ? (
             <div
               className="profile-img-container floating"
               onClick={onProfileClick}
@@ -49,7 +50,7 @@ export default function Hero({ profile, onProfileClick }: HeroProps) {
               role="button"
               tabIndex={0}
             >
-              <img src={profile.profileImage} alt={profile.name} id="hero-img" />
+              <img src={profileImageUrl} alt={profile.name} id="hero-img" loading="eager" />
             </div>
           ) : null}
         </div>

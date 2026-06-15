@@ -14,9 +14,8 @@ export function buildLogoSpan(span: string): string {
   return span.replace(/\.$/, '<span class="logo-dot">.</span>');
 }
 
+import { resolveImageUrl } from '@/utils/images';
+
 export function resolveAssetPath(path: string): string {
-  if (path.startsWith('http') || path.startsWith('/')) {
-    return path;
-  }
-  return `/${path.replace(/^public\//, '')}`;
+  return resolveImageUrl(path);
 }
