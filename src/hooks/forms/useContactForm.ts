@@ -7,7 +7,7 @@ import {
   type ContactFieldKey,
 } from '@/config/contactValidation';
 import { getContactApiUrl } from '@/config/contact';
-import { isTurnstileConfigured } from '@/config/turnstile';
+import { getTurnstileSetupMessage, isTurnstileConfigured } from '@/config/turnstile';
 import { sendContactViaApi } from '@/utils/contactApi';
 import { getErrorMessage } from '@/utils/errors';
 
@@ -44,7 +44,7 @@ function isHoneypotTriggered(values: ContactFormValues): boolean {
 
 function getConfigError(): string | null {
   if (!isTurnstileConfigured()) {
-    return 'Security verification is not configured. Set VITE_TURNSTILE_SITE_KEY to enable form submissions.';
+    return getTurnstileSetupMessage();
   }
 
   if (!getContactApiUrl()) {
@@ -221,6 +221,10 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     setStatus({ type: 'idle', message: '' });
   }, []);
 
+  const setFormError = useCallback((message: string) => {
+    setStatus({ type: 'error', message });
+  }, []);
+
   const applyInquiryTemplate = useCallback(
     (template: Pick<ContactFormValues, 'subject' | 'message'>) => {
       setValues((current) => ({
@@ -245,6 +249,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     requestVerification,
     sendMessage,
     clearStatus,
+    setFormError,
     applyInquiryTemplate,
   };
 }

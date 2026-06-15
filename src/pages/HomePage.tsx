@@ -121,7 +121,13 @@ export default function HomePage() {
           profile={data.profile}
           onProfileClick={() => openModal(data.profile.profileImage)}
         />
-        <About section={getSiteSection(data.site.sections, 'about')} about={data.about} />
+        <About
+          section={getSiteSection(data.site.sections, 'about')}
+          about={data.about}
+          profileImage={data.profile.profileImage}
+          profileName={data.profile.name}
+          onImageClick={() => openModal(data.profile.profileImage)}
+        />
         <Skills section={getSiteSection(data.site.sections, 'skills')} skills={data.skills} />
         <Experience experience={data.experience} />
         <Services

@@ -74,8 +74,13 @@
     --easing-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1.0);
     --easing-emphasized: cubic-bezier(0.2, 0.0, 0, 1.0);
     --easing-standard: cubic-bezier(0.2, 0.0, 0, 1.0);
-    --easing-smooth: cubic-bezier(0.2, 0.8, 0.2, 1);
-    --transition: all 0.5s var(--easing-standard);
+    --easing-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-blur: 8px;
+    --motion-fade-duration: 0.65s;
+    --motion-fade-easing: cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-hero-duration: 0.8s;
+    --motion-hero-delay: 0.12s;
+    --transition: all 0.4s var(--easing-standard);
 
     /* Fonts */
     --font-body: 'Outfit', sans-serif;
@@ -247,10 +252,12 @@ img {
 
 .section-header {
     opacity: 0;
-    filter: blur(10px);
+    filter: blur(var(--motion-blur));
     margin-bottom: 80px;
     text-align: center;
-    transition: opacity 1.5s var(--easing-smooth), filter 1.5s var(--easing-smooth);
+    transition:
+        opacity var(--motion-fade-duration) var(--motion-fade-easing),
+        filter var(--motion-fade-duration) var(--motion-fade-easing);
 }
 
 .section-header.active {
@@ -319,19 +326,21 @@ img {
 
 /* Animations */
 .fade-in-up {
-    animation: fadeInUp 1.8s var(--easing-smooth) forwards;
+    animation: fadeInUp var(--motion-hero-duration) var(--motion-fade-easing) forwards;
 }
 
 .fade-in-left {
     opacity: 0;
-    animation: fadeInLeft 1.8s var(--easing-smooth) forwards;
-    animation-delay: 0.3s;
+    animation: fadeInLeft var(--motion-hero-duration) var(--motion-fade-easing) forwards;
+    animation-delay: var(--motion-hero-delay);
 }
 
 .reveal {
     opacity: 0;
-    filter: blur(10px);
-    transition: opacity 1.5s var(--easing-smooth), filter 1.5s var(--easing-smooth);
+    filter: blur(var(--motion-blur));
+    transition:
+        opacity var(--motion-fade-duration) var(--motion-fade-easing),
+        filter var(--motion-fade-duration) var(--motion-fade-easing);
     will-change: opacity, filter;
 }
 
@@ -700,10 +709,17 @@ img {
 .about-content {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 60px;
-    max-width: 1000px;
+    gap: 48px;
+    max-width: 1140px;
     margin: 0 auto;
+    align-items: center;
     text-align: center;
+}
+
+.about-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .about-text p {
@@ -712,6 +728,54 @@ img {
     font-size: 1.25rem;
     font-weight: 400;
     line-height: 1.6;
+}
+
+.about-text p:last-child {
+    margin-bottom: 0;
+}
+
+.about-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-img-container {
+    position: relative;
+    width: min(100%, 340px);
+    aspect-ratio: 1;
+    border: 4px solid var(--card);
+    border-radius: 24px;
+    background: var(--card);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
+}
+
+.about-img-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.about-img-container:focus-visible {
+    outline: 2px solid var(--google-blue);
+    outline-offset: 4px;
+}
+
+.about-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--easing-standard);
+}
+
+.about-img-container:hover .about-img {
+    transform: scale(1.05);
+}
+
+.about .stats {
+    margin-top: 64px;
 }
 
 .stats {
@@ -1584,7 +1648,7 @@ img {
 }
 
 .contact-turnstile--visible {
-    animation: fadeIn 0.4s ease;
+    animation: fadeIn var(--motion-fade-duration) var(--motion-fade-easing);
 }
 
 .contact-turnstile__notice {
@@ -1804,7 +1868,7 @@ img {
     font-weight: 500;
     line-height: 1.5;
     text-align: center;
-    animation: fadeIn 0.4s ease;
+    animation: fadeIn var(--motion-fade-duration) var(--motion-fade-easing);
 }
 
 .contact-status.success {
@@ -1931,7 +1995,7 @@ img {
     justify-content: center;
     width: 100%;
     height: 100%;
-    transition: visibility 0s 0.4s;
+    transition: visibility 0s 0.28s;
 }
 
 .image-modal.active {
@@ -1951,9 +2015,9 @@ img {
     backdrop-filter: blur(0px) saturate(100%);
     -webkit-backdrop-filter: blur(0px) saturate(100%);
     transition:
-        opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        backdrop-filter 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        -webkit-backdrop-filter 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity 0.28s var(--motion-fade-easing),
+        backdrop-filter 0.28s var(--motion-fade-easing),
+        -webkit-backdrop-filter 0.28s var(--motion-fade-easing);
 }
 
 .image-modal.active .modal-backdrop {
@@ -1982,14 +2046,14 @@ img {
     box-shadow: var(--glass-shadow);
     color: var(--text-color);
     font-size: 1.5rem;
-    transition: all 0.4s cubic-bezier(0.3, 0, 0, 1);
+    transition: all 0.28s var(--motion-fade-easing);
     cursor: pointer;
 }
 
 .image-modal.active .modal-close {
     opacity: 1;
     transform: scale(1);
-    transition-delay: 0.1s;
+    transition-delay: 0.05s;
 }
 
 .modal-close:hover {
@@ -2006,8 +2070,8 @@ img {
     align-items: center;
     justify-content: center;
     transition:
-        opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 0.28s var(--motion-fade-easing),
+        transform 0.28s var(--motion-fade-easing);
     will-change: opacity, transform;
 }
 
@@ -2022,7 +2086,7 @@ img {
     border-radius: 50%;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
     object-fit: cover;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.28s var(--motion-fade-easing);
 }
 
 .image-modal.active .modal-content img {
@@ -2056,11 +2120,11 @@ img {
 
 .section-hidden {
     opacity: 0;
-    filter: blur(10px);
+    filter: blur(var(--motion-blur));
 }
 
 .section-visible {
-    animation: fadeInBlur 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    animation: fadeInBlur var(--motion-fade-duration) var(--motion-fade-easing) forwards;
 }
 
 /* Theme Toggle Button */
@@ -2130,8 +2194,8 @@ img {
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        filter: blur(10px);
-        transform: translateY(0);
+        filter: blur(var(--motion-blur));
+        transform: translateY(12px);
     }
 
     to {
@@ -2144,8 +2208,8 @@ img {
 @keyframes fadeInLeft {
     from {
         opacity: 0;
-        filter: blur(10px);
-        transform: translateX(0);
+        filter: blur(var(--motion-blur));
+        transform: translateX(16px);
     }
 
     to {
@@ -2177,7 +2241,7 @@ img {
 @keyframes fadeIn {
     from {
         opacity: 0;
-        filter: blur(10px);
+        filter: blur(var(--motion-blur));
         transform: translateY(0);
     }
 
@@ -2215,9 +2279,13 @@ img {
 
 @media (min-width: 900px) {
     .about-content {
-        grid-template-columns: 1.2fr 0.8fr;
-        gap: 80px;
+        grid-template-columns: 1.15fr minmax(280px, 0.85fr);
+        gap: 64px;
         text-align: left;
+    }
+
+    .about-visual {
+        justify-content: flex-end;
     }
 }
 
@@ -2252,6 +2320,15 @@ img {
         grid-template-columns: 1fr;
         gap: 40px;
         text-align: center;
+    }
+
+    .about-visual {
+        order: -1;
+        justify-content: center;
+    }
+
+    .about-img-container {
+        width: min(100%, 300px);
     }
 
     .contact-wrapper {
@@ -2454,7 +2531,7 @@ img {
 @keyframes fadeInBlur {
     0% {
         opacity: 0;
-        filter: blur(10px);
+        filter: blur(var(--motion-blur));
     }
 
     100% {

@@ -1,3 +1,4 @@
+import { corsHeaders, parseAllowedOrigins, resolveRequestOrigin } from './cors';
 import { checkRateLimit } from './rateLimit';
 import {
   isAllowedOrigin,
@@ -14,6 +15,7 @@ interface Env {
   EMAILJS_PRIVATE_KEY: string;
   EMAILJS_SERVICE_ID: string;
   EMAILJS_TEMPLATE_ID: string;
+  ALLOWED_ORIGINS?: string;
   ALLOWED_ORIGIN?: string;
 }
 
@@ -26,25 +28,30 @@ interface ContactRequestBody {
   honey_pot?: string;
 }
 
-const corsHeaders = (origin: string) => ({
-  'Access-Control-Allow-Origin': origin,
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-});
+function getAllowedOrigins(env: Env): string[] {
+  return parseAllowedOrigins(env.ALLOWED_ORIGINS ?? env.ALLOWED_ORIGIN);
+}
 
 function json(
   data: Record<string, unknown>,
-  status = 200,
-  origin = '*',
+  status: number,
+  corsOrigin: string,
   extraHeaders: Record<string, string> = {},
 ) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       'Content-Type': 'application/json',
-      ...corsHeaders(origin),
+      ...corsHeaders(corsOrigin),
       ...extraHeaders,
     },
+  });
+}
+
+function rejectCors(status = 403): Response {
+  return new Response(JSON.stringify({ error: 'Origin not allowed.' }), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
   });
 }
 
@@ -53,17 +60,32 @@ async function verifyTurnstile(
   token: string,
   remoteIp: string | null,
 ): Promise<boolean> {
-  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      secret,
-      response: token,
-      ...(remoteIp ? { remoteip: remoteIp } : {}),
-    }),
+  const body = new URLSearchParams({
+    secret,
+    response: token,
   });
 
-  const result = (await response.json()) as { success?: boolean };
+  if (remoteIp) {
+    body.set('remoteip', remoteIp);
+  }
+
+  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString(),
+  });
+
+  if (!response.ok) {
+    console.error('Turnstile siteverify HTTP error:', response.status);
+    return false;
+  }
+
+  const result = (await response.json()) as { success?: boolean; 'error-codes'?: string[] };
+
+  if (!result.success) {
+    console.error('Turnstile verification failed:', result['error-codes']?.join(', ') ?? 'unknown');
+  }
+
   return Boolean(result.success);
 }
 
@@ -123,23 +145,32 @@ async function sendTelegram(env: Env, payload: ValidatedContactPayload) {
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const allowedOrigin = env.ALLOWED_ORIGIN || 'https://the-shoaib2.github.io';
+    const allowedOrigins = getAllowedOrigins(env);
+    const corsOrigin = resolveRequestOrigin(request, allowedOrigins);
 
     if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders(allowedOrigin) });
+      if (!corsOrigin) {
+        return rejectCors();
+      }
+
+      return new Response(null, { status: 204, headers: corsHeaders(corsOrigin) });
     }
 
     if (request.method !== 'POST') {
-      return json({ error: 'Method not allowed.' }, 405, allowedOrigin);
+      if (!corsOrigin) {
+        return rejectCors();
+      }
+
+      return json({ error: 'Method not allowed.' }, 405, corsOrigin);
     }
 
-    if (!isAllowedOrigin(request, allowedOrigin)) {
-      return json({ error: 'Forbidden.' }, 403, allowedOrigin);
+    if (!corsOrigin || !isAllowedOrigin(request, allowedOrigins)) {
+      return rejectCors();
     }
 
     const contentLength = Number.parseInt(request.headers.get('Content-Length') ?? '0', 10);
     if (contentLength > MAX_BODY_BYTES) {
-      return json({ error: 'Request body is too large.' }, 413, allowedOrigin);
+      return json({ error: 'Request body is too large.' }, 413, corsOrigin);
     }
 
     const rateLimit = await checkRateLimit(request);
@@ -147,7 +178,7 @@ export default {
       return json(
         { error: 'Too many requests. Please try again later.' },
         429,
-        allowedOrigin,
+        corsOrigin,
         rateLimit.retryAfter ? { 'Retry-After': String(rateLimit.retryAfter) } : {},
       );
     }
@@ -157,15 +188,20 @@ export default {
     try {
       body = (await request.json()) as ContactRequestBody;
     } catch {
-      return json({ error: 'Invalid JSON body.' }, 400, allowedOrigin);
+      return json({ error: 'Invalid JSON body.' }, 400, corsOrigin);
     }
 
     const validation = validateContactPayload(body);
     if (!validation.ok) {
       if (validation.error === '__HONEYPOT__') {
-        return json({ success: true }, 200, allowedOrigin);
+        return json({ success: true }, 200, corsOrigin);
       }
-      return json({ error: validation.error }, 400, allowedOrigin);
+      return json({ error: validation.error }, 400, corsOrigin);
+    }
+
+    if (!env.TURNSTILE_SECRET_KEY?.trim()) {
+      console.error('TURNSTILE_SECRET_KEY is not configured.');
+      return json({ error: 'Contact service is not fully configured.' }, 503, corsOrigin);
     }
 
     try {
@@ -177,7 +213,11 @@ export default {
       );
 
       if (!turnstileValid) {
-        return json({ error: 'Security verification failed. Please try again.' }, 400, allowedOrigin);
+        return json(
+          { error: 'Security verification failed. Please complete the check and try again.' },
+          400,
+          corsOrigin,
+        );
       }
 
       const [emailResult, telegramResult] = await Promise.allSettled([
@@ -193,10 +233,10 @@ export default {
         throw emailResult.reason;
       }
 
-      return json({ success: true }, 200, allowedOrigin);
+      return json({ success: true }, 200, corsOrigin);
     } catch (error) {
       console.error('Contact delivery failed:', error);
-      return json({ error: 'Unable to send message. Please try again later.' }, 500, allowedOrigin);
+      return json({ error: 'Unable to send message. Please try again later.' }, 500, corsOrigin);
     }
   },
 };
