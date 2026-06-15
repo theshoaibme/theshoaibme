@@ -75,11 +75,11 @@
     --easing-emphasized: cubic-bezier(0.2, 0.0, 0, 1.0);
     --easing-standard: cubic-bezier(0.2, 0.0, 0, 1.0);
     --easing-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-    --motion-blur: 8px;
-    --motion-fade-duration: 0.65s;
+    --motion-blur: 6px;
+    --motion-fade-duration: 0.32s;
     --motion-fade-easing: cubic-bezier(0.22, 1, 0.36, 1);
-    --motion-hero-duration: 0.8s;
-    --motion-hero-delay: 0.12s;
+    --motion-hero-duration: 0.4s;
+    --motion-hero-delay: 0.05s;
     --transition: all 0.4s var(--easing-standard);
 
     /* Fonts */

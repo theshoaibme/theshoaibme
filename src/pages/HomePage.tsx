@@ -3,7 +3,7 @@ import {
   buildServiceInquiryTemplate,
   type ServiceInquiryTemplate,
 } from '@/config/serviceInquiryTemplates';
-import Loader from '@/components/common/Loader';
+import ErrorMessage from '@/components/common/ErrorMessage';
 import CustomScrollbar from '@/components/layout/CustomScrollbar';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
@@ -23,12 +23,7 @@ import {
   useRevealAnimations,
   useSectionObserver,
 } from '@/hooks/animation/useRevealAnimations';
-import {
-  useBodyClass,
-  useDocumentTitle,
-  useLoaderTransition,
-  useSiteData,
-} from '@/hooks/data/useSiteData';
+import { useDocumentTitle, useSiteData } from '@/hooks/data/useSiteData';
 import { useCustomScrollbar } from '@/hooks/scroll/useCustomScrollbar';
 import { useInitialHash } from '@/hooks/scroll/useInitialHash';
 import { useScrollSpy } from '@/hooks/scroll/useScrollSpy';
@@ -42,16 +37,10 @@ import type { Service } from '@/types';
 
 export default function HomePage() {
   const { data, error, loading, retry } = useSiteData();
-  const [interactionsReady, setInteractionsReady] = useState(false);
   const [serviceInquiry, setServiceInquiry] = useState<ServiceInquiryTemplate | null>(null);
   const sectionsHiddenRef = useRef(false);
   const reinitParticlesRef = useRef<(() => void) | null>(null);
-
-  const onLoaderReady = useCallback(() => {
-    setInteractionsReady(true);
-  }, []);
-
-  const { visible, display } = useLoaderTransition(loading, onLoaderReady);
+  const interactionsReady = Boolean(data);
 
   const handleParticlesInit = useCallback((reinit: () => void) => {
     reinitParticlesRef.current = reinit;
@@ -69,7 +58,6 @@ export default function HomePage() {
   const { isOpen, imageSrc, openModal, closeModal, clearModal } = useImageModal();
 
   useDocumentTitle(data?.site.title ?? 'Portfolio');
-  useBodyClass('loading', loading || !interactionsReady);
 
   useEffect(() => {
     if (!loading && data && !sectionsHiddenRef.current) {
@@ -97,16 +85,22 @@ export default function HomePage() {
   }, [data?.site.favicon]);
 
   if (error && !data) {
-    return <Loader visible display="flex" error={error} onRetry={retry} />;
+    return (
+      <ErrorMessage
+        title="Failed to load content"
+        message={error}
+        onRetry={retry}
+        fullscreen
+      />
+    );
   }
 
   if (!data) {
-    return <Loader visible={visible} display={display} error={error} onRetry={retry} />;
+    return null;
   }
 
   return (
     <>
-      <Loader visible={visible} display={display} error={error} onRetry={retry} />
       <ParticleCanvas />
       <CustomScrollbar />
       <Header
