@@ -1,10 +1,19 @@
 import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import PageStatus from '@/components/common/PageStatus';
-import PolicyHeader from '@/components/layout/PolicyHeader';
+import Header from '@/components/layout/Header';
 import { useDocumentTitle, useSiteData } from '@/hooks/data/useSiteData';
 import { usePolicyTheme } from '@/hooks/ui/useTheme';
-import type { PolicyInfo, SiteData } from '@/types';
+import type { NavItem, PolicyInfo, SiteData } from '@/types';
+
+const DEFAULT_NAV: NavItem[] = [
+  { label: 'Home', link: '#hero' },
+  { label: 'About', link: '#about' },
+  { label: 'Skills', link: '#skills' },
+  { label: 'Services', link: '#services' },
+  { label: 'Portfolio', link: '#portfolio' },
+  { label: 'Contact', link: '#contact' },
+];
 
 interface PolicyPageLayoutProps {
   policyKey: 'privacy' | 'terms';
@@ -27,22 +36,26 @@ export default function PolicyPageLayout({
 
   return (
     <PageStatus loading={loading} error={error} onRetry={retry}>
-      <PolicyHeader
+      <Header
+        scrollEnabled
         logoText={site?.logo.text ?? 'Dev'}
         logoSpan={site?.logo.span ?? 'Portfolio.'}
-        favicon={site?.favicon}
+        favicon={site?.favicon ?? '/images/favicon.ico'}
+        nav={site?.nav ?? DEFAULT_NAV}
       />
 
-      <main className="policy-container reveal active">
-        <Link to="/" className="back-home">
-          <i className="fa-solid fa-arrow-left" /> Back to Home
-        </Link>
-        <div className="policy-content">
-          <h1 id="policy-title">{policy?.heading ?? defaultTitle}</h1>
-          <p id="last-updated">
-            Last updated: {policy?.lastUpdated ?? 'February 15, 2026'}
-          </p>
-          {children}
+      <main className="policy-page reveal active">
+        <div className="container">
+          <Link to="/" className="back-home">
+            <i className="fa-solid fa-arrow-left" aria-hidden="true" /> Back to Home
+          </Link>
+          <div className="policy-content">
+            <h1 id="policy-title">{policy?.heading ?? defaultTitle}</h1>
+            <p id="last-updated">
+              Last updated: {policy?.lastUpdated ?? 'February 15, 2026'}
+            </p>
+            {children}
+          </div>
         </div>
       </main>
 
