@@ -327,6 +327,7 @@ img {
 
 /* Animations */
 .fade-in-up {
+    opacity: 0;
     animation: fadeInUp var(--motion-hero-duration) var(--motion-fade-easing) forwards;
 }
 
@@ -2373,13 +2374,11 @@ img {
     from {
         opacity: 0;
         filter: blur(var(--motion-blur));
-        transform: translateY(12px);
     }
 
     to {
         opacity: 1;
         filter: blur(0);
-        transform: translateY(0);
     }
 }
 
@@ -2387,13 +2386,11 @@ img {
     from {
         opacity: 0;
         filter: blur(var(--motion-blur));
-        transform: translateX(16px);
     }
 
     to {
         opacity: 1;
         filter: blur(0);
-        transform: translateX(0);
     }
 }
 
