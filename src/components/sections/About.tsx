@@ -35,6 +35,7 @@ export default function About({
           <div className="about-visual">
             <div
               className="about-img-container"
+              {...(onImageClick ? { 'data-tooltip': 'Click to show full view' } : {})}
               onClick={onImageClick}
               onKeyDown={(event) => {
                 if (onImageClick && (event.key === 'Enter' || event.key === ' ')) {
@@ -58,7 +59,7 @@ export default function About({
         </div>
         <div className="stats reveal" id="about-stats">
           {about.stats.map((stat) => (
-            <div key={stat.label} className="stat-item">
+            <div key={stat.label} className="stat-item" data-tooltip={stat.label}>
               <h3>{stat.value}</h3>
               <p>{stat.label}</p>
             </div>
