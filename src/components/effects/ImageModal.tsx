@@ -82,6 +82,7 @@ export default function ImageModal({
     <div
       id="image-modal"
       className={`image-modal${isVisible ? ' active' : ''}`}
+      data-lenis-prevent
       onClick={onClose}
       role="dialog"
       aria-modal="true"

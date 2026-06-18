@@ -187,6 +187,10 @@ html {
     scroll-padding-top: 100px;
 }
 
+html.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
 body {
     background: var(--bg-color);
     color: var(--text-color);

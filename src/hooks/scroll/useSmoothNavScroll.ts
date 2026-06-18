@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { scrollToElement } from '@/utils/smoothScroll';
 
 function bindSmoothScroll() {
   const anchorLinks = document.querySelectorAll<HTMLAnchorElement>(
@@ -18,7 +19,7 @@ function bindSmoothScroll() {
       if (!targetSection) return;
 
       event.preventDefault();
-      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollToElement(targetSection);
 
       if (window.location.hash !== targetId) {
         history.pushState(null, '', targetId);

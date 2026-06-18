@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { scrollToElement } from '@/utils/smoothScroll';
 
 export function useInitialHash(enabled: boolean) {
   useEffect(() => {
@@ -18,7 +19,7 @@ export function useInitialHash(enabled: boolean) {
     });
 
     const scrollTimer = window.setTimeout(() => {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
+      scrollToElement(targetElement);
 
       const navLinks = document.querySelectorAll('.navbar a');
       navLinks.forEach((link) => {

@@ -9,6 +9,7 @@ import {
 } from '@/config/turnstile';
 import { useContactForm } from '@/hooks/forms/useContactForm';
 import { getCookie } from '@/utils/cookies';
+import { scrollToElement } from '@/utils/smoothScroll';
 
 const MESSAGE_MIN_HEIGHT = 96;
 const MESSAGE_MAX_HEIGHT = 360;
@@ -80,7 +81,8 @@ export default function ContactForm({
   useEffect(() => {
     if (!showTurnstile) return;
 
-    turnstileContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    turnstileContainerRef.current &&
+      scrollToElement(turnstileContainerRef.current, { immediate: false });
   }, [showTurnstile]);
 
   useEffect(() => {
@@ -100,7 +102,7 @@ export default function ContactForm({
 
     window.setTimeout(() => {
       adjustMessageHeight();
-      messageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      messageRef.current && scrollToElement(messageRef.current);
       messageRef.current?.focus();
     }, 400);
   }, [adjustMessageHeight, applyInquiryTemplate, inquiryTemplate]);
@@ -244,6 +246,7 @@ export default function ContactForm({
         <textarea
           ref={messageRef}
           id="contact-message"
+          data-lenis-prevent={messageScrollable ? '' : undefined}
           className={`contact-message-input${messageScrollable ? ' is-scrollable' : ''}${
             fieldErrors.message ? ' is-invalid' : ''
           }`}

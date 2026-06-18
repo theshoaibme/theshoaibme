@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
+import SmoothScrollProvider from '@/components/layout/SmoothScrollProvider';
 import { SiteDataProvider } from '@/app/providers/SiteDataProvider';
 import HomePage from '@/pages/HomePage';
 import LoaderPage from '@/pages/LoaderPage';
@@ -12,18 +13,20 @@ export default function App() {
   return (
     <ErrorBoundary>
       <SiteDataProvider>
-        <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || undefined}>
-          <ErrorBoundary>
-            <Routes>
+        <SmoothScrollProvider>
+          <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || undefined}>
+            <ErrorBoundary>
+              <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/loader" element={<LoaderPage />} />
               <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </ErrorBoundary>
-        </BrowserRouter>
+              </Routes>
+            </ErrorBoundary>
+          </BrowserRouter>
+        </SmoothScrollProvider>
       </SiteDataProvider>
     </ErrorBoundary>
   );
