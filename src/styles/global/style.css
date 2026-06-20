@@ -1447,8 +1447,8 @@ img {
 
 .services-snake-marquee {
     width: 100%;
-    margin-top: 48px;
-    padding: 20px 0;
+    margin-top: clamp(28px, 5vw, 48px);
+    padding: clamp(10px, 2.5vw, 20px) 0;
     overflow: hidden;
     mask-image: linear-gradient(
         to right,
@@ -1467,12 +1467,20 @@ img {
 }
 
 .services-snake-row {
+    width: 100%;
+    padding:
+        calc(var(--snake-amplitude, 36px) * 0.75 + 8px)
+        clamp(12px, 3vw, 24px);
+    min-height: calc(var(--snake-amplitude, 36px) * 2 + clamp(40px, 10vw, 56px));
+    overflow: visible;
+}
+
+.services-snake-track {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
-    padding: 44px 24px;
-    min-height: 176px;
+    will-change: transform;
 }
 
 .services-snake-icon {
@@ -1480,12 +1488,12 @@ img {
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
+    width: clamp(40px, 10vw, 56px);
+    height: clamp(40px, 10vw, 56px);
     border-radius: 9999px;
     background: rgba(128, 128, 128, 0.12);
     color: var(--text-color);
-    font-size: 1.25rem;
+    font-size: clamp(0.9rem, 2.4vw, 1.25rem);
     will-change: transform;
 }
 
@@ -1665,17 +1673,6 @@ img {
             black 96%,
             transparent
         );
-    }
-
-    .services-snake-row {
-        padding: 34px 16px;
-        min-height: 148px;
-    }
-
-    .services-snake-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 1rem;
     }
 
     .scroll-velocity-block {
