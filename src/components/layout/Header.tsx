@@ -1,9 +1,10 @@
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import type { NavItem } from '@/types';
 import LogoMark from '@/components/common/LogoMark';
 import { useHeaderScroll } from '@/hooks/scroll/useHeaderScroll';
 import { resolveAssetPath } from '@/utils/logo';
+import { isHomePath } from '@/utils/routing';
 import { isSafeNavLink } from '@/utils/urlValidation';
 
 interface HeaderProps {
@@ -15,6 +16,8 @@ interface HeaderProps {
 }
 
 export default function Header({ logoText, logoSpan, favicon, nav, scrollEnabled = true }: HeaderProps) {
+  const { pathname } = useLocation();
+  const isHomePage = isHomePath(pathname);
   const [menuOpen, setMenuOpen] = useState(false);
   const { headerClassName } = useHeaderScroll({ enabled: scrollEnabled });
   const faviconSrc = resolveAssetPath(favicon);
@@ -27,37 +30,72 @@ export default function Header({ logoText, logoSpan, favicon, nav, scrollEnabled
     setMenuOpen(false);
   }, []);
 
+  const logoContent = (
+    <>
+      <img src={faviconSrc} alt="Icon" className="logo-icon" />
+      <div>
+        <LogoMark logoText={logoText} logoSpan={logoSpan} />
+      </div>
+    </>
+  );
+
   return (
     <header className={`${headerClassName}${menuOpen ? ' menu-open' : ''}`}>
       <div className="container header-bar">
-        <a href="#hero" className="logo" id="site-logo" onClick={closeMenu}>
-          <img src={faviconSrc} alt="Icon" className="logo-icon" />
-          <div>
-            <LogoMark logoText={logoText} logoSpan={logoSpan} />
-          </div>
-        </a>
+        {isHomePage ? (
+          <a href="#hero" className="logo" id="site-logo" onClick={closeMenu}>
+            {logoContent}
+          </a>
+        ) : (
+          <Link to="/" className="logo" id="site-logo" onClick={closeMenu}>
+            {logoContent}
+          </Link>
+        )}
         <nav className={`navbar${menuOpen ? ' active' : ''}`} id="site-nav">
-          {nav.map((item, index) =>
-            !isSafeNavLink(item.link) ? null : item.link.startsWith('/') ? (
-              <Link
-                key={item.link}
-                to={item.link}
-                className={index === 0 ? 'active' : undefined}
-                onClick={closeMenu}
-              >
-                {item.label}
-              </Link>
-            ) : (
-              <a
-                key={item.link}
-                href={item.link}
-                className={index === 0 ? 'active' : undefined}
-                onClick={closeMenu}
-              >
+          {nav.map((item, index) => {
+            if (!isSafeNavLink(item.link)) return null;
+
+            const activeClass = isHomePage && index === 0 ? 'active' : undefined;
+
+            if (item.link.startsWith('/')) {
+              return (
+                <Link
+                  key={item.link}
+                  to={item.link}
+                  className={activeClass}
+                  onClick={closeMenu}
+                >
+                  {item.label}
+                </Link>
+              );
+            }
+
+            if (item.link.startsWith('#')) {
+              if (isHomePage) {
+                return (
+                  <a key={item.link} href={item.link} className={activeClass} onClick={closeMenu}>
+                    {item.label}
+                  </a>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.link}
+                  to={{ pathname: '/', hash: item.link.slice(1) }}
+                  onClick={closeMenu}
+                >
+                  {item.label}
+                </Link>
+              );
+            }
+
+            return (
+              <a key={item.link} href={item.link} className={activeClass} onClick={closeMenu}>
                 {item.label}
               </a>
-            ),
-          )}
+            );
+          })}
         </nav>
         <button
           type="button"
