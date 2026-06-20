@@ -21,6 +21,11 @@ export interface ResumeReferenceItem {
   phone: string;
 }
 
+export interface ResumeSkillGroup {
+  label: string;
+  items: string;
+}
+
 export interface ResumeContent {
   personal: {
     name: string;
@@ -43,6 +48,7 @@ export interface ResumeContent {
   education: ResumeEducationItem[];
   projectsPage1: ResumeProjectItem[];
   projectsPage2: ResumeProjectItem[];
+  skills: ResumeSkillGroup[];
   references: ResumeReferenceItem[];
   declaration: string;
 }
@@ -119,6 +125,20 @@ export const RESUME_CONTENT: ResumeContent = {
         'Built a full-stack e-commerce platform with Spring Boot and MongoDB, featuring JWT-secured APIs and role-based access. Developed React.js dashboards for product, order, and analytics management. Integrated shopping cart and order processing with a scalable payment gateway via microservices. Tested APIs with Postman and cURL, deployed secure endpoints, and used Docker for scalable infrastructure with Maven and JDK 17.',
       github: 'https://github.com/the-shoaib2/Super-Shop-Management',
     },
+  ],
+  skills: [
+    { label: 'Languages', items: 'C, C++, Python, Java, C#, JavaScript, TypeScript' },
+    { label: 'Frontend', items: 'HTML5, CSS3, React, Vue, Tailwind, Bootstrap' },
+    { label: 'Backend', items: 'Node.js, Express, Django, Flask, Spring Boot, GraphQL, Kafka' },
+    { label: 'Mobile', items: 'React Native, Android (Kotlin)' },
+    {
+      label: 'AI & Data Science',
+      items: 'TensorFlow, PyTorch, OpenCV, Scikit-learn, Pandas, Seaborn',
+    },
+    { label: 'Databases', items: 'MySQL, PostgreSQL, MongoDB, SQLite, Redis' },
+    { label: 'DevOps & Cloud', items: 'Docker, Git, Bash, Linux, Firebase, AWS' },
+    { label: 'Tools & Platforms', items: 'VS Code, Postman, Electron, Photoshop, Filmora' },
+    { label: 'Soft Skills', items: 'Problem Solving, Communication, Teamwork, Agile' },
   ],
   references: [
     {

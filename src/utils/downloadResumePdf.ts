@@ -1,40 +1,69 @@
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+
 const A4_WIDTH_PX = 794;
 const A4_HEIGHT_PX = 1123;
+
+function getArticlePadding(article: HTMLElement): string {
+  const styles = window.getComputedStyle(article);
+  return `${styles.paddingTop} ${styles.paddingRight} ${styles.paddingBottom} ${styles.paddingLeft}`;
+}
 
 export async function downloadResumePdf(
   article: HTMLElement,
   filename: string,
 ): Promise<void> {
-  const html2pdf = (await import('html2pdf.js')).default;
+  const pages = Array.from(article.querySelectorAll<HTMLElement>('.cv-pdf-page'));
+
+  if (pages.length !== 2) {
+    throw new Error('Resume must contain exactly 2 pages.');
+  }
 
   window.scrollTo(0, 0);
   await document.fonts.ready;
 
-  await html2pdf()
-    .set({
-      margin: 0,
-      filename,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
+  const padding = getArticlePadding(article);
+  const pdf = new jsPDF({
+    orientation: 'portrait',
+    unit: 'px',
+    format: [A4_WIDTH_PX, A4_HEIGHT_PX],
+    compress: true,
+  });
+
+  for (let index = 0; index < pages.length; index += 1) {
+    const frame = document.createElement('div');
+    frame.className = 'cv-document cv-pdf-document cv-pdf-export-frame';
+    frame.style.width = `${A4_WIDTH_PX}px`;
+    frame.style.height = `${A4_HEIGHT_PX}px`;
+    frame.style.padding = padding;
+
+    const pageClone = pages[index].cloneNode(true) as HTMLElement;
+    frame.appendChild(pageClone);
+    document.body.appendChild(frame);
+
+    try {
+      const canvas = await html2canvas(frame, {
         scale: 2,
         useCORS: true,
         backgroundColor: '#ffffff',
-        scrollX: 0,
-        scrollY: 0,
-        logging: false,
         width: A4_WIDTH_PX,
+        height: A4_HEIGHT_PX,
         windowWidth: A4_WIDTH_PX,
-      },
-      jsPDF: {
-        unit: 'px',
-        format: [A4_WIDTH_PX, A4_HEIGHT_PX],
-        orientation: 'portrait',
-      },
-      pagebreak: {
-        mode: ['css', 'legacy'],
-        before: '.cv-pdf-page--2',
-      },
-    } as Record<string, unknown>)
-    .from(article)
-    .save();
+        windowHeight: A4_HEIGHT_PX,
+        logging: false,
+      });
+
+      const image = canvas.toDataURL('image/jpeg', 0.94);
+
+      if (index > 0) {
+        pdf.addPage([A4_WIDTH_PX, A4_HEIGHT_PX], 'portrait');
+      }
+
+      pdf.addImage(image, 'JPEG', 0, 0, A4_WIDTH_PX, A4_HEIGHT_PX, undefined, 'FAST');
+    } finally {
+      document.body.removeChild(frame);
+    }
+  }
+
+  pdf.save(filename);
 }

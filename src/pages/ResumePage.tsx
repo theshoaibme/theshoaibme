@@ -10,7 +10,6 @@ import type { NavItem } from '@/types';
 import { downloadResumePdf } from '@/utils/downloadResumePdf';
 import { resolveImageUrl } from '@/utils/images';
 import { sanitizeHtml } from '@/utils/sanitize';
-import { formatSkillsForResume } from '@/utils/skills';
 
 const DEFAULT_NAV: NavItem[] = [
   { label: 'Home', link: '#hero' },
@@ -73,7 +72,6 @@ export default function ResumePage() {
     photoSrc.length > 0 &&
     new URL(photoSrc, window.location.origin).origin !== window.location.origin;
   const aboutParts = content.about.split('MD Shoaib Khan');
-  const skillGroups = data?.skills ? formatSkillsForResume(data.skills) : [];
 
   const pageOneSections = useMemo<ResumeSectionConfig[]>(
     () => [
@@ -136,7 +134,7 @@ export default function ResumePage() {
         useBodyRow: true,
         content: (
           <ul className="cv-pdf-skills">
-            {skillGroups.map((group) => (
+            {content.skills.map((group) => (
               <li key={group.label}>
                 <strong>{group.label}:</strong> {group.items}
               </li>
@@ -151,7 +149,7 @@ export default function ResumePage() {
         content: <ReferencesContent references={content.references} />,
       },
     ],
-    [content, skillGroups],
+    [content],
   );
 
   usePolicyTheme();
