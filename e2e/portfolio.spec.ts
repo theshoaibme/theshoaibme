@@ -42,6 +42,26 @@ test.describe('Home page', () => {
     await expect(page.locator('#portfolio-title')).toBeVisible();
   });
 
+  test('restores hash section after reload', async ({ page }) => {
+    for (const sectionId of ['services', 'portfolio', 'contact']) {
+      await page.goto(`/#${sectionId}`);
+      await expect(page.locator(`#${sectionId}`)).toBeVisible({ timeout: 20_000 });
+      await expect(page).toHaveURL(new RegExp(`#${sectionId}$`));
+
+      await page.reload();
+      await expect(page).toHaveURL(new RegExp(`#${sectionId}$`));
+      await expect(page.locator(`#${sectionId}-title, #${sectionId} .section-title`).first()).toBeVisible({
+        timeout: 20_000,
+      });
+
+      const sectionBox = await page.locator(`#${sectionId}`).boundingBox();
+      expect(sectionBox).not.toBeNull();
+      if (sectionBox) {
+        expect(sectionBox.y).toBeLessThan(250);
+      }
+    }
+  });
+
   test('lists only featured projects on the home portfolio grid', async ({ page }) => {
     await page.locator('#portfolio').scrollIntoViewIfNeeded();
     const cards = page.locator('#portfolio-grid .project-card');

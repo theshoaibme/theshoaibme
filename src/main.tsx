@@ -2,8 +2,11 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from '@/app/App';
 import { getInitialTheme } from '@/utils/cookies';
+import { configureManualScrollRestoration } from '@/utils/hashScroll';
 import '@/styles/global/style.css';
 import '@/styles/modules/errors.css';
+
+configureManualScrollRestoration();
 
 if (getInitialTheme() === 'dark') {
   document.documentElement.classList.add('dark');

@@ -3,6 +3,7 @@ import {
   motion,
   useAnimationFrame,
   useMotionValue,
+  useSpring,
   useTransform,
   type MotionValue,
 } from 'motion/react';
@@ -18,8 +19,13 @@ interface ServicesSnakeMarqueeProps {
 
 const SNAKE_WAVE_COUNT = 1;
 const SNAKE_AMPLITUDE = 56;
-const BASE_WAVE_SPEED = 1.2;
-const SCROLL_WAVE_SPEED = 3;
+const BASE_WAVE_SPEED = 1;
+const SCROLL_WAVE_SPEED = 2.5;
+const MAX_HORIZONTAL_SHIFT = 44;
+const HORIZONTAL_VELOCITY_SCALE = 0.55;
+const HORIZONTAL_SMOOTHING = 4.5;
+const MAX_HORIZONTAL_SPEED = 140;
+const SPEED_SMOOTHING = 6;
 
 function getWaveStep(count: number): number {
   if (count <= 1) return 0;
@@ -44,9 +50,27 @@ function SnakeIcon({ index, waveStep, phase, icon, title }: SnakeIconProps) {
   );
 }
 
+function getHorizontalTarget(velocityFactor: number): number {
+  const normalized = Math.tanh(velocityFactor * HORIZONTAL_VELOCITY_SCALE);
+  return normalized * MAX_HORIZONTAL_SHIFT;
+}
+
 function ServicesSnakeWave({ services }: { services: Service[] }) {
   const velocityFactor = useScrollVelocityFactor();
   const phase = useMotionValue(0);
+  const horizontalX = useMotionValue(0);
+  const smoothPhase = useSpring(phase, {
+    damping: 42,
+    stiffness: 48,
+    mass: 0.85,
+  });
+  const smoothX = useSpring(horizontalX, {
+    damping: 62,
+    stiffness: 24,
+    mass: 1.1,
+  });
+  const horizontalTargetRef = useRef(0);
+  const speedRef = useRef(BASE_WAVE_SPEED);
   const prefersReducedMotionRef = useRef(false);
 
   useEffect(() => {
@@ -64,26 +88,43 @@ function ServicesSnakeWave({ services }: { services: Service[] }) {
 
     const dt = delta / 1000;
     const vf = velocityFactor?.get() ?? 0;
-    const scrollBoost = Math.abs(vf) > 0.05 ? vf * SCROLL_WAVE_SPEED : 0;
-    phase.set(phase.get() + (BASE_WAVE_SPEED + scrollBoost) * dt);
+
+    const targetSpeed = BASE_WAVE_SPEED + vf * SCROLL_WAVE_SPEED;
+    const speedBlend = 1 - Math.exp(-SPEED_SMOOTHING * dt);
+    speedRef.current += (targetSpeed - speedRef.current) * speedBlend;
+    phase.set(phase.get() + speedRef.current * dt);
+
+    const targetX = getHorizontalTarget(vf);
+    const horizontalBlend = 1 - Math.exp(-HORIZONTAL_SMOOTHING * dt);
+    horizontalTargetRef.current +=
+      (targetX - horizontalTargetRef.current) * horizontalBlend;
+
+    const currentX = horizontalX.get();
+    const deltaX = horizontalTargetRef.current - currentX;
+    const maxStep = MAX_HORIZONTAL_SPEED * dt;
+    const step =
+      Math.abs(deltaX) <= maxStep
+        ? deltaX
+        : Math.sign(deltaX) * maxStep;
+    horizontalX.set(currentX + step);
   });
 
   const items = [...services, ...services];
   const waveStep = getWaveStep(items.length);
 
   return (
-    <div className="services-snake-row">
+    <motion.div className="services-snake-row" style={{ x: smoothX }}>
       {items.map((service, index) => (
         <SnakeIcon
           key={`${service.title}-${index}`}
           index={index}
           waveStep={waveStep}
-          phase={phase}
+          phase={smoothPhase}
           icon={service.icon}
           title={service.title}
         />
       ))}
-    </div>
+    </motion.div>
   );
 }
 

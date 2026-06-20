@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import type { NavItem } from '@/types';
 import LogoMark from '@/components/common/LogoMark';
+import { useActiveNavSection } from '@/hooks/scroll/useActiveNavSection';
 import { useHeaderScroll } from '@/hooks/scroll/useHeaderScroll';
 import { resolveAssetPath } from '@/utils/logo';
 import { isHomePath } from '@/utils/routing';
@@ -18,6 +19,7 @@ interface HeaderProps {
 export default function Header({ logoText, logoSpan, favicon, nav, scrollEnabled = true }: HeaderProps) {
   const { pathname } = useLocation();
   const isHomePage = isHomePath(pathname);
+  const activeSection = useActiveNavSection();
   const [menuOpen, setMenuOpen] = useState(false);
   const { headerClassName } = useHeaderScroll({ enabled: scrollEnabled });
   const faviconSrc = resolveAssetPath(favicon);
@@ -52,10 +54,12 @@ export default function Header({ logoText, logoSpan, favicon, nav, scrollEnabled
           </Link>
         )}
         <nav className={`navbar${menuOpen ? ' active' : ''}`} id="site-nav">
-          {nav.map((item, index) => {
+          {nav.map((item) => {
             if (!isSafeNavLink(item.link)) return null;
 
-            const activeClass = isHomePage && index === 0 ? 'active' : undefined;
+            const sectionId = item.link.startsWith('#') ? item.link.slice(1) : '';
+            const activeClass =
+              isHomePage && sectionId && activeSection === sectionId ? 'active' : undefined;
 
             if (item.link.startsWith('/')) {
               return (

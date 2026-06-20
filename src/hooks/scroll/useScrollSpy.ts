@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { isHashRestoreComplete } from '@/utils/hashScroll';
+import { setActiveNavSection } from '@/utils/navActive';
 import { getScrollTop } from '@/utils/scroll';
 
 export function useScrollSpy(enabled: boolean) {
@@ -19,11 +21,9 @@ export function useScrollSpy(enabled: boolean) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const id = entry.target.id;
-          navLinks.forEach((link) => {
-            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-          });
+          setActiveNavSection(id);
 
-          if (window.location.hash !== `#${id}`) {
+          if (isHashRestoreComplete() && window.location.hash !== `#${id}`) {
             history.replaceState(null, '', `#${id}`);
           }
         }
@@ -33,9 +33,10 @@ export function useScrollSpy(enabled: boolean) {
     sections.forEach((section) => observer.observe(section));
 
     const handleScrollTop = () => {
+      if (!isHashRestoreComplete()) return;
+
       if (getScrollTop() < 100) {
-        navLinks.forEach((l) => l.classList.remove('active'));
-        if (navLinks[0]) navLinks[0].classList.add('active');
+        setActiveNavSection('hero');
 
         if (window.location.hash !== '') {
           history.replaceState(null, '', window.location.pathname);
