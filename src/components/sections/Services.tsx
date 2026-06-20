@@ -1,3 +1,4 @@
+import ServicesSnakeMarquee from '@/components/sections/ServicesSnakeMarquee';
 import type { Service, SiteSection } from '@/types';
 
 interface ServicesProps {
@@ -50,6 +51,7 @@ export default function Services({ section, services, onDiscussProject }: Servic
           ))}
         </div>
       </div>
+      <ServicesSnakeMarquee services={services} />
     </section>
   );
 }

@@ -59,6 +59,10 @@ export function ScrollVelocityContainer({
   );
 }
 
+export function useScrollVelocityFactor() {
+  return useContext(ScrollVelocityContext);
+}
+
 export function ScrollVelocityRow(props: ScrollVelocityRowProps) {
   const sharedVelocityFactor = useContext(ScrollVelocityContext);
   if (sharedVelocityFactor) {

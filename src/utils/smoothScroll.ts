@@ -1,6 +1,6 @@
 import type Lenis from 'lenis';
 
-const SCROLL_OFFSET = -100;
+export const SCROLL_OFFSET = -100;
 
 let lenisInstance: Lenis | null = null;
 

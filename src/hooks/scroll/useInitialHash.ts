@@ -1,32 +1,27 @@
 import { useEffect } from 'react';
-import { scrollToElement } from '@/utils/smoothScroll';
+import { restoreRouteHash, subscribeToHashNavigation } from '@/utils/hashScroll';
 
 export function useInitialHash(enabled: boolean) {
   useEffect(() => {
     if (!enabled) return;
 
-    const hash = window.location.hash;
-    if (!hash) return;
+    let cancelled = false;
 
-    const targetElement = document.querySelector(hash);
-    if (!targetElement) return;
+    const restore = () => {
+      void restoreRouteHash({ immediate: true }).then(() => {
+        if (cancelled) return;
+      });
+    };
 
-    targetElement.classList.remove('section-hidden');
-    targetElement.classList.add('section-visible');
+    restore();
 
-    targetElement.querySelectorAll('.reveal').forEach((el) => {
-      el.classList.add('active');
+    const unsubscribe = subscribeToHashNavigation(() => {
+      if (!cancelled) restore();
     });
 
-    const scrollTimer = window.setTimeout(() => {
-      scrollToElement(targetElement);
-
-      const navLinks = document.querySelectorAll('.navbar a');
-      navLinks.forEach((link) => {
-        link.classList.toggle('active', link.getAttribute('href') === hash);
-      });
-    }, 100);
-
-    return () => window.clearTimeout(scrollTimer);
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
   }, [enabled]);
 }

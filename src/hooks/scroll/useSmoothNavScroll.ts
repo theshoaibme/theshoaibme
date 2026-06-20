@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { setActiveNavSection } from '@/utils/navActive';
 import { scrollToElement } from '@/utils/smoothScroll';
 
 function bindSmoothScroll() {
@@ -19,15 +20,14 @@ function bindSmoothScroll() {
       if (!targetSection) return;
 
       event.preventDefault();
+
+      const sectionId = targetId.slice(1);
+      setActiveNavSection(sectionId);
       scrollToElement(targetSection);
 
       if (window.location.hash !== targetId) {
         history.pushState(null, '', targetId);
       }
-
-      document.querySelectorAll('.navbar a').forEach((navLink) => {
-        navLink.classList.toggle('active', navLink.getAttribute('href') === targetId);
-      });
     };
 
     link.addEventListener('click', handler);
