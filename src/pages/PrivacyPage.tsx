@@ -14,7 +14,10 @@ export default function PrivacyPage() {
         Information submitted through the contact form is used solely to respond to your inquiries.
         Messages may be processed through secure third-party services (Cloudflare Turnstile for bot
         protection, EmailJS for email delivery, and Telegram for notifications) strictly for
-        delivering and managing contact requests.
+        delivering and managing contact requests. When you download my resume, a lightweight server
+        event may be recorded (download count, timestamp, and a hashed network identifier) after
+        Cloudflare Turnstile verification so I can be notified via Telegram. This does not include
+        your name or email unless you contact me separately.
       </p>
 
       <h2>3. Cookies</h2>

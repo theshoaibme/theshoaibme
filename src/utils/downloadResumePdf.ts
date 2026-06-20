@@ -6,6 +6,16 @@ function getArticlePadding(article: HTMLElement): string {
   return `${styles.paddingTop} ${styles.paddingRight} ${styles.paddingBottom} ${styles.paddingLeft}`;
 }
 
+function releaseCanvas(canvas: HTMLCanvasElement): void {
+  canvas.width = 0;
+  canvas.height = 0;
+}
+
+function removeExportFrame(frame: HTMLDivElement): void {
+  frame.replaceChildren();
+  frame.remove();
+}
+
 export async function downloadResumePdf(
   article: HTMLElement,
   filename: string,
@@ -56,6 +66,7 @@ export async function downloadResumePdf(
       });
 
       const image = canvas.toDataURL('image/jpeg', 0.94);
+      releaseCanvas(canvas);
 
       if (index > 0) {
         pdf.addPage([A4_WIDTH_PX, A4_HEIGHT_PX], 'portrait');
@@ -63,7 +74,7 @@ export async function downloadResumePdf(
 
       pdf.addImage(image, 'JPEG', 0, 0, A4_WIDTH_PX, A4_HEIGHT_PX, undefined, 'FAST');
     } finally {
-      document.body.removeChild(frame);
+      removeExportFrame(frame);
     }
   }
 

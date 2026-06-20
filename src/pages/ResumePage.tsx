@@ -1,13 +1,16 @@
 import { type ReactNode, useCallback, useMemo, useRef, useState } from 'react';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import PageStatus from '@/components/common/PageStatus';
 import Header from '@/components/layout/Header';
 import { EducationEntry, ProjectEntry, ResumeDatedRow } from '@/components/resume/ResumeEntries';
 import { ResumeSection } from '@/components/resume/ResumeSection';
+import { isResumeDownloadTrackingConfigured } from '@/config/download';
 import { RESUME_CONTENT, type ResumeReferenceItem } from '@/config/resumeContent';
+import { getTurnstileSiteKey, isTurnstileConfigured } from '@/config/turnstile';
 import { useDocumentTitle, useSiteData } from '@/hooks/data/useSiteData';
 import { usePolicyTheme } from '@/hooks/ui/useTheme';
 import type { NavItem } from '@/types';
-import { downloadResumePdf } from '@/utils/downloadResumePdf';
+import { runResumeDownloadPipeline } from '@/utils/resumeDownloadPipeline';
 import { resolveImageUrl } from '@/utils/images';
 import { sanitizeHtml } from '@/utils/sanitize';
 
@@ -66,7 +69,13 @@ export default function ResumePage() {
   const resume = data?.site.resume;
   const content = RESUME_CONTENT;
   const resumeRef = useRef<HTMLElement>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
+  const pendingDownloadRef = useRef(false);
   const [downloading, setDownloading] = useState(false);
+  const [honeyPot, setHoneyPot] = useState('');
+  const turnstileSiteKey = getTurnstileSiteKey();
+  const secureTrackingEnabled =
+    isTurnstileConfigured() && isResumeDownloadTrackingConfigured() && Boolean(turnstileSiteKey);
   const photoSrc = resolveImageUrl(content.personal.photo);
   const photoIsCrossOrigin =
     photoSrc.length > 0 &&
@@ -155,18 +164,65 @@ export default function ResumePage() {
   usePolicyTheme();
   useDocumentTitle(resume?.title ?? 'Resume | MD Shoaib Khan');
 
-  const handleDownload = useCallback(async () => {
-    if (!resumeRef.current || downloading) return;
+  const runDownload = useCallback(
+    async (turnstileToken?: string) => {
+      if (!resumeRef.current) {
+        return;
+      }
 
-    setDownloading(true);
-    try {
-      await downloadResumePdf(resumeRef.current, 'MD_Shoaib_Khan_Resume.pdf');
-    } catch (downloadError) {
-      console.error('Failed to generate resume PDF', downloadError);
-    } finally {
-      setDownloading(false);
+      setDownloading(true);
+
+      try {
+        await runResumeDownloadPipeline({
+          article: resumeRef.current,
+          filename: 'MD_Shoaib_Khan_Resume.pdf',
+          source: 'resume-page',
+          turnstileToken,
+          honey_pot: honeyPot,
+        });
+      } catch (downloadError) {
+        console.error('Failed to generate resume PDF', downloadError);
+      } finally {
+        setDownloading(false);
+        pendingDownloadRef.current = false;
+        turnstileRef.current?.reset();
+      }
+    },
+    [honeyPot],
+  );
+
+  const handleTurnstileSuccess = useCallback(
+    async (token: string) => {
+      if (!pendingDownloadRef.current || !token) {
+        return;
+      }
+
+      await runDownload(token);
+    },
+    [runDownload],
+  );
+
+  const handleTurnstileError = useCallback(() => {
+    if (!pendingDownloadRef.current) {
+      return;
     }
-  }, [downloading]);
+
+    void runDownload();
+  }, [runDownload]);
+
+  const handleDownload = useCallback(() => {
+    if (!resumeRef.current || downloading) {
+      return;
+    }
+
+    if (secureTrackingEnabled) {
+      pendingDownloadRef.current = true;
+      turnstileRef.current?.execute();
+      return;
+    }
+
+    void runDownload();
+  }, [downloading, runDownload, secureTrackingEnabled]);
 
   if (error && !data) {
     return (
@@ -273,6 +329,30 @@ export default function ResumePage() {
             </div>
 
             <div className="cv-page-download">
+              <div style={{ display: 'none' }} aria-hidden="true">
+                <input
+                  type="text"
+                  name="company"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeyPot}
+                  onChange={(event) => setHoneyPot(event.target.value)}
+                />
+              </div>
+
+              {secureTrackingEnabled ? (
+                <div className="cv-download-turnstile" aria-hidden="true">
+                  <Turnstile
+                    ref={turnstileRef}
+                    siteKey={turnstileSiteKey}
+                    options={{ size: 'invisible' }}
+                    onSuccess={handleTurnstileSuccess}
+                    onError={handleTurnstileError}
+                    onExpire={() => turnstileRef.current?.reset()}
+                  />
+                </div>
+              ) : null}
+
               <button
                 type="button"
                 className="btn btn-outline cv-download-btn"

@@ -59,6 +59,10 @@ export default defineConfig({
     open: false,
     proxy: {
       '/api/contact': createContactApiProxy(),
+      '/api/resume-download': {
+        ...createContactApiProxy(),
+        rewrite: () => '/resume-download',
+      },
     },
   },
   preview: {
@@ -67,6 +71,10 @@ export default defineConfig({
     strictPort: false,
     proxy: {
       '/api/contact': createContactApiProxy(),
+      '/api/resume-download': {
+        ...createContactApiProxy(),
+        rewrite: () => '/resume-download',
+      },
     },
   },
   plugins: [
