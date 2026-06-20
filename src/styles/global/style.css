@@ -740,6 +740,10 @@ img {
     margin-bottom: 0;
 }
 
+.about-actions {
+    margin-top: 28px;
+}
+
 .about-visual {
     display: flex;
     justify-content: center;

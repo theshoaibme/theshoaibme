@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import type { About, SiteSection } from '@/types';
 
 interface AboutProps {
@@ -31,6 +32,11 @@ export default function About({
             {about.text.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
+            <div className="about-actions">
+              <Link to="/resume" className="btn btn-outline ripple">
+                View Resume
+              </Link>
+            </div>
           </div>
           <div className="about-visual">
             <div
