@@ -11,7 +11,7 @@ interface PortfolioData {
 }
 
 const portfolioData = JSON.parse(
-  readFileSync(resolve(process.cwd(), 'public/data.json'), 'utf-8'),
+  readFileSync(resolve(process.cwd(), 'data/portfolio.json'), 'utf-8'),
 ) as PortfolioData;
 
 const cloudName = process.env.VITE_CLOUDINARY_CLOUD_NAME ?? '';

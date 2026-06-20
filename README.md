@@ -14,9 +14,18 @@ Both URLs serve the same portfolio. The contact form works on either domain.
 
 Most of the site text, projects, skills, and contact info live in one file:
 
-**`public/data.json`**
+**`data/portfolio.json`**
 
-Open that file, update what you need, save, and refresh the site.
+Open that file, update what you need, save, and restart dev (or run `pnpm encrypt:data`).  
+The site loads **`public/data.enc`** (encrypted) — not plain JSON over the network.
+
+Generate a decryption key once:
+
+```bash
+openssl rand -base64 32
+```
+
+Add it to `.env` as `VITE_DATA_ENCRYPTION_KEY` (see `.env.example`).
 
 ---
 
@@ -31,7 +40,7 @@ pnpm dev
 
 Then open **http://localhost:5173** in your browser.
 
-Copy `.env.example` to `.env` and set `VITE_TURNSTILE_SITE_KEY` and `VITE_CONTACT_API_URL`.
+Copy `.env.example` to `.env` and set `VITE_TURNSTILE_SITE_KEY`, `VITE_CONTACT_API_URL`, and `VITE_DATA_ENCRYPTION_KEY`.
 
 ---
 
@@ -79,6 +88,20 @@ After changing `ALLOWED_ORIGINS` in `workers/contact-api/wrangler.toml`, redeplo
 ```bash
 cd workers/contact-api && npx wrangler deploy
 ```
+
+---
+
+## Resume download (PDF + tracking)
+
+The resume at **`/resume`** builds a PDF in the browser. Successful downloads can increment a counter in **Cloudflare KV** and send a **Telegram** alert (with Turnstile bot protection).
+
+Full details — pipeline, storage keys, security, and CLI commands:
+
+**[docs/resume-download.md](docs/resume-download.md)**
+
+Portfolio content encryption (Network tab shows `data.enc` only):
+
+**[docs/portfolio-data-encryption.md](docs/portfolio-data-encryption.md)**
 
 ---
 

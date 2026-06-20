@@ -28,6 +28,11 @@ export interface SiteData {
     terms: PolicyInfo;
     privacy: PolicyInfo;
   };
+  resume?: {
+    title: string;
+    heading: string;
+    subtitle: string;
+  };
 }
 
 export interface SocialLink {

@@ -195,6 +195,15 @@ test.describe('Projects page', () => {
   });
 });
 
+test.describe('Resume page', () => {
+  test('loads resume with download action', async ({ page }) => {
+    await page.goto('/resume');
+    await expect(page.getByRole('heading', { name: portfolioData.profile.name, level: 1 })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Work Experience' })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Download Resume/i })).toBeVisible();
+  });
+});
+
 test.describe('Policy pages', () => {
   test('loads terms of service', async ({ page }) => {
     await page.goto('/terms');

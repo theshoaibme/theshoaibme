@@ -11,69 +11,72 @@ import {
   ScrollVelocityContainer,
   useScrollVelocityFactor,
 } from '@/components/effects/ScrollVelocity';
-import type { Service } from '@/types';
 
-interface ServicesSnakeMarqueeProps {
-  services: Service[];
+interface SnakeIconItem {
+  icon: string;
+  title: string;
 }
 
 interface SnakeWaveMetrics {
   amplitude: number;
-  maxHorizontalShift: number;
-  maxHorizontalSpeed: number;
-  repeatCount: number;
 }
 
 const SNAKE_WAVE_COUNT = 1;
-const BASE_WAVE_SPEED = 1;
-const SCROLL_WAVE_SPEED = 2.5;
-const HORIZONTAL_VELOCITY_SCALE = 0.35;
-const HORIZONTAL_SMOOTHING = 4.5;
-const SPEED_SMOOTHING = 6;
+const BASE_WAVE_SPEED = 0.85;
+const SCROLL_DRIFT_SPEED = 90;
+
+const DEVELOPMENT_SNAKE_ICONS: SnakeIconItem[] = [
+  { icon: 'fa-brands fa-react', title: 'React' },
+  { icon: 'fa-brands fa-node-js', title: 'Node.js' },
+  { icon: 'fa-brands fa-python', title: 'Python' },
+  { icon: 'fa-brands fa-java', title: 'Java' },
+  { icon: 'fa-brands fa-aws', title: 'AWS' },
+  { icon: 'fa-brands fa-docker', title: 'Docker' },
+  { icon: 'fa-brands fa-js', title: 'JavaScript' },
+  { icon: 'fa-brands fa-github', title: 'GitHub' },
+  { icon: 'fa-solid fa-database', title: 'Databases' },
+  { icon: 'fa-solid fa-server', title: 'Backend APIs' },
+  { icon: 'fa-solid fa-cloud', title: 'Cloud' },
+  { icon: 'fa-solid fa-mobile-screen', title: 'Mobile Apps' },
+  { icon: 'fa-solid fa-brain', title: 'AI Solutions' },
+  { icon: 'fa-brands fa-angular', title: 'Angular' },
+  { icon: 'fa-brands fa-vuejs', title: 'Vue.js' },
+  { icon: 'fa-solid fa-code', title: 'Development' },
+  { icon: 'fa-brands fa-linux', title: 'Linux' },
+  { icon: 'fa-brands fa-git-alt', title: 'Git' },
+  { icon: 'fa-brands fa-html5', title: 'HTML5' },
+  { icon: 'fa-brands fa-css3-alt', title: 'CSS3' },
+  { icon: 'fa-brands fa-bootstrap', title: 'Bootstrap' },
+  { icon: 'fa-brands fa-php', title: 'PHP' },
+  { icon: 'fa-brands fa-npm', title: 'npm' },
+  { icon: 'fa-solid fa-terminal', title: 'CLI' },
+  { icon: 'fa-solid fa-microchip', title: 'System Design' },
+  { icon: 'fa-solid fa-robot', title: 'Automation' },
+  { icon: 'fa-solid fa-plug', title: 'Integrations' },
+  { icon: 'fa-solid fa-shield-halved', title: 'Security' },
+  { icon: 'fa-solid fa-gears', title: 'DevOps' },
+  { icon: 'fa-solid fa-layer-group', title: 'Architecture' },
+];
 
 function getSnakeWaveMetrics(width: number): SnakeWaveMetrics {
   if (width < 480) {
-    return {
-      amplitude: 18,
-      maxHorizontalShift: 12,
-      maxHorizontalSpeed: 48,
-      repeatCount: 1,
-    };
+    return { amplitude: 26 };
   }
 
   if (width < 768) {
-    return {
-      amplitude: 24,
-      maxHorizontalShift: 16,
-      maxHorizontalSpeed: 60,
-      repeatCount: 1,
-    };
+    return { amplitude: 34 };
   }
 
   if (width < 1024) {
-    return {
-      amplitude: 30,
-      maxHorizontalShift: 20,
-      maxHorizontalSpeed: 72,
-      repeatCount: 2,
-    };
+    return { amplitude: 42 };
   }
 
-  return {
-    amplitude: 36,
-    maxHorizontalShift: 24,
-    maxHorizontalSpeed: 80,
-    repeatCount: 2,
-  };
+  return { amplitude: 50 };
 }
 
 function getWaveStep(count: number): number {
   if (count <= 1) return 0;
   return (2 * Math.PI * SNAKE_WAVE_COUNT) / (count - 1);
-}
-
-function buildWaveItems(services: Service[], repeatCount: number): Service[] {
-  return Array.from({ length: repeatCount }, () => services).flat();
 }
 
 interface SnakeIconProps {
@@ -95,32 +98,19 @@ function SnakeIcon({ index, waveStep, phase, amplitude, icon, title }: SnakeIcon
   );
 }
 
-function getHorizontalTarget(
-  velocityFactor: number,
-  maxHorizontalShift: number,
-): number {
-  const normalized = Math.tanh(velocityFactor * HORIZONTAL_VELOCITY_SCALE);
-  return normalized * maxHorizontalShift;
-}
-
-function ServicesSnakeWave({ services }: { services: Service[] }) {
+function ServicesSnakeWave() {
   const velocityFactor = useScrollVelocityFactor();
   const [metrics, setMetrics] = useState(() => getSnakeWaveMetrics(window.innerWidth));
   const metricsRef = useRef(metrics);
   const phase = useMotionValue(0);
   const horizontalX = useMotionValue(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const segmentWidthRef = useRef(0);
   const smoothPhase = useSpring(phase, {
     damping: 42,
     stiffness: 48,
     mass: 0.85,
   });
-  const smoothX = useSpring(horizontalX, {
-    damping: 62,
-    stiffness: 24,
-    mass: 1.1,
-  });
-  const horizontalTargetRef = useRef(0);
-  const speedRef = useRef(BASE_WAVE_SPEED);
   const prefersReducedMotionRef = useRef(false);
 
   useEffect(() => {
@@ -138,6 +128,26 @@ function ServicesSnakeWave({ services }: { services: Service[] }) {
   }, []);
 
   useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const updateSegmentWidth = () => {
+      segmentWidthRef.current = track.scrollWidth / 2;
+    };
+
+    updateSegmentWidth();
+
+    const observer = new ResizeObserver(updateSegmentWidth);
+    observer.observe(track);
+    window.addEventListener('resize', updateSegmentWidth, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateSegmentWidth);
+    };
+  }, []);
+
+  useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     const update = () => {
       prefersReducedMotionRef.current = mq.matches;
@@ -150,45 +160,42 @@ function ServicesSnakeWave({ services }: { services: Service[] }) {
   useAnimationFrame((_, delta) => {
     if (prefersReducedMotionRef.current) return;
 
-    const { maxHorizontalShift, maxHorizontalSpeed } = metricsRef.current;
     const dt = delta / 1000;
     const vf = velocityFactor?.get() ?? 0;
 
-    const targetSpeed = BASE_WAVE_SPEED + vf * SCROLL_WAVE_SPEED;
-    const speedBlend = 1 - Math.exp(-SPEED_SMOOTHING * dt);
-    speedRef.current += (targetSpeed - speedRef.current) * speedBlend;
-    phase.set(phase.get() + speedRef.current * dt);
+    phase.set(phase.get() + BASE_WAVE_SPEED * dt);
 
-    const targetX = getHorizontalTarget(vf, maxHorizontalShift);
-    const horizontalBlend = 1 - Math.exp(-HORIZONTAL_SMOOTHING * dt);
-    horizontalTargetRef.current +=
-      (targetX - horizontalTargetRef.current) * horizontalBlend;
+    if (Math.abs(vf) > 0.02) {
+      let nextX = horizontalX.get() - vf * SCROLL_DRIFT_SPEED * dt;
+      const segmentWidth = segmentWidthRef.current;
 
-    const currentX = horizontalX.get();
-    const deltaX = horizontalTargetRef.current - currentX;
-    const maxStep = maxHorizontalSpeed * dt;
-    const step = Math.abs(deltaX) <= maxStep ? deltaX : Math.sign(deltaX) * maxStep;
-    horizontalX.set(currentX + step);
+      if (segmentWidth > 0) {
+        while (nextX <= -segmentWidth) nextX += segmentWidth;
+        while (nextX > 0) nextX -= segmentWidth;
+      }
+
+      horizontalX.set(nextX);
+    }
   });
 
-  const items = buildWaveItems(services, metrics.repeatCount);
-  const waveStep = getWaveStep(items.length);
+  const snakeIcons = [...DEVELOPMENT_SNAKE_ICONS, ...DEVELOPMENT_SNAKE_ICONS];
+  const waveStep = getWaveStep(DEVELOPMENT_SNAKE_ICONS.length);
 
   return (
     <div
       className="services-snake-row"
       style={{ '--snake-amplitude': `${metrics.amplitude}px` } as CSSProperties}
     >
-      <motion.div className="services-snake-track" style={{ x: smoothX }}>
-        {items.map((service, index) => (
+      <motion.div ref={trackRef} className="services-snake-track" style={{ x: horizontalX }}>
+        {snakeIcons.map((item, index) => (
           <SnakeIcon
-            key={`${service.title}-${index}`}
-            index={index}
+            key={`${item.title}-${index}`}
+            index={index % DEVELOPMENT_SNAKE_ICONS.length}
             waveStep={waveStep}
             phase={smoothPhase}
             amplitude={metrics.amplitude}
-            icon={service.icon}
-            title={service.title}
+            icon={item.icon}
+            title={item.title}
           />
         ))}
       </motion.div>
@@ -196,10 +203,10 @@ function ServicesSnakeWave({ services }: { services: Service[] }) {
   );
 }
 
-export default function ServicesSnakeMarquee({ services }: ServicesSnakeMarqueeProps) {
+export default function ServicesSnakeMarquee() {
   return (
     <ScrollVelocityContainer className="services-snake-marquee" aria-hidden="true">
-      <ServicesSnakeWave services={services} />
+      <ServicesSnakeWave />
     </ScrollVelocityContainer>
   );
 }

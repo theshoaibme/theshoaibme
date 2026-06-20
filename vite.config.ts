@@ -4,6 +4,7 @@ import type { ProxyOptions } from 'vite';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { SITE_URL } from './src/config/site';
+import { blockPlainPortfolioData, dropConsoleInProduction, portfolioDataEncryptionPlugin } from './vite.portfolio-data';
 
 const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'the-shoaib2.github.io';
 const isUserPage = repoName.endsWith('.github.io');
@@ -13,7 +14,6 @@ const contactApiTarget =
   process.env.VITE_CONTACT_API_URL?.trim() ||
   'https://portfolio-contact-api.the-shoaib2.workers.dev';
 
-// Either production origin works with the contact API (both are allowlisted).
 const productionOrigin = SITE_URL;
 
 function createContactApiProxy(): ProxyOptions {
@@ -24,7 +24,6 @@ function createContactApiProxy(): ProxyOptions {
     rewrite: () => '',
     configure: (proxy) => {
       proxy.on('proxyReq', (proxyReq) => {
-        // Local dev hits /api/contact same-origin; forward with the allowlisted production Origin.
         proxyReq.setHeader('Origin', productionOrigin);
         proxyReq.setHeader('Referer', `${productionOrigin}/`);
       });
@@ -59,6 +58,10 @@ export default defineConfig({
     open: false,
     proxy: {
       '/api/contact': createContactApiProxy(),
+      '/api/resume-download': {
+        ...createContactApiProxy(),
+        rewrite: () => '/resume-download',
+      },
     },
   },
   preview: {
@@ -67,10 +70,17 @@ export default defineConfig({
     strictPort: false,
     proxy: {
       '/api/contact': createContactApiProxy(),
+      '/api/resume-download': {
+        ...createContactApiProxy(),
+        rewrite: () => '/resume-download',
+      },
     },
   },
   plugins: [
     react(),
+    portfolioDataEncryptionPlugin(),
+    blockPlainPortfolioData(),
+    dropConsoleInProduction(),
     {
       name: 'dev-csp-relax',
       apply: 'serve',

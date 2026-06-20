@@ -1,5 +1,7 @@
 import { DEFAULT_ALLOWED_ORIGINS } from './allowedOrigins';
 import { corsHeaders, parseAllowedOrigins, resolveRequestOrigin } from './cors';
+import { json, rejectCors } from './http';
+import { handleResumeDownload } from './resumeDownload';
 import { checkRateLimit } from './rateLimit';
 import {
   isAllowedOrigin,
@@ -16,6 +18,7 @@ interface Env {
   EMAILJS_PRIVATE_KEY: string;
   EMAILJS_SERVICE_ID: string;
   EMAILJS_TEMPLATE_ID: string;
+  DOWNLOAD_STATS: KVNamespace;
   ALLOWED_ORIGINS?: string;
   ALLOWED_ORIGIN?: string;
 }
@@ -34,62 +37,7 @@ function getAllowedOrigins(env: Env): string[] {
   return [...new Set([...DEFAULT_ALLOWED_ORIGINS, ...configured])];
 }
 
-function json(
-  data: Record<string, unknown>,
-  status: number,
-  corsOrigin: string,
-  extraHeaders: Record<string, string> = {},
-) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      'Content-Type': 'application/json',
-      ...corsHeaders(corsOrigin),
-      ...extraHeaders,
-    },
-  });
-}
-
-function rejectCors(status = 403): Response {
-  return new Response(JSON.stringify({ error: 'Origin not allowed.' }), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
-}
-
-async function verifyTurnstile(
-  secret: string,
-  token: string,
-  remoteIp: string | null,
-): Promise<boolean> {
-  const body = new URLSearchParams({
-    secret,
-    response: token,
-  });
-
-  if (remoteIp) {
-    body.set('remoteip', remoteIp);
-  }
-
-  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: body.toString(),
-  });
-
-  if (!response.ok) {
-    console.error('Turnstile siteverify HTTP error:', response.status);
-    return false;
-  }
-
-  const result = (await response.json()) as { success?: boolean; 'error-codes'?: string[] };
-
-  if (!result.success) {
-    console.error('Turnstile verification failed:', result['error-codes']?.join(', ') ?? 'unknown');
-  }
-
-  return Boolean(result.success);
-}
+import { verifyTurnstile } from './turnstile';
 
 async function sendEmail(env: Env, payload: ValidatedContactPayload) {
   if (!env.EMAILJS_PRIVATE_KEY) {
@@ -145,100 +93,114 @@ async function sendTelegram(env: Env, payload: ValidatedContactPayload) {
   }
 }
 
-export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
-    const allowedOrigins = getAllowedOrigins(env);
-    const corsOrigin = resolveRequestOrigin(request, allowedOrigins);
+async function handleContact(request: Request, env: Env): Promise<Response> {
+  const allowedOrigins = getAllowedOrigins(env);
+  const corsOrigin = resolveRequestOrigin(request, allowedOrigins);
 
-    if (request.method === 'OPTIONS') {
-      if (!corsOrigin) {
-        return rejectCors();
-      }
-
-      return new Response(null, { status: 204, headers: corsHeaders(corsOrigin) });
-    }
-
-    if (request.method !== 'POST') {
-      if (!corsOrigin) {
-        return rejectCors();
-      }
-
-      return json({ error: 'Method not allowed.' }, 405, corsOrigin);
-    }
-
-    if (!corsOrigin || !isAllowedOrigin(request, allowedOrigins)) {
+  if (request.method === 'OPTIONS') {
+    if (!corsOrigin) {
       return rejectCors();
     }
 
-    const contentLength = Number.parseInt(request.headers.get('Content-Length') ?? '0', 10);
-    if (contentLength > MAX_BODY_BYTES) {
-      return json({ error: 'Request body is too large.' }, 413, corsOrigin);
+    return new Response(null, { status: 204, headers: corsHeaders(corsOrigin) });
+  }
+
+  if (request.method !== 'POST') {
+    if (!corsOrigin) {
+      return rejectCors();
     }
 
-    const rateLimit = await checkRateLimit(request);
-    if (!rateLimit.allowed) {
-      return json(
-        { error: 'Too many requests. Please try again later.' },
-        429,
-        corsOrigin,
-        rateLimit.retryAfter ? { 'Retry-After': String(rateLimit.retryAfter) } : {},
-      );
-    }
+    return json({ error: 'Method not allowed.' }, 405, corsOrigin);
+  }
 
-    let body: ContactRequestBody;
+  if (!corsOrigin || !isAllowedOrigin(request, allowedOrigins)) {
+    return rejectCors();
+  }
 
-    try {
-      body = (await request.json()) as ContactRequestBody;
-    } catch {
-      return json({ error: 'Invalid JSON body.' }, 400, corsOrigin);
-    }
+  const contentLength = Number.parseInt(request.headers.get('Content-Length') ?? '0', 10);
+  if (contentLength > MAX_BODY_BYTES) {
+    return json({ error: 'Request body is too large.' }, 413, corsOrigin);
+  }
 
-    const validation = validateContactPayload(body);
-    if (!validation.ok) {
-      if (validation.error === '__HONEYPOT__') {
-        return json({ success: true }, 200, corsOrigin);
-      }
-      return json({ error: validation.error }, 400, corsOrigin);
-    }
+  const rateLimit = await checkRateLimit(request, { scope: 'contact' });
+  if (!rateLimit.allowed) {
+    return json(
+      { error: 'Too many requests. Please try again later.' },
+      429,
+      corsOrigin,
+      rateLimit.retryAfter ? { 'Retry-After': String(rateLimit.retryAfter) } : {},
+    );
+  }
 
-    if (!env.TURNSTILE_SECRET_KEY?.trim()) {
-      console.error('TURNSTILE_SECRET_KEY is not configured.');
-      return json({ error: 'Contact service is not fully configured.' }, 503, corsOrigin);
-    }
+  let body: ContactRequestBody;
 
-    try {
-      const remoteIp = request.headers.get('CF-Connecting-IP');
-      const turnstileValid = await verifyTurnstile(
-        env.TURNSTILE_SECRET_KEY,
-        validation.payload.turnstileToken,
-        remoteIp,
-      );
+  try {
+    body = (await request.json()) as ContactRequestBody;
+  } catch {
+    return json({ error: 'Invalid JSON body.' }, 400, corsOrigin);
+  }
 
-      if (!turnstileValid) {
-        return json(
-          { error: 'Security verification failed. Please complete the check and try again.' },
-          400,
-          corsOrigin,
-        );
-      }
-
-      const [emailResult, telegramResult] = await Promise.allSettled([
-        sendEmail(env, validation.payload),
-        sendTelegram(env, validation.payload),
-      ]);
-
-      if (telegramResult.status === 'rejected') {
-        throw telegramResult.reason;
-      }
-
-      if (emailResult.status === 'rejected') {
-        throw emailResult.reason;
-      }
-
+  const validation = validateContactPayload(body);
+  if (!validation.ok) {
+    if (validation.error === '__HONEYPOT__') {
       return json({ success: true }, 200, corsOrigin);
-    } catch (error) {
-      console.error('Contact delivery failed:', error);
-      return json({ error: 'Unable to send message. Please try again later.' }, 500, corsOrigin);
     }
+    return json({ error: validation.error }, 400, corsOrigin);
+  }
+
+  if (!env.TURNSTILE_SECRET_KEY?.trim()) {
+    console.error('TURNSTILE_SECRET_KEY is not configured.');
+    return json({ error: 'Contact service is not fully configured.' }, 503, corsOrigin);
+  }
+
+  try {
+    const remoteIp = request.headers.get('CF-Connecting-IP');
+    const turnstileValid = await verifyTurnstile(
+      env.TURNSTILE_SECRET_KEY,
+      validation.payload.turnstileToken,
+      remoteIp,
+    );
+
+    if (!turnstileValid) {
+      return json(
+        { error: 'Security verification failed. Please complete the check and try again.' },
+        400,
+        corsOrigin,
+      );
+    }
+
+    const [emailResult, telegramResult] = await Promise.allSettled([
+      sendEmail(env, validation.payload),
+      sendTelegram(env, validation.payload),
+    ]);
+
+    if (telegramResult.status === 'rejected') {
+      throw telegramResult.reason;
+    }
+
+    if (emailResult.status === 'rejected') {
+      throw emailResult.reason;
+    }
+
+    return json({ success: true }, 200, corsOrigin);
+  } catch (error) {
+    console.error('Contact delivery failed:', error);
+    return json({ error: 'Unable to send message. Please try again later.' }, 500, corsOrigin);
+  }
+}
+
+function isResumeDownloadRoute(pathname: string): boolean {
+  return pathname === '/resume-download' || pathname.endsWith('/resume-download');
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const pathname = new URL(request.url).pathname.replace(/\/+$/, '') || '/';
+
+    if (isResumeDownloadRoute(pathname)) {
+      return handleResumeDownload(request, env);
+    }
+
+    return handleContact(request, env);
   },
 };

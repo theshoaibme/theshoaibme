@@ -10,6 +10,7 @@
   "packageManager": "pnpm@11.6.0",
   "scripts": {
     "dev": "vite",
+    "encrypt:data": "node scripts/encrypt-portfolio-data.mjs",
     "build": "pnpm typecheck && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b",
@@ -29,6 +30,9 @@
   "dependencies": {
     "@marsidev/react-turnstile": "^1.5.3",
     "dompurify": "^3.2.6",
+    "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.14.0",
+    "jspdf": "^4.2.1",
     "lenis": "^1.3.23",
     "motion": "^12.40.0",
     "react": "^19.1.0",
