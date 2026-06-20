@@ -62,7 +62,7 @@ function ResumeSections({ sections }: { sections: ResumeSectionConfig[] }) {
 }
 
 export default function ResumePage() {
-  const { data, loading, error, retry } = useSiteData();
+  const { data, error, retry } = useSiteData();
   const resume = data?.site.resume;
   const content = RESUME_CONTENT;
   const resumeRef = useRef<HTMLElement>(null);
@@ -168,8 +168,16 @@ export default function ResumePage() {
     }
   }, [downloading]);
 
+  if (error && !data) {
+    return (
+      <PageStatus loading={false} error={error} onRetry={retry}>
+        {null}
+      </PageStatus>
+    );
+  }
+
   return (
-    <PageStatus loading={loading} error={error} onRetry={retry}>
+    <>
       <Header
         scrollEnabled
         logoText={data?.site.logo.text ?? 'Dev'}
@@ -178,7 +186,7 @@ export default function ResumePage() {
         nav={data?.site.nav ?? DEFAULT_NAV}
       />
 
-      <main className="cv-page reveal active">
+      <main className="cv-page">
         <div className="container cv-page-container">
           <div className="cv-page-layout">
             <div className="cv-pdf-scroll">
@@ -290,6 +298,6 @@ export default function ResumePage() {
           />
         </div>
       </footer>
-    </PageStatus>
+    </>
   );
 }

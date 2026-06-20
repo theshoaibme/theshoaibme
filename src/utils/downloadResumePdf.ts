@@ -1,6 +1,3 @@
-import html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
-
 const A4_WIDTH_PX = 794;
 const A4_HEIGHT_PX = 1123;
 
@@ -13,6 +10,11 @@ export async function downloadResumePdf(
   article: HTMLElement,
   filename: string,
 ): Promise<void> {
+  const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+    import('html2canvas'),
+    import('jspdf'),
+  ]);
+
   const pages = Array.from(article.querySelectorAll<HTMLElement>('.cv-pdf-page'));
 
   if (pages.length !== 2) {
