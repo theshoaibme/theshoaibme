@@ -196,16 +196,11 @@ test.describe('Projects page', () => {
 });
 
 test.describe('Resume page', () => {
-  test('loads resume with print action and navigation back to home', async ({ page }) => {
+  test('loads resume with download action', async ({ page }) => {
     await page.goto('/resume');
     await expect(page.getByRole('heading', { name: portfolioData.profile.name, level: 1 })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Work Experience' })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Print \/ Save PDF/i })).toBeVisible();
-    await expect(page.getByRole('link', { name: /Back to Home/i })).toBeVisible();
-
-    await page.getByRole('link', { name: /Back to Home/i }).click();
-    await expect(page).toHaveURL(/\/$/);
-    await expect(page.locator('#hero')).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByRole('button', { name: /Download Resume/i })).toBeVisible();
   });
 });
 

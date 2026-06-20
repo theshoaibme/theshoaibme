@@ -19,3 +19,12 @@ export function sortSkills(skills: string[]): string[] {
     a.localeCompare(b, undefined, { sensitivity: 'base', numeric: true }),
   );
 }
+
+export function formatSkillsForResume(
+  skills: Record<string, string[]>,
+): { label: string; items: string }[] {
+  return Object.keys(skills).map((key) => ({
+    label: getSkillCategoryTitle(key),
+    items: sortSkills(skills[key]).join(', '),
+  }));
+}
