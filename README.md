@@ -82,6 +82,16 @@ cd workers/contact-api && npx wrangler deploy
 
 ---
 
+## Resume download (PDF + tracking)
+
+The resume at **`/resume`** builds a PDF in the browser. Successful downloads can increment a counter in **Cloudflare KV** and send a **Telegram** alert (with Turnstile bot protection).
+
+Full details — pipeline, storage keys, security, and CLI commands:
+
+**[docs/resume-download.md](docs/resume-download.md)**
+
+---
+
 <div align="center">
   <sub>Created by <a href="https://github.com/the-shoaib2">MD Shoaib Khan</a></sub>
 </div>
