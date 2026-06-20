@@ -1470,7 +1470,7 @@ img {
     width: 100%;
     padding:
         calc(var(--snake-amplitude, 36px) * 0.75 + 8px)
-        clamp(12px, 3vw, 24px);
+        0;
     min-height: calc(var(--snake-amplitude, 36px) * 2 + clamp(40px, 10vw, 56px));
     overflow: visible;
 }

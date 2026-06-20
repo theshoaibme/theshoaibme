@@ -51,7 +51,9 @@ export default function Services({ section, services, onDiscussProject }: Servic
           ))}
         </div>
       </div>
-      <ServicesSnakeMarquee services={services} />
+      <div className="container">
+        <ServicesSnakeMarquee services={services} />
+      </div>
     </section>
   );
 }
