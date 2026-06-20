@@ -10,6 +10,7 @@
   "packageManager": "pnpm@11.6.0",
   "scripts": {
     "dev": "vite",
+    "encrypt:data": "node scripts/encrypt-portfolio-data.mjs",
     "build": "pnpm typecheck && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b",

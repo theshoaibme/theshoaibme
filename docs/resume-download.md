@@ -27,7 +27,7 @@ The PDF is **never uploaded** to a server. Tracking is **fire-and-forget** — i
 | Data | Location | Notes |
 |------|----------|--------|
 | Resume text & layout | `src/config/resumeContent.ts` | Static content in the repo |
-| Page title / nav / footer | `public/data.json` | Loaded by the SPA |
+| Page title / nav / footer | `data/portfolio.json` → encrypted to `public/data.enc` | Network shows binary only |
 | Generated PDF | User's browser only | Not stored on GitHub or Cloudflare |
 | Download counts | **Cloudflare KV** (`DOWNLOAD_STATS`) | See keys below |
 | Rate limits (3/min) | **Cloudflare Cache** | Temporary, ~60s TTL |

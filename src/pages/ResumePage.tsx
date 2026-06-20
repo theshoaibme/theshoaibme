@@ -71,6 +71,7 @@ export default function ResumePage() {
   const resumeRef = useRef<HTMLElement>(null);
   const turnstileRef = useRef<TurnstileInstance>(null);
   const pendingDownloadRef = useRef(false);
+  const turnstileReadyRef = useRef(false);
   const [downloading, setDownloading] = useState(false);
   const [honeyPot, setHoneyPot] = useState('');
   const turnstileSiteKey = getTurnstileSiteKey();
@@ -217,6 +218,13 @@ export default function ResumePage() {
 
     if (secureTrackingEnabled) {
       pendingDownloadRef.current = true;
+
+      if (!turnstileReadyRef.current) {
+        pendingDownloadRef.current = false;
+        void runDownload();
+        return;
+      }
+
       turnstileRef.current?.execute();
       return;
     }
@@ -345,10 +353,16 @@ export default function ResumePage() {
                   <Turnstile
                     ref={turnstileRef}
                     siteKey={turnstileSiteKey}
-                    options={{ size: 'invisible' }}
+                    options={{ size: 'invisible', execution: 'execute', appearance: 'execute' }}
+                    onWidgetLoad={() => {
+                      turnstileReadyRef.current = true;
+                    }}
                     onSuccess={handleTurnstileSuccess}
                     onError={handleTurnstileError}
-                    onExpire={() => turnstileRef.current?.reset()}
+                    onExpire={() => {
+                      turnstileReadyRef.current = false;
+                      turnstileRef.current?.reset();
+                    }}
                   />
                 </div>
               ) : null}
