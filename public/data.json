@@ -66,13 +66,18 @@
                 "heading": "Privacy Policy",
                 "lastUpdated": "February 15, 2026"
             }
+        },
+        "resume": {
+            "title": "Resume | MD Shoaib Khan",
+            "heading": "Resume",
+            "subtitle": "Professional Resume"
         }
     },
     "profile": {
         "name": "MD Shoaib Khan",
         "subtitle": "Full Stack Developer",
         "profileImage": "/images/profile.jpg",
-        "description": "I build accessible, pixel-perfect, and performant web experiences. Turning ideas into real-life products is my calling.",
+        "description": "I design and build production-ready digital products for businesses and founders — from modern web and mobile experiences to secure backends, AI integrations, and cloud infrastructure that scales.",
         "social": [
             {
                 "icon": "fa-brands fa-github",
@@ -95,9 +100,9 @@
     "about": {
         "image": "/images/about/about.jpeg",
         "text": [
-            "I'm a Full Stack Developer who helps businesses and founders turn ideas into reliable, user-friendly digital products. I focus on clean design, solid engineering, and building solutions that work well long after launch.",
-            "With experience across React, Next.js, Node.js, and cloud deployment, I deliver websites and web applications that are fast, accessible, and easy to maintain. I work closely with clients from planning to delivery — so every project is clear, on track, and built to meet real business goals.",
-            "Whether you need a new product from scratch, improvements to an existing app, or smart AI features integrated the right way, I'm here to help you ship with confidence."
+            "I help businesses and founders turn ideas into products people enjoy using - thoughtfully designed, solidly engineered, and built to scale with real business needs.",
+            "On the frontend, I craft responsive interfaces with React, Next.js, Vue.js, Angular, and TypeScript, plus mobile apps with Flutter and React Native. On the backend, I build secure APIs with Spring Boot, FastAPI, Node.js, and Django, connected to PostgreSQL, MongoDB, Redis, and MySQL, and deployed on AWS, Docker, Kubernetes, and Vercel.",
+            "I integrate AI where it creates measurable value: LLM workflows, vector search, NLP, computer vision, and automation that saves time. I also deliver e-commerce platforms, real-time apps, third-party integrations, Telegram bots, and custom business systems - with clear communication, clean code, and reliable milestones from planning to delivery."
         ],
         "stats": [
             {
@@ -119,7 +124,7 @@
             "role": "Freelance Full Stack Developer",
             "company": "Freelancer",
             "duration": "2023 - Present",
-            "description": "Building scalable web apps, AI integrations, and cloud deployments for clients worldwide using React, Next.js, Node.js, and AWS."
+            "description": "Building scalable full stack applications, REST APIs, and AI integrations for clients worldwide — using React, Next.js, Spring Boot, FastAPI, Node.js, and AWS cloud infrastructure."
         },
         {
             "role": "Freelance Web Developer",
@@ -160,6 +165,7 @@
         "backend_and_apis": [
             "Django",
             "Express.js",
+            "FastAPI",
             "Flask",
             "GraphQL",
             "Kafka",

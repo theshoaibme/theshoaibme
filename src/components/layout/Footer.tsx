@@ -45,6 +45,8 @@ export default function Footer({
           <Link to="/terms">Terms of Service</Link>
           <span className="separator">•</span>
           <Link to="/privacy">Privacy Policy</Link>
+          <span className="separator">•</span>
+          <Link to="/resume">Resume</Link>
           <button id="theme-toggle" className="theme-toggle" aria-label="Toggle Theme" onClick={onToggleTheme}>
             <i className={`fa-solid ${theme === 'dark' ? 'fa-moon' : 'fa-sun'}`} />
           </button>
