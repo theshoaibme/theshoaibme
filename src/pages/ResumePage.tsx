@@ -8,7 +8,7 @@ import { isResumeDownloadTrackingConfigured } from '@/config/download';
 import { RESUME_CONTENT, type ResumeReferenceItem } from '@/config/resumeContent';
 import { getTurnstileSiteKey, isTurnstileConfigured } from '@/config/turnstile';
 import { useDocumentTitle, useSiteData } from '@/hooks/data/useSiteData';
-import { usePolicyTheme } from '@/hooks/ui/useTheme';
+import { useTheme } from '@/hooks/ui/useTheme';
 import type { NavItem } from '@/types';
 import { runResumeDownloadPipeline } from '@/utils/resumeDownloadPipeline';
 import { resolveImageUrl } from '@/utils/images';
@@ -74,6 +74,12 @@ export default function ResumePage() {
   const turnstileReadyRef = useRef(false);
   const [downloading, setDownloading] = useState(false);
   const [honeyPot, setHoneyPot] = useState('');
+  const [turnstileTheme, setTurnstileTheme] = useState<'light' | 'dark'>(() =>
+    document.documentElement.classList.contains('dark') ? 'dark' : 'light',
+  );
+  const { theme, toggleTheme } = useTheme(() => {
+    setTurnstileTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+  });
   const turnstileSiteKey = getTurnstileSiteKey();
   const secureTrackingEnabled =
     isTurnstileConfigured() && isResumeDownloadTrackingConfigured() && Boolean(turnstileSiteKey);
@@ -162,7 +168,6 @@ export default function ResumePage() {
     [content],
   );
 
-  usePolicyTheme();
   useDocumentTitle(resume?.title ?? 'Resume | MD Shoaib Khan');
 
   const runDownload = useCallback(
@@ -353,7 +358,12 @@ export default function ResumePage() {
                   <Turnstile
                     ref={turnstileRef}
                     siteKey={turnstileSiteKey}
-                    options={{ size: 'invisible', execution: 'execute', appearance: 'execute' }}
+                    options={{
+                      size: 'invisible',
+                      execution: 'execute',
+                      appearance: 'execute',
+                      theme: turnstileTheme,
+                    }}
                     onWidgetLoad={() => {
                       turnstileReadyRef.current = true;
                     }}
@@ -390,6 +400,16 @@ export default function ResumePage() {
               ),
             }}
           />
+          <div className="footer-links">
+            <button
+              type="button"
+              className="theme-toggle"
+              aria-label="Toggle Theme"
+              onClick={toggleTheme}
+            >
+              <i className={`fa-solid ${theme === 'dark' ? 'fa-moon' : 'fa-sun'}`} />
+            </button>
+          </div>
         </div>
       </footer>
     </>

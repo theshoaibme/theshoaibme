@@ -1938,8 +1938,8 @@ img {
     padding: 34px 46px 38px;
     border: none;
     border-radius: 0;
-    background: #ffffff;
-    color: #111111;
+    background: var(--cv-paper-bg, #ffffff);
+    color: var(--cv-paper-text, #111111);
     box-shadow: none;
     box-sizing: border-box;
 }
@@ -1950,6 +1950,8 @@ img {
     --cv-section-gap: 14px;
     --cv-entry-gap: 8px;
     --cv-header-gap: 6px;
+    --cv-paper-bg: #ffffff;
+    --cv-paper-text: #111111;
     --cv-blue: #1b4f83;
     font-family: "Times New Roman", Times, serif;
     font-size: 14.5px;
@@ -1981,6 +1983,11 @@ img {
     border: none;
     box-shadow: none;
     margin: 0;
+    --cv-paper-bg: #ffffff;
+    --cv-paper-text: #111111;
+    --cv-blue: #1b4f83;
+    background: #ffffff !important;
+    color: #111111 !important;
 }
 
 .cv-pdf-page--2 {
@@ -2110,7 +2117,7 @@ img {
 
 .cv-pdf-name {
     margin: 0 0 8px;
-    color: #111111;
+    color: var(--cv-paper-text);
     font-family: "Times New Roman", Times, serif;
     font-size: 31px;
     font-weight: 700;
@@ -2128,7 +2135,7 @@ img {
     align-items: flex-start;
     gap: 8px;
     margin-bottom: 3px;
-    color: #111111;
+    color: var(--cv-paper-text);
     font-size: 14.5px;
     line-height: 1.28;
 }
@@ -2143,7 +2150,7 @@ img {
 
 .cv-pdf-contact a,
 .cv-pdf-contact span {
-    color: #111111;
+    color: var(--cv-paper-text);
     text-decoration: none;
     word-break: break-word;
 }
@@ -2154,7 +2161,7 @@ img {
 
 .cv-pdf-meta {
     margin: 6px 0 0;
-    color: #111111;
+    color: var(--cv-paper-text);
     font-size: 14.5px;
 }
 
@@ -2177,14 +2184,14 @@ img {
 
 .cv-pdf-institution {
     margin: 0 0 2px;
-    color: #111111;
+    color: var(--cv-paper-text);
     font-size: 14.5px;
     line-height: 1.38;
 }
 
 .cv-pdf-detail {
     margin: 0 0 4px;
-    color: #111111;
+    color: var(--cv-paper-text);
     font-size: 14.5px;
     font-weight: 700;
     line-height: 1.38;
@@ -2192,7 +2199,7 @@ img {
 
 .cv-pdf-body {
     margin: 0;
-    color: #111111;
+    color: var(--cv-paper-text);
     font-size: 14.5px;
     line-height: 1.4;
     text-align: justify;
@@ -2239,7 +2246,7 @@ img {
 
 .cv-pdf-skills li {
     margin-bottom: 3px;
-    color: #111111;
+    color: var(--cv-paper-text);
     font-size: 14.5px;
     line-height: 1.36;
 }
@@ -2256,14 +2263,14 @@ img {
 
 .cv-pdf-reference p {
     margin: 0 0 3px;
-    color: #111111;
+    color: var(--cv-paper-text);
     font-size: 14.5px;
     line-height: 1.38;
 }
 
 .cv-pdf-reference-name {
     margin: 0 0 3px;
-    color: #111111;
+    color: var(--cv-paper-text);
     font-family: "Times New Roman", Times, serif;
     font-size: 14.5px;
     font-weight: 700;
@@ -2276,7 +2283,7 @@ img {
 
 .cv-pdf-declaration {
     margin-top: 16px;
-    color: #111111;
+    color: var(--cv-paper-text);
     font-size: 14.5px;
     line-height: 1.38;
 }
@@ -2296,7 +2303,7 @@ img {
 .cv-pdf-signature-line {
     display: block;
     width: 210px;
-    border-top: 1px dotted #111111;
+    border-top: 1px dotted var(--cv-paper-text);
 }
 
 .cv-pdf-signature p {
@@ -2307,9 +2314,38 @@ img {
     text-align: center;
 }
 
-:root.dark .cv-document {
-    background: #ffffff;
-    color: #111111;
+:root.dark .cv-page {
+    background: var(--bg-color);
+}
+
+:root.dark .cv-page .cv-document.cv-pdf-document:not(.cv-pdf-export-frame) {
+    --cv-paper-bg: var(--background);
+    --cv-paper-text: var(--foreground);
+    --cv-blue: var(--google-blue);
+    background: var(--cv-paper-bg);
+    color: var(--cv-paper-text);
+    border: none;
+    box-shadow: none;
+}
+
+:root.dark .cv-page .cv-document.cv-pdf-document:not(.cv-pdf-export-frame) .cv-pdf-reference a {
+    color: var(--cv-blue);
+}
+
+:root.dark .cv-download-btn {
+    border-color: var(--btn-outline-border);
+}
+
+:root.dark .cv-pdf-export-frame,
+:root.dark .cv-pdf-export-frame * {
+    --cv-paper-bg: #ffffff;
+    --cv-paper-text: #111111;
+    --cv-blue: #1b4f83;
+}
+
+:root.dark .cv-pdf-export-frame {
+    background: #ffffff !important;
+    color: #111111 !important;
 }
 
 @media (max-width: 860px) {
@@ -2345,6 +2381,11 @@ img {
         padding: 0;
         border: none;
         box-shadow: none;
+        --cv-paper-bg: #ffffff;
+        --cv-paper-text: #111111;
+        --cv-blue: #1b4f83;
+        background: #ffffff !important;
+        color: #111111 !important;
     }
 
     .cv-pdf-page--1 {

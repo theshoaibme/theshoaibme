@@ -48,6 +48,11 @@ export async function downloadResumePdf(
     frame.style.width = `${A4_WIDTH_PX}px`;
     frame.style.height = `${A4_HEIGHT_PX}px`;
     frame.style.padding = padding;
+    frame.style.background = '#ffffff';
+    frame.style.color = '#111111';
+    frame.style.setProperty('--cv-paper-bg', '#ffffff');
+    frame.style.setProperty('--cv-paper-text', '#111111');
+    frame.style.setProperty('--cv-blue', '#1b4f83');
 
     const pageClone = pages[index].cloneNode(true) as HTMLElement;
     frame.appendChild(pageClone);
