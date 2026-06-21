@@ -1918,12 +1918,11 @@ img {
 }
 
 .cv-page-container {
-    display: flex;
-    justify-content: center;
+    width: 100%;
 }
 
 .cv-page-layout {
-    width: min(794px, 100%);
+    width: 100%;
 }
 
 .cv-pdf-scroll {
@@ -1933,7 +1932,7 @@ img {
 
 .cv-document {
     width: 100%;
-    max-width: 794px;
+    max-width: 100%;
     margin: 0;
     padding: 34px 46px 38px;
     border: none;
