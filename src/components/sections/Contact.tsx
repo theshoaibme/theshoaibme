@@ -40,7 +40,7 @@ function ContactInfoItem({ type, value }: { type: ContactInfoKey; value: string 
     return <div className="info-item">{content}</div>;
   }
 
-  const external = type === 'location';
+  const external = type === 'location' || type === 'email';
 
   return (
     <a

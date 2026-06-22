@@ -11,7 +11,9 @@ export function getContactInfoHref(key: ContactInfoKey, value: string): string |
 
   switch (key) {
     case 'email':
-      return EMAIL_PATTERN.test(trimmed) ? `mailto:${trimmed}` : null;
+      return EMAIL_PATTERN.test(trimmed)
+        ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(trimmed)}`
+        : null;
     case 'phone': {
       const normalized = trimmed.replace(/[^\d+]/g, '');
       return PHONE_PATTERN.test(trimmed) && normalized.length >= 7 ? `tel:${normalized}` : null;

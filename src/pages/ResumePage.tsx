@@ -43,7 +43,14 @@ function ReferencesContent({ references }: { references: ResumeReferenceItem[] }
             <p key={line}>{line}</p>
           ))}
           <p>
-            E-mail: <a href={`mailto:${reference.email}`}>{reference.email}</a>
+            E-mail:{' '}
+            <a
+              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(reference.email)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {reference.email}
+            </a>
           </p>
           <p>Cell-phone: {reference.phone}</p>
         </article>
@@ -285,7 +292,13 @@ export default function ResumePage() {
                       <ul className="cv-pdf-contact">
                         <li>
                           <i className="fa-solid fa-envelope" aria-hidden="true" />
-                          <a href={`mailto:${content.personal.email}`}>{content.personal.email}</a>
+                          <a
+                            href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(content.personal.email)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {content.personal.email}
+                          </a>
                         </li>
                         <li>
                           <i className="fa-solid fa-phone" aria-hidden="true" />
