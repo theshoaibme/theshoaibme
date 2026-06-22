@@ -56,7 +56,7 @@ export interface ResumeContent {
 export const RESUME_CONTENT: ResumeContent = {
   personal: {
     name: 'MD Shoaib Khan',
-    email: 'abrohoman019@gmail.com',
+    email: 'theshoaib.me@gmail.com',
     phone: '+8801909978166',
     address: 'Daffodil Smart City, Ashulia, Dhaka',
     website: 'https://theshoaib.me',

@@ -30,7 +30,7 @@ export default function Hero({ profile, profileImageUrl, onProfileClick }: HeroP
           <div className="social-links" id="hero-social">
             {profile.social.map((link) =>
               isSafeExternalUrl(link.url) ? (
-                <a key={link.url} href={link.url} rel="noreferrer noopener">
+                <a key={link.url} href={link.url} target="_blank" rel="noreferrer noopener">
                   <i className={link.icon} />
                 </a>
               ) : null,
