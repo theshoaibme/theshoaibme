@@ -39,7 +39,13 @@ async function importDecryptionKey(): Promise<CryptoKey> {
     );
   }
 
-  return crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['decrypt']);
+  return crypto.subtle.importKey(
+    'raw',
+    keyBytes.buffer as ArrayBuffer,
+    { name: 'AES-GCM' },
+    false,
+    ['decrypt'],
+  );
 }
 
 export async function decryptPortfolioPayload(payload: ArrayBuffer): Promise<unknown> {
