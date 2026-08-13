@@ -14,7 +14,7 @@ const UA = 'Mozilla/5.0 (compatible; PortfolioCDN/1.0)';
 const PROJECTS = [
   { slug: 'meal-sphere', url: 'https://meal-sphere.vercel.app' },
   { slug: 'daffodil-intelligence', url: 'https://daffodil-intelligence.vercel.app' },
-  { slug: 'orthopedicsurgeon', url: 'https://orthopedicsurgeon.vercel.app' },
+  { slug: 'orthopedicsurgeon', url: 'https://orthopedicsurgeonrahman.com/' },
   { slug: 'sobujbd', url: 'https://app3.csetech.diu.edu.bd/' },
   { slug: 'app-pro', url: 'https://github.com/the-shoaib2/app-pro' },
   { slug: 'pregnify', url: 'https://github.com/the-shoaib2/Pregnify' },
