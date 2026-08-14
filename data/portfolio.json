@@ -275,21 +275,26 @@
         },
         {
             "name": "Orthopedic Surgeon Platform",
-            "description": "Full-stack healthcare platform with a public website, doctor portal, and admin dashboard for appointments, patient records, and clinic operations.",
+            "description": "Production healthcare platform for Dr. Ab Rahman Miah: public marketing website plus a full admin portal for appointments, chamber management, patient records, CMS content, live chat, and clinic operations.",
             "tech_stack": [
-                "Angular",
-                "Spring Boot",
+                "Laravel 12",
+                "PHP 8.2/8.3",
+                "React",
+                "Inertia.js",
                 "PostgreSQL",
                 "Redis",
-                "MinIO",
+                "Tailwind CSS",
+                "shadcn/ui",
+                "Laravel Reverb",
+                "Laravel Horizon",
+                "FrankenPHP / Octane",
                 "Docker",
-                "Turborepo",
-                "Grafana",
-                "Playwright"
+                "Bun",
+                "Google SSO / WebAuthn / 2FA"
             ],
             "repository": "https://github.com/the-shoaib2/orthopedicsurgeon",
             "image": "/images/projects/orthopedicsurgeon.jpg",
-            "live_preview": "https://orthopedicsurgeon.vercel.app",
+            "live_preview": "https://orthopedicsurgeonrahman.com/",
             "featured": true
         },
         {
