@@ -559,8 +559,10 @@ img {
 
 .hero-btns {
     display: flex;
+    align-items: center;
     gap: 16px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .hero-visual {
@@ -639,12 +641,15 @@ img {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 24px;
-    border-radius: 100px;
+    height: 48px;
+    padding: 0 24px;
+    box-sizing: border-box;
+    border-radius: 9999px;
     font-family: var(--font-body);
-    font-size: 1.05rem;
+    font-size: 0.875rem;
     font-weight: 500;
-    letter-spacing: 0;
+    line-height: 1.25rem;
+    letter-spacing: 0.01em;
     transition: var(--transition);
     cursor: pointer;
     overflow: hidden;
@@ -664,7 +669,7 @@ img {
 }
 
 .btn-outline {
-    border: 1px solid var(--btn-outline-border);
+    border: 2px solid var(--btn-outline-border);
     background: transparent;
     color: var(--primary);
 }

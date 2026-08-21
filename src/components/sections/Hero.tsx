@@ -1,5 +1,6 @@
 import type { Profile } from '@/types';
 import { isSafeExternalUrl } from '@/utils/urlValidation';
+import { LiquidCtaButton } from '@/components/buttons/LiquidCtaButton';
 
 interface HeroProps {
   profile: Profile;
@@ -20,9 +21,9 @@ export default function Hero({ profile, profileImageUrl, onProfileClick }: HeroP
             {profile.description}
           </p>
           <div className="hero-btns">
-            <a href="#portfolio" className="btn btn-primary ripple">
+            <LiquidCtaButton href="#portfolio">
               View My Work
-            </a>
+            </LiquidCtaButton>
             <a href="#contact" className="btn btn-outline ripple">
               Contact Me
             </a>
