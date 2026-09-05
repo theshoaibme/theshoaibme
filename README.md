@@ -6,8 +6,8 @@
 
 <!-- SOCIAL LINKS -->
 <p align="center">
-  <a href="https://github.com/the-shoaib2" target="_blank">
-    <img src="https://img.shields.io/badge/GitHub-the--shoaib2-181717?style=flat&logo=github&logoColor=white" />
+  <a href="https://github.com/theshoaibme" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-theshoaibme-181717?style=flat&logo=github&logoColor=white" />
   </a>
 
   <a href="mailto:abrohoman019@gmail.com">
