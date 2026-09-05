@@ -155,7 +155,7 @@ I am a passionate developer focused on Artificial Intelligence, Deep Learning, a
     <img src="https://img.shields.io/badge/NLP-F05032?style=flat&logo=ibm&logoColor=white" alt="NLP"/>
     <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white"/>
   </p>
-  <a href="https://github.com/the-shoaib2/ai-agent" target="_blank" style="text-decoration:none;">
+  <a href="https://github.com/theshoaibme/ai-agent" target="_blank" style="text-decoration:none;">
     <img src="https://img.shields.io/badge/View%20Code-GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub"/>
   </a>
 </div>
