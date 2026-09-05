@@ -1,7 +1,7 @@
 <!-- HEADER: Typing Intro -->
 <p align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&duration=3000&pause=1000&color=00C9A7&center=true&vCenter=true&width=435&lines=Hi+%F0%9F%91%8B%2C+I'm+Shoaib;AI+%2F+ML+%2F+Full+Stack+Developer;Open+Source+Contributor" style="border-radius:10px;" />
- <img src="https://komarev.com/ghpvc/?username=the-shoaib2&label=Profile%20views&color=0e75b6&style=flat" align="right" style="border-radius:8px;" />
+ <img src="https://komarev.com/ghpvc/?username=theshoaibme&label=Profile%20views&color=0e75b6&style=flat" align="right" style="border-radius:8px;" />
 </p>
 
 <!-- SOCIAL LINKS -->
