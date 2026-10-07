@@ -19,7 +19,7 @@ jobs:
       - name: Generate pacman graph
         uses: abozanona/pacman-contribution-graph@main
         with:
-          github_user_name: the-shoaib2
+          github_user_name: theshoaibme
 
       - name: Push to output branch
         uses: crazy-max/ghaction-github-pages@v3.1.0
