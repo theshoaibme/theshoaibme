@@ -2,7 +2,7 @@
 
 Personal portfolio website showcasing my work, skills, services, and contact details.
 
-🌐 **Live Website:** [theshoaib.me](https://theshoaib.me) · [the-shoaib2.github.io](https://the-shoaib2.github.io)
+🌐 **Live Website:** [theshoaib.me](https://theshoaib.me) · [the-shoaib2.github.io](https://theshoaibme.github.io)
 
 ---
 
