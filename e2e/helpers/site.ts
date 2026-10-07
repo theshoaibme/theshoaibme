@@ -33,7 +33,7 @@ interface PortfolioDataFile {
 }
 
 export const portfolioData = JSON.parse(
-  readFileSync(resolve(process.cwd(), 'data/portfolio.json'), 'utf-8'),
+  readFileSync(resolve(process.cwd(), 'public/data.json'), 'utf-8'),
 ) as PortfolioDataFile;
 
 export const featuredProjects = portfolioData.projects.filter((project) => project.featured);

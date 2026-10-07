@@ -53,7 +53,7 @@ function main() {
   console.log('  pnpm cdn:verify         # smoke-test CDN URLs');
   console.log('\nDNS (for images.theshoaib.me):');
   console.log('  Add theshoaib.me to Cloudflare, then attach custom domain on the Worker.');
-  console.log('  Until then use: https://portfolio-image-cdn.the-shoaib2.workers.dev');
+  console.log('  Until then use: https://portfolio-image-cdn.theshoaibme.workers.dev');
   console.log('\nGitHub secret (production site):');
   console.log('  VITE_CDN_BASE_URL=https://images.theshoaib.me');
 }

@@ -1,5 +1,5 @@
 {
-  "name": "the-shoaib2.github.io",
+  "name": "theshoaibme.github.io",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -10,7 +10,6 @@
   "packageManager": "pnpm@11.22.0",
   "scripts": {
     "dev": "vite",
-    "encrypt:data": "node scripts/encrypt-portfolio-data.mjs",
     "build": "pnpm typecheck && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b",
@@ -31,6 +30,7 @@
     "@marsidev/react-turnstile": "^1.5.5",
     "@paper-design/shaders-react": "^0.0.80",
     "dompurify": "^3.4.13",
+    "framer-motion": "^13.1.1",
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.14.0",
     "jspdf": "^4.2.1",

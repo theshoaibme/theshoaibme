@@ -18,8 +18,10 @@ const DEFAULT_NAV: NavItem[] = [
   { label: 'Home', link: '#hero' },
   { label: 'About', link: '#about' },
   { label: 'Skills', link: '#skills' },
+  { label: 'Experience', link: '#experience' },
   { label: 'Services', link: '#services' },
   { label: 'Portfolio', link: '#portfolio' },
+  { label: 'Testimonials', link: '#testimonials' },
   { label: 'Contact', link: '#contact' },
 ];
 

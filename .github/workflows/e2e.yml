@@ -42,7 +42,6 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           VITE_TURNSTILE_SITE_KEY: ${{ secrets.VITE_TURNSTILE_SITE_KEY }}
           VITE_CONTACT_API_URL: ${{ secrets.VITE_CONTACT_API_URL }}
-          VITE_DATA_ENCRYPTION_KEY: ${{ secrets.VITE_DATA_ENCRYPTION_KEY }}
 
       - name: Upload Playwright report
         if: failure()

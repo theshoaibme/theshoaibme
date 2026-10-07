@@ -2,6 +2,6 @@
 export const DEFAULT_ALLOWED_ORIGINS = [
   'https://theshoaib.me',
   'https://www.theshoaib.me',
-  'https://the-shoaib2.github.io',
-  'https://www.the-shoaib2.github.io',
+  'https://theshoaibme.github.io',
+  'https://www.theshoaibme.github.io',
 ];

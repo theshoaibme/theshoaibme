@@ -2,7 +2,7 @@
 
 Personal portfolio website showcasing my work, skills, services, and contact details.
 
-🌐 **Live Website:** [theshoaib.me](https://theshoaib.me) · [the-shoaib2.github.io](https://the-shoaib2.github.io)
+🌐 **Live Website:** [theshoaib.me](https://theshoaib.me) · [theshoaibme.github.io](https://theshoaibme.github.io)
 
 ---
 
@@ -41,6 +41,6 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ---
 
 <div align="center">
-  <sub>Created by <a href="https://github.com/the-shoaib2">MD Shoaib Khan</a></sub>
+  <sub>Created by <a href="https://github.com/theshoaibme">MD Shoaib Khan</a></sub>
 </div>
 

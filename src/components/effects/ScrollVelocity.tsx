@@ -210,3 +210,158 @@ function ScrollVelocityRowLocal(props: ScrollVelocityRowProps) {
 
   return <ScrollVelocityRowImpl {...props} velocityFactor={localVelocityFactor} />;
 }
+
+export interface ScrollVelocityColumnProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+  baseVelocity?: number;
+  direction?: 1 | -1;
+  scrollReactivity?: boolean;
+}
+
+export function ScrollVelocityColumn(props: ScrollVelocityColumnProps) {
+  const sharedVelocityFactor = useContext(ScrollVelocityContext);
+  if (sharedVelocityFactor) {
+    return <ScrollVelocityColumnImpl {...props} velocityFactor={sharedVelocityFactor} />;
+  }
+  return <ScrollVelocityColumnLocal {...props} />;
+}
+
+interface ScrollVelocityColumnImplProps extends ScrollVelocityColumnProps {
+  velocityFactor: MotionValue<number>;
+}
+
+function ScrollVelocityColumnImpl({
+  children,
+  baseVelocity = 10,
+  direction = 1,
+  className,
+  velocityFactor,
+  scrollReactivity = true,
+  ...props
+}: ScrollVelocityColumnImplProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const blockRef = useRef<HTMLDivElement>(null);
+  const [numCopies, setNumCopies] = useState(2);
+
+  const baseY = useMotionValue(0);
+  const baseDirectionRef = useRef<number>(direction >= 0 ? 1 : -1);
+  const currentDirectionRef = useRef<number>(direction >= 0 ? 1 : -1);
+  const unitHeight = useMotionValue(0);
+
+  const isInViewRef = useRef(true);
+  const isPageVisibleRef = useRef(true);
+  const prefersReducedMotionRef = useRef(false);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const block = blockRef.current;
+    let ro: ResizeObserver | null = null;
+    let io: IntersectionObserver | null = null;
+    let mq: MediaQueryList | null = null;
+
+    const handleVisibility = () => {
+      isPageVisibleRef.current = document.visibilityState === 'visible';
+    };
+
+    const handlePRM = () => {
+      if (mq) {
+        prefersReducedMotionRef.current = mq.matches;
+      }
+    };
+
+    if (container && block) {
+      const updateSizes = () => {
+        const ch = container.offsetHeight || 0;
+        const bh = block.scrollHeight || 0;
+        unitHeight.set(bh);
+        const nextCopies = bh > 0 ? Math.max(3, Math.ceil(ch / bh) + 2) : 2;
+        setNumCopies((prev) => (prev === nextCopies ? prev : nextCopies));
+      };
+
+      updateSizes();
+
+      ro = new ResizeObserver(updateSizes);
+      ro.observe(container);
+      ro.observe(block);
+
+      io = new IntersectionObserver(([entry]) => {
+        isInViewRef.current = entry.isIntersecting;
+      });
+      io.observe(container);
+
+      document.addEventListener('visibilitychange', handleVisibility, { passive: true });
+      handleVisibility();
+
+      mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      mq.addEventListener('change', handlePRM);
+      handlePRM();
+    }
+
+    return () => {
+      ro?.disconnect();
+      io?.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibility);
+      mq?.removeEventListener('change', handlePRM);
+    };
+  }, [children, unitHeight]);
+
+  const y = useTransform([baseY, unitHeight], ([v, bh]) => {
+    const height = Number(bh) || 1;
+    const offset = Number(v) || 0;
+    return `${-wrap(0, height, offset)}px`;
+  });
+
+  useAnimationFrame((_, delta) => {
+    if (!isInViewRef.current || !isPageVisibleRef.current) return;
+
+    const dt = delta / 1000;
+    const vf = scrollReactivity ? velocityFactor.get() : 0;
+    const absVf = Math.min(5, Math.abs(vf));
+    const speedMultiplier = prefersReducedMotionRef.current ? 1 : 1 + absVf;
+
+    if (absVf > 0.1) {
+      const scrollDirection = vf >= 0 ? 1 : -1;
+      currentDirectionRef.current = baseDirectionRef.current * scrollDirection;
+    }
+
+    const bh = unitHeight.get() || 0;
+    if (bh <= 0) return;
+
+    const pixelsPerSecond = (bh * baseVelocity) / 100;
+    const moveBy = currentDirectionRef.current * pixelsPerSecond * speedMultiplier * dt;
+    baseY.set(baseY.get() + moveBy);
+  });
+
+  return (
+    <div ref={containerRef} className={cn('scroll-velocity-column', className)} {...props}>
+      <motion.div className="scroll-velocity-track-vertical" style={{ y }}>
+        {Array.from({ length: numCopies }).map((_, i) => (
+          <div
+            key={i}
+            ref={i === 0 ? blockRef : null}
+            aria-hidden={i !== 0 ? true : undefined}
+            className="scroll-velocity-block-vertical"
+          >
+            {children}
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+function ScrollVelocityColumnLocal(props: ScrollVelocityColumnProps) {
+  const { scrollY } = useScroll();
+  const localVelocity = useVelocity(scrollY);
+  const localSmoothVelocity = useSpring(localVelocity, {
+    damping: 50,
+    stiffness: 400,
+  });
+  const localVelocityFactor = useTransform(localSmoothVelocity, (v) => {
+    const sign = v < 0 ? -1 : 1;
+    const magnitude = Math.min(5, (Math.abs(v) / 1000) * 5);
+    return sign * magnitude;
+  });
+
+  return <ScrollVelocityColumnImpl {...props} velocityFactor={localVelocityFactor} />;
+}

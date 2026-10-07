@@ -81,11 +81,11 @@
         "social": [
             {
                 "icon": "fa-brands fa-github",
-                "url": "https://github.com/the-shoaib2"
+                "url": "https://github.com/theshoaibme"
             },
             {
                 "icon": "fa-brands fa-linkedin-in",
-                "url": "https://linkedin.com/in/the-shoaib2"
+                "url": "https://linkedin.com/in/theshoaibme"
             },
             {
                 "icon": "fa-brands fa-telegram",
@@ -246,7 +246,7 @@
                 "Lucide React",
                 "Nodemailer"
             ],
-            "repository": "https://github.com/the-shoaib2/meal-sphere",
+            "repository": "https://github.com/theshoaibme/meal-sphere",
             "image": "/images/projects/meal-sphere.jpg",
             "live_preview": "https://meal-sphere.vercel.app",
             "featured": true
@@ -268,7 +268,7 @@
                 "OpenAI",
                 "Gemini"
             ],
-            "repository": "https://github.com/the-shoaib2/daffodil-intelligence",
+            "repository": "https://github.com/theshoaibme/daffodil-intelligence",
             "image": "/images/projects/daffodil-intelligence.jpg",
             "live_preview": "https://daffodil-intelligence.vercel.app",
             "featured": true
@@ -292,7 +292,7 @@
                 "Bun",
                 "Google SSO / WebAuthn / 2FA"
             ],
-            "repository": "https://github.com/the-shoaib2/orthopedicsurgeon",
+            "repository": "https://github.com/theshoaibme/orthopedicsurgeon",
             "image": "/images/projects/orthopedicsurgeon.jpg",
             "live_preview": "https://orthopedicsurgeonrahman.com/",
             "featured": true
@@ -327,7 +327,7 @@
                 "Linux",
                 "Cargo"
             ],
-            "repository": "https://github.com/the-shoaib2/app-pro",
+            "repository": "https://github.com/theshoaibme/app-pro",
             "image": "/images/projects/app-pro.jpg",
             "live_preview": null,
             "featured": false
@@ -348,7 +348,7 @@
                 "ShadCN UI",
                 "Chart.js"
             ],
-            "repository": "https://github.com/the-shoaib2/Pregnify",
+            "repository": "https://github.com/theshoaibme/Pregnify",
             "image": "/images/projects/pregnify.jpg",
             "live_preview": null,
             "featured": false
@@ -375,7 +375,7 @@
                 "Zustand",
                 "Recharts"
             ],
-            "repository": "https://github.com/the-shoaib2/Super-Shop-Management",
+            "repository": "https://github.com/theshoaibme/Super-Shop-Management",
             "image": "/images/projects/super-shop-management.jpg",
             "live_preview": null,
             "featured": false
