@@ -14,12 +14,12 @@
     <img src="https://img.shields.io/badge/Gmail-abrohoman019%40gmail.com-EA4335?style=flat&logo=gmail&logoColor=white" />
   </a>
 
-  <a href="https://www.facebook.com/the.shoaib2" target="_blank">
-    <img src="https://img.shields.io/badge/Facebook-the.shoaib2-1877F2?style=flat&logo=facebook&logoColor=white" />
+  <a href="https://www.facebook.com/theshoaibme" target="_blank">
+    <img src="https://img.shields.io/badge/Facebook-theshoaibme-1877F2?style=flat&logo=facebook&logoColor=white" />
   </a>
 
-  <a href="https://www.linkedin.com/in/the-shoaib2" target="_blank">
-    <img src="https://img.shields.io/badge/LinkedIn-the--shoaib2-0A66C2?style=flat&logo=linkedin&logoColor=white" />
+  <a href="https://www.linkedin.com/in/theshoaibme" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-theshoaibme-0A66C2?style=flat&logo=linkedin&logoColor=white" />
   </a>
 
   <a href="https://theshoaib.me/" target="_blank">
