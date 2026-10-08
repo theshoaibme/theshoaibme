@@ -3479,8 +3479,85 @@ img {
     }
 
     .hero-btns {
-        flex-direction: row;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 440px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 24px;
+        gap: 12px;
+    }
+
+    .hero-btns > * {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .hero-btns .liquid-cta-btn-link {
+        display: flex !important;
+        width: 100% !important;
+        height: 48px;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .hero-btns .liquid-cta-btn-wrapper,
+    .hero-btns .liquid-metal-border-container {
+        width: 100% !important;
+        height: 48px;
+        display: flex !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+    }
+
+    .hero-btns .liquid-metal-border-content {
+        width: 100% !important;
+        display: flex !important;
+        flex: 1 1 0% !important;
+        box-sizing: border-box !important;
+    }
+
+    .hero-btns .liquid-cta-inner {
+        width: 100% !important;
+        display: flex !important;
+        flex: 1 1 0% !important;
+        padding: 0 10px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 6px !important;
+        box-sizing: border-box !important;
+    }
+
+    .hero-btns .liquid-cta-text {
+        font-size: 0.85rem;
+        white-space: nowrap;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .hero-btns .liquid-cta-icon svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+
+    .hero-btns .btn {
+        display: inline-flex !important;
+        width: 100% !important;
+        height: 48px;
+        font-size: 0.85rem;
+        padding: 0 10px;
+        margin: 0 !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center;
+        white-space: nowrap;
+        box-sizing: border-box !important;
     }
 
     .modal-content img {
@@ -3517,8 +3594,27 @@ img {
     }
 
     .hero-btns {
-        flex-direction: column;
-        gap: 12px;
+        gap: 8px;
+        max-width: 100%;
+    }
+
+    .hero-btns .btn,
+    .hero-btns .liquid-cta-text {
+        font-size: 0.8125rem;
+    }
+
+    .hero-btns .btn,
+    .hero-btns .liquid-cta-inner {
+        padding: 0 8px !important;
+    }
+
+    .hero-btns .liquid-cta-inner {
+        gap: 4px !important;
+    }
+
+    .hero-btns .liquid-cta-icon svg {
+        width: 14px;
+        height: 14px;
     }
 
     .btn {

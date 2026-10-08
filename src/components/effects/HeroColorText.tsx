@@ -7,13 +7,13 @@ interface HeroColorTextProps {
   speed?: number;
 }
 
-type AnimationPhase = 'converting' | 'hold' | 'resetting' | 'idle';
+type AnimationPhase = 'converting' | 'hold' | 'rolling-back' | 'idle';
 
 export function HeroColorText({
   text,
   className = '',
   id,
-  speed = 28,
+  speed = 26,
 }: HeroColorTextProps) {
   const lines = useMemo(() => {
     if (text.includes('\n')) {
@@ -51,8 +51,8 @@ export function HeroColorText({
 
     const getDelay = (char: string | undefined): number => {
       if (!char) return speed;
-      if (char === ',' || char === '—') return Math.max(speed, 110);
-      if (char === '.') return Math.max(speed, 140);
+      if (char === ',' || char === '—') return Math.max(speed, 100);
+      if (char === '.') return Math.max(speed, 130);
       return speed;
     };
 
@@ -80,27 +80,41 @@ export function HeroColorText({
         if (current < totalChars) {
           const nextChar = getCharAtGlobalIndex(current);
           const isLineEnd = lineMetadata.some((meta) => meta.startIndex + meta.length === current + 1);
-          const delay = isLineEnd ? Math.max(speed, 130) : getDelay(nextChar);
+          const delay = isLineEnd ? Math.max(speed, 120) : getDelay(nextChar);
           timerId = setTimeout(advanceChar, delay);
         } else {
           // Finished converting all characters: Hold in full color
           setPhase('hold');
           timerId = setTimeout(() => {
             if (isCancelled) return;
-            // Smoothly transition back to base color
-            setPhase('resetting');
-            setActiveIndex(-1);
+            // Begin reverse rollback: un-colors from end back to beginning
+            setPhase('rolling-back');
+            let rollbackCurrent = totalChars - 1;
+            setActiveIndex(rollbackCurrent);
 
-            timerId = setTimeout(() => {
+            const rollbackChar = () => {
               if (isCancelled) return;
-              setPhase('idle');
-              // Rest before the next cycle
-              timerId = setTimeout(() => {
-                if (isCancelled) return;
-                startCycle();
-              }, 800);
-            }, 900);
-          }, 3200);
+              rollbackCurrent -= 1;
+              setActiveIndex(rollbackCurrent);
+
+              if (rollbackCurrent >= 0) {
+                const prevChar = getCharAtGlobalIndex(rollbackCurrent);
+                const isLineStart = lineMetadata.some((meta) => meta.startIndex === rollbackCurrent + 1);
+                const rollbackDelay = isLineStart ? Math.max(speed, 90) : getDelay(prevChar);
+                timerId = setTimeout(rollbackChar, rollbackDelay);
+              } else {
+                // Fully rolled back to base color: brief rest then start again
+                setPhase('idle');
+                setActiveIndex(-1);
+                timerId = setTimeout(() => {
+                  if (isCancelled) return;
+                  startCycle();
+                }, 800);
+              }
+            };
+
+            timerId = setTimeout(rollbackChar, getDelay(getCharAtGlobalIndex(rollbackCurrent)));
+          }, 3000);
         }
       };
 
@@ -141,9 +155,7 @@ export function HeroColorText({
 
                 if (phase === 'hold') {
                   charClasses = 'inline transition-colors duration-400 ease-out text-[var(--google-blue)] dark:text-[#4285f4]';
-                } else if (phase === 'resetting') {
-                  charClasses = 'inline transition-colors duration-900 ease-out text-[var(--hero-beam-base,var(--text-secondary))]';
-                } else if (phase === 'converting') {
+                } else if (phase === 'converting' || phase === 'rolling-back') {
                   if (globalIdx < activeIndex) {
                     charClasses = 'inline transition-colors duration-400 ease-out text-[var(--google-blue)] dark:text-[#4285f4]';
                   } else if (globalIdx === activeIndex) {
