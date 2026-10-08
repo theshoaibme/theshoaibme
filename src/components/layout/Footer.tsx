@@ -3,6 +3,7 @@ import type { Profile } from '@/types';
 import LogoMark from '@/components/common/LogoMark';
 import { sanitizeHtml } from '@/utils/sanitize';
 import { isSafeExternalUrl } from '@/utils/urlValidation';
+import { getSocialLabel } from '@/utils/contactLinks';
 
 interface FooterProps {
   footerText: string;
@@ -28,13 +29,23 @@ export default function Footer({
       </div>
       <div className="container footer-content">
         <div className="footer-social" id="footer-social">
-          {profile.social.map((link) =>
-            isSafeExternalUrl(link.url) ? (
-              <a key={link.url} href={link.url} target="_blank" rel="noreferrer noopener">
-                <i className={link.icon} />
+          {profile.social.map((link) => {
+            if (!isSafeExternalUrl(link.url)) return null;
+            const label = getSocialLabel(link.url, link.icon);
+            return (
+              <a
+                key={link.url}
+                href={link.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label={label}
+                title={label}
+              >
+                <i className={link.icon} aria-hidden="true" />
+                <span className="sr-only">{label}</span>
               </a>
-            ) : null,
-          )}
+            );
+          })}
         </div>
         <p
           id="footer-text"

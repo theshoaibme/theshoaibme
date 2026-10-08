@@ -175,6 +175,7 @@ export default function Portfolio({ section, projects, onImageClick }: Portfolio
 
         <div className="portfolio-carousel reveal">
           <div
+            id="portfolio-grid"
             ref={trackRef}
             className={`portfolio-carousel-track${isDragging ? ' is-dragging' : ''}`}
             onPointerDown={handlePointerDown}

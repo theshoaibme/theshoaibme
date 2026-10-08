@@ -1,5 +1,6 @@
 import type { Profile } from '@/types';
 import { isSafeExternalUrl } from '@/utils/urlValidation';
+import { getSocialLabel } from '@/utils/contactLinks';
 import { LiquidCtaButton } from '@/components/buttons/LiquidCtaButton';
 import { HeroColorText } from '@/components/effects/HeroColorText';
 
@@ -31,13 +32,23 @@ export default function Hero({ profile, profileImageUrl, onProfileClick }: HeroP
             </a>
           </div>
           <div className="social-links" id="hero-social">
-            {profile.social.map((link) =>
-              isSafeExternalUrl(link.url) ? (
-                <a key={link.url} href={link.url} target="_blank" rel="noreferrer noopener">
-                  <i className={link.icon} />
+            {profile.social.map((link) => {
+              if (!isSafeExternalUrl(link.url)) return null;
+              const label = getSocialLabel(link.url, link.icon);
+              return (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label={label}
+                  title={label}
+                >
+                  <i className={link.icon} aria-hidden="true" />
+                  <span className="sr-only">{label}</span>
                 </a>
-              ) : null,
-            )}
+              );
+            })}
           </div>
         </div>
         <div className="hero-visual fade-in-left">

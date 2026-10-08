@@ -1,0 +1,35 @@
+# MD Shoaib Khan
+
+> Full Stack Developer & Digital Product Engineer building production-ready digital products for businesses and founders — from modern web and mobile experiences to secure backends, AI integrations, and cloud infrastructure that scales.
+
+## Overview
+
+- Name: MD Shoaib Khan
+- Role: Full Stack Developer
+- Location: Dhaka, Bangladesh (Available for global remote work)
+- Portfolio Website: https://theshoaib.me
+- Primary Focus: Web & mobile applications, resilient APIs, AI integration, and cloud DevOps
+
+## Navigation
+
+- [Portfolio Home](https://theshoaib.me/): Overview of MD Shoaib Khan, featured projects, tech stack, and services
+- [Projects](https://theshoaib.me/projects): Production web and mobile applications, open-source repositories, and demos
+- [Resume](https://theshoaib.me/resume): Detailed career experience, education, skills, and printable CV
+- [Privacy Policy](https://theshoaib.me/privacy): Website privacy guidelines and data practices
+- [Terms of Service](https://theshoaib.me/terms): Website terms and conditions
+
+## Core Capabilities
+
+- Frontend: React, Next.js, TypeScript, Tailwind CSS, Vue.js, Angular, HTML5, Vanilla CSS
+- Mobile: Flutter, React Native, iOS, Android
+- Backend: Node.js, Spring Boot, FastAPI, Django, Express.js, REST APIs, GraphQL, WebSockets
+- Databases: PostgreSQL, MongoDB, Redis, MySQL
+- AI & Automation: LLM workflows, Vector Search, OpenAI API, Anthropic API, LangChain
+- Cloud & Infrastructure: AWS, Docker, Kubernetes, CI/CD, Linux, Vercel, Cloudflare
+
+## Social & Contact
+
+- [GitHub Profile](https://github.com/theshoaibme): Open source repositories, code samples, and contributions
+- [LinkedIn Profile](https://linkedin.com/in/theshoaibme): Professional experience, career updates, and recommendations
+- [Telegram](https://telegram.me/the_shoaib2): Direct messaging for inquiries and collaboration
+- [Instagram](https://instagram.com/the.shoaib3): Personal and creative updates
