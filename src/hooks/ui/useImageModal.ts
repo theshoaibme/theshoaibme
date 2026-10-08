@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-export type ImageModalVariant = 'round' | 'square';
+export type ImageModalVariant = 'round' | 'square' | 'video';
 
 export function useImageModal() {
   const [isOpen, setIsOpen] = useState(false);

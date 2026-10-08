@@ -16,8 +16,6 @@ import Services from '@/components/sections/Services';
 import Skills from '@/components/sections/Skills';
 import Testimonials from '@/components/sections/Testimonials';
 import ImageModal from '@/components/effects/ImageModal';
-import ParticleCanvas from '@/components/effects/ParticleCanvas';
-import { useParticlesSystem } from '@/hooks/animation/useParticles';
 import {
   hideAllSections,
   useRevealAnimations,
@@ -40,22 +38,13 @@ export default function HomePage() {
   const { data, error, loading, retry } = useSiteData();
   const [serviceInquiry, setServiceInquiry] = useState<ServiceInquiryTemplate | null>(null);
   const sectionsHiddenRef = useRef(false);
-  const reinitParticlesRef = useRef<(() => void) | null>(null);
   const interactionsReady = Boolean(data);
-
-  const handleParticlesInit = useCallback((reinit: () => void) => {
-    reinitParticlesRef.current = reinit;
-  }, []);
-
-  const handleThemeChange = useCallback(() => {
-    reinitParticlesRef.current?.();
-  }, []);
 
   const handleDiscussProject = useCallback((service: Service) => {
     setServiceInquiry(buildServiceInquiryTemplate(service));
   }, []);
 
-  const { theme, toggleTheme } = useTheme(handleThemeChange);
+  const { theme, toggleTheme } = useTheme();
   const { isOpen, imageSrc, variant, openModal, closeModal, clearModal } = useImageModal();
 
   useDocumentTitle(data?.site.title ?? 'Portfolio');
@@ -69,7 +58,6 @@ export default function HomePage() {
 
   useCustomScrollbar();
   useRippleEffect();
-  useParticlesSystem(interactionsReady, handleParticlesInit);
 
   useScrollSpy(interactionsReady);
   useSmoothNavScroll(interactionsReady);
@@ -105,7 +93,6 @@ export default function HomePage() {
 
   return (
     <>
-      <ParticleCanvas />
       <CustomScrollbar />
       <Header
         scrollEnabled={interactionsReady}
@@ -134,7 +121,11 @@ export default function HomePage() {
           services={data.services}
           onDiscussProject={handleDiscussProject}
         />
-        <Portfolio section={getSiteSection(data.site.sections, 'portfolio')} projects={data.projects} />
+        <Portfolio
+          section={getSiteSection(data.site.sections, 'portfolio')}
+          projects={data.projects}
+          onImageClick={(url) => openModal(url, 'video')}
+        />
         <Testimonials testimonials={data.testimonials} />
         <Contact
           section={getSiteSection(data.site.sections, 'contact')}

@@ -7,9 +7,10 @@ import { getFeaturedProjects, hasMoreProjects } from '@/utils/projects';
 interface PortfolioProps {
   section: SiteSection;
   projects: Project[];
+  onImageClick?: (imageUrl: string) => void;
 }
 
-export default function Portfolio({ section, projects }: PortfolioProps) {
+export default function Portfolio({ section, projects, onImageClick }: PortfolioProps) {
   const featuredProjects = getFeaturedProjects(projects);
   const showViewAll = hasMoreProjects(projects);
 
@@ -202,7 +203,12 @@ export default function Portfolio({ section, projects }: PortfolioProps) {
                 aria-roledescription="slide"
                 aria-label={`${index + 1} of ${featuredProjects.length}`}
               >
-                <ProjectCard project={project} index={index} animate={false} />
+                <ProjectCard
+                  project={project}
+                  index={index}
+                  animate={false}
+                  onImageClick={onImageClick}
+                />
               </div>
             ))}
           </div>

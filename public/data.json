@@ -252,28 +252,6 @@
             "featured": true
         },
         {
-            "name": "Daffodil Intelligence",
-            "description": "360° multi-agent AI operating system for university life — academic, library, career, research, voice, and automation agents with real-time WebSocket chat, Telegram, and MCP integration.",
-            "tech_stack": [
-                "React",
-                "Vite",
-                "FastAPI",
-                "LangGraph",
-                "LangChain",
-                "PostgreSQL",
-                "Redis",
-                "Qdrant",
-                "WebSockets",
-                "Docker",
-                "OpenAI",
-                "Gemini"
-            ],
-            "repository": "https://github.com/theshoaibme/daffodil-intelligence",
-            "image": "/images/projects/daffodil-intelligence.jpg",
-            "live_preview": "https://daffodil-intelligence.vercel.app",
-            "featured": true
-        },
-        {
             "name": "Orthopedic Surgeon Platform",
             "description": "Production healthcare platform for Dr. Ab Rahman Miah: public marketing website plus a full admin portal for appointments, chamber management, patient records, CMS content, live chat, and clinic operations.",
             "tech_stack": [
@@ -295,6 +273,28 @@
             "repository": "https://github.com/theshoaibme/orthopedicsurgeon",
             "image": "/images/projects/orthopedicsurgeon.jpg",
             "live_preview": "https://orthopedicsurgeonrahman.com/",
+            "featured": true
+        },
+        {
+            "name": "Daffodil Intelligence",
+            "description": "360° multi-agent AI operating system for university life — academic, library, career, research, voice, and automation agents with real-time WebSocket chat, Telegram, and MCP integration.",
+            "tech_stack": [
+                "React",
+                "Vite",
+                "FastAPI",
+                "LangGraph",
+                "LangChain",
+                "PostgreSQL",
+                "Redis",
+                "Qdrant",
+                "WebSockets",
+                "Docker",
+                "OpenAI",
+                "Gemini"
+            ],
+            "repository": "https://github.com/theshoaibme/daffodil-intelligence",
+            "image": "/images/projects/daffodil-intelligence.jpg",
+            "live_preview": "https://daffodil-intelligence.vercel.app",
             "featured": true
         },
         {
