@@ -9,6 +9,14 @@ interface TestimonialsProps {
   testimonials: Testimonial[];
 }
 
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+  }
+  return (parts[0]?.[0] ?? '?').toUpperCase();
+}
+
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <div className="testimonial-card">
@@ -17,14 +25,22 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
         <p>&quot;{testimonial.feedback}&quot;</p>
       </div>
       <div className="testimonial-author">
-        <img
-          src={resolveImageUrl(testimonial.avatar)}
-          alt={testimonial.name}
-          className="author-img"
-          loading="lazy"
-        />
+        {testimonial.avatar ? (
+          <img
+            src={resolveImageUrl(testimonial.avatar)}
+            alt={testimonial.name}
+            className="author-img"
+            loading="lazy"
+            width={40}
+            height={40}
+          />
+        ) : (
+          <div className="author-img author-initials" aria-hidden="true">
+            {getInitials(testimonial.name)}
+          </div>
+        )}
         <div className="author-info">
-          <h4>{testimonial.name}</h4>
+          <h3>{testimonial.name}</h3>
           <p>{testimonial.role}</p>
         </div>
       </div>

@@ -102,36 +102,38 @@ export default function HomePage() {
         nav={data.site.nav}
       />
       <div className="scroll-container" id="scroll-container">
-        <Hero
-          profile={data.profile}
-          profileImageUrl={profileImageUrl}
-          onProfileClick={() => openModal(profileImageUrl, 'round')}
-        />
-        <About
-          section={getSiteSection(data.site.sections, 'about')}
-          about={data.about}
-          aboutImage={aboutImageUrl}
-          profileName={data.profile.name}
-          onImageClick={() => openModal(aboutImageUrl, 'square')}
-        />
-        <Skills section={getSiteSection(data.site.sections, 'skills')} skills={data.skills} />
-        <Experience experience={data.experience} />
-        <Services
-          section={getSiteSection(data.site.sections, 'services')}
-          services={data.services}
-          onDiscussProject={handleDiscussProject}
-        />
-        <Portfolio
-          section={getSiteSection(data.site.sections, 'portfolio')}
-          projects={data.projects}
-          onImageClick={(url) => openModal(url, 'video')}
-        />
-        <Testimonials testimonials={data.testimonials} />
-        <Contact
-          section={getSiteSection(data.site.sections, 'contact')}
-          contact={data.contact}
-          inquiryTemplate={serviceInquiry}
-        />
+        <main id="main-content">
+          <Hero
+            profile={data.profile}
+            profileImageUrl={profileImageUrl}
+            onProfileClick={() => openModal(profileImageUrl, 'round')}
+          />
+          <About
+            section={getSiteSection(data.site.sections, 'about')}
+            about={data.about}
+            aboutImage={aboutImageUrl}
+            profileName={data.profile.name}
+            onImageClick={() => openModal(aboutImageUrl, 'square')}
+          />
+          <Skills section={getSiteSection(data.site.sections, 'skills')} skills={data.skills} />
+          <Experience experience={data.experience} />
+          <Services
+            section={getSiteSection(data.site.sections, 'services')}
+            services={data.services}
+            onDiscussProject={handleDiscussProject}
+          />
+          <Portfolio
+            section={getSiteSection(data.site.sections, 'portfolio')}
+            projects={data.projects}
+            onImageClick={(url) => openModal(url, 'video')}
+          />
+          <Testimonials testimonials={data.testimonials} />
+          <Contact
+            section={getSiteSection(data.site.sections, 'contact')}
+            contact={data.contact}
+            inquiryTemplate={serviceInquiry}
+          />
+        </main>
         <Footer
           footerText={data.site.footer}
           logoText={data.site.logo.text}

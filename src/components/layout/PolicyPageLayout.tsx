@@ -42,7 +42,7 @@ export default function PolicyPageLayout({
         scrollEnabled
         logoText={site?.logo.text ?? 'Dev'}
         logoSpan={site?.logo.span ?? 'Portfolio.'}
-        favicon={site?.favicon ?? '/images/favicon.ico'}
+        favicon={site?.favicon}
         nav={site?.nav ?? DEFAULT_NAV}
       />
 

@@ -86,7 +86,7 @@ export interface Testimonial {
   name: string;
   role: string;
   feedback: string;
-  avatar: string;
+  avatar?: string | null;
 }
 
 export interface Contact {

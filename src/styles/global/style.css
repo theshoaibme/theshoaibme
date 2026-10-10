@@ -54,6 +54,8 @@
     --btn-primary-hover-shadow: rgba(32, 33, 36, 0.2);
     --btn-outline-border: rgba(0, 0, 0, 0.2);
     --btn-outline-hover-bg: rgba(11, 87, 208, 0.05);
+    --title-gradient-start: #202124;
+    --title-gradient-end: #6e7278;
 
     /* Legacy Variables Mapped to New Semantic ones where possible */
     --bg-color: var(--background);
@@ -136,6 +138,9 @@
     --btn-primary-hover-shadow: rgba(255, 255, 255, 0.12);
     --btn-outline-border: rgba(255, 255, 255, 0.28);
     --btn-outline-hover-bg: rgba(11, 87, 208, 0.12);
+    --google-blue: #8ab4f8;
+    --title-gradient-start: #ffffff;
+    --title-gradient-end: #9aa0a6;
 
     /* Re-map Legacy Variables for Dark Mode */
     --bg-color: var(--background);
@@ -540,13 +545,13 @@ img {
 
 .title {
     margin-bottom: 30px;
-    background: linear-gradient(135deg, var(--foreground) 0%, var(--gray-600) 100%);
+    background: linear-gradient(180deg, var(--title-gradient-start) 0%, var(--title-gradient-end) 100%);
     color: var(--text-color);
     font-family: var(--font-heading);
-    font-size: 6rem;
+    font-size: 5rem;
     font-weight: 700;
-    letter-spacing: -3px;
-    line-height: 0.95;
+    letter-spacing: -2.5px;
+    line-height: 1;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1762,6 +1767,20 @@ img {
     flex-shrink: 0;
 }
 
+.author-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card);
+    color: var(--primary);
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: var(--font-heading);
+    letter-spacing: 0.5px;
+    user-select: none;
+}
+
+.author-info h3,
 .author-info h4 {
     margin-bottom: 2px;
     color: var(--text-color);
@@ -1876,6 +1895,7 @@ img {
         flex-shrink: 0;
     }
 
+    .author-info h3,
     .author-info h4 {
         margin-bottom: 2px;
         font-size: 0.8rem;
@@ -1938,6 +1958,7 @@ img {
         height: 26px;
     }
 
+    .author-info h3,
     .author-info h4 {
         font-size: 0.74rem;
     }
@@ -2702,6 +2723,7 @@ img {
     font-size: 1.2rem;
 }
 
+.info-item h3,
 .info-item h4 {
     margin-bottom: 2px;
     color: var(--text-secondary);

@@ -22,27 +22,30 @@ export default function ProjectCard({
       className={`project-card${animate ? ' reveal' : ''} relative border-none rounded-[28px] bg-[var(--muted)] p-5 transition-all duration-300 cursor-default h-full flex flex-col`}
       style={animate ? { transitionDelay: `${index * 80}ms` } : undefined}
     >
-      <div
-        className={`project-img${projectImg ? ' loading' : ' no-image'} relative w-full mb-4 border-none rounded-[16px] bg-[var(--background)] overflow-hidden aspect-video aspect-[16/9] flex items-center justify-center${onImageClick && projectImg ? ' cursor-pointer' : ''}`}
-        onClick={onImageClick && projectImg ? () => onImageClick(projectImg) : undefined}
-        role={onImageClick && projectImg ? 'button' : undefined}
-        tabIndex={onImageClick && projectImg ? 0 : undefined}
-        onKeyDown={
-          onImageClick && projectImg
-            ? (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  onImageClick(projectImg);
+      {projectImg ? (
+        <div
+          className={`project-img loading relative w-full mb-4 border-none rounded-[16px] bg-[var(--background)] overflow-hidden aspect-video aspect-[16/9] flex items-center justify-center${onImageClick ? ' cursor-pointer' : ''}`}
+          onClick={onImageClick ? () => onImageClick(projectImg) : undefined}
+          role={onImageClick ? 'button' : undefined}
+          tabIndex={onImageClick ? 0 : undefined}
+          onKeyDown={
+            onImageClick
+              ? (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onImageClick(projectImg);
+                  }
                 }
-              }
-            : undefined
-        }
-        aria-label={onImageClick && projectImg ? `View full image for ${project.name}` : undefined}
-      >
-        {projectImg ? (
+              : undefined
+          }
+          aria-label={onImageClick ? `View full image for ${project.name}` : undefined}
+        >
           <img
             src={projectImg}
             alt={project.name}
+            loading="lazy"
+            width={1200}
+            height={675}
             className="project-card-img w-full h-full opacity-0 transition-[transform_0.6s_cubic-bezier(0.4,0,0.2,1),opacity_0.5s_ease] object-cover object-top aspect-video aspect-[16/9]"
             onLoad={(event) => {
               const img = event.currentTarget;
@@ -56,9 +59,9 @@ export default function ProjectCard({
               img.parentElement?.classList.add('no-image');
             }}
           />
-        ) : null}
-        <div className="img-fallback absolute inset-0 -z-[1] flex items-center justify-center w-full h-full bg-[var(--background)] text-[var(--text-secondary)] text-[2rem] aspect-video aspect-[16/9]" />
-      </div>
+          <div className="img-fallback absolute inset-0 -z-[1] flex items-center justify-center w-full h-full bg-[var(--background)] text-[var(--text-secondary)] text-[2rem] aspect-video aspect-[16/9]" />
+        </div>
+      ) : null}
       <div className="project-content flex flex-col grow">
         <h3 className="mb-2 text-[var(--text-color)] font-heading text-[1.25rem] font-semibold leading-[1.2]">{project.name}</h3>
         <p className="mb-3 text-[var(--text-secondary)] text-[0.9rem] leading-[1.5]">{project.description}</p>

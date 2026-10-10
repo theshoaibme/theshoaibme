@@ -63,7 +63,7 @@ export const RESUME_CONTENT: ResumeContent = {
     github: 'https://github.com/theshoaibme',
     sex: 'Male',
     dateOfBirth: '1 December 2001',
-    photo: '/images/profile.jpg',
+    photo: 'https://avatars.githubusercontent.com/u/125272364',
   },
   about:
     'I am MD Shoaib Khan, a motivated Computer Science student focused on AI and full-stack development. I specialize in designing scalable, innovative solutions using modern technologies. Committed to continuous growth, I excel at solving complex problems and delivering high-quality software. I aim to contribute my skills to forward-thinking organizations and grow as a technology leader. I thrive in collaborative environments where creativity and teamwork drive success. Passionate about learning, I stay updated with industry trends to deliver impactful results.',

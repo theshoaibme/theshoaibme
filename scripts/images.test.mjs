@@ -54,3 +54,32 @@ test('resolveImageUrl falls back to same-origin without CDN', () => {
 test('resolveImageUrl handles empty input', () => {
   assert.equal(resolveImageUrl('  ', 'https://cdn.test'), '');
 });
+
+function getProjectImage(project, cdnBase = '') {
+  if (project.image) {
+    return resolveImageUrl(project.image, cdnBase);
+  }
+  if (project.live_preview && /^https?:\/\//i.test(project.live_preview)) {
+    return `https://s0.wp.com/mshots/v1/${encodeURIComponent(project.live_preview)}?w=1200`;
+  }
+  return '';
+}
+
+test('getProjectImage auto-renders screenshot via WordPress mshots if live_preview exists and image is null', () => {
+  const project = {
+    image: null,
+    live_preview: 'https://meal-sphere.vercel.app',
+  };
+  assert.equal(
+    getProjectImage(project),
+    'https://s0.wp.com/mshots/v1/https%3A%2F%2Fmeal-sphere.vercel.app?w=1200',
+  );
+});
+
+test('getProjectImage returns empty string when neither image nor live_preview is available', () => {
+  const project = {
+    image: null,
+    live_preview: null,
+  };
+  assert.equal(getProjectImage(project), '');
+});

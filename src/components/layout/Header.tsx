@@ -11,7 +11,7 @@ import { isSafeNavLink } from '@/utils/urlValidation';
 interface HeaderProps {
   logoText: string;
   logoSpan: string;
-  favicon: string;
+  favicon?: string;
   nav: NavItem[];
   scrollEnabled?: boolean;
 }
@@ -22,7 +22,7 @@ export default function Header({ logoText, logoSpan, favicon, nav, scrollEnabled
   const activeSection = useActiveNavSection();
   const [menuOpen, setMenuOpen] = useState(false);
   const { headerClassName } = useHeaderScroll({ enabled: scrollEnabled });
-  const faviconSrc = resolveAssetPath(favicon);
+  const faviconSrc = favicon ? resolveAssetPath(favicon) : '';
 
   const toggleMenu = useCallback(() => {
     setMenuOpen((open) => !open);
@@ -34,7 +34,7 @@ export default function Header({ logoText, logoSpan, favicon, nav, scrollEnabled
 
   const logoContent = (
     <>
-      <img src={faviconSrc} alt="Icon" className="logo-icon" />
+      {faviconSrc ? <img src={faviconSrc} alt="Icon" className="logo-icon" /> : null}
       <div>
         <LogoMark logoText={logoText} logoSpan={logoSpan} />
       </div>

@@ -64,7 +64,15 @@ export default function Hero({ profile, profileImageUrl, onProfileClick }: HeroP
               role="button"
               tabIndex={0}
             >
-              <img src={profileImageUrl} alt={profile.name} id="hero-img" loading="eager" />
+              <img
+                src={profileImageUrl}
+                alt={profile.name}
+                id="hero-img"
+                loading="eager"
+                width={460}
+                height={460}
+                fetchPriority="high"
+              />
             </div>
           ) : null}
         </div>

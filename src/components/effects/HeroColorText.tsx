@@ -13,7 +13,7 @@ export function HeroColorText({
   text,
   className = '',
   id,
-  speed = 26,
+  speed = 18,
 }: HeroColorTextProps) {
   const lines = useMemo(() => {
     if (text.includes('\n')) {
@@ -51,8 +51,8 @@ export function HeroColorText({
 
     const getDelay = (char: string | undefined): number => {
       if (!char) return speed;
-      if (char === ',' || char === '—') return Math.max(speed, 100);
-      if (char === '.') return Math.max(speed, 130);
+      if (char === ',' || char === '—') return Math.max(speed, 65);
+      if (char === '.') return Math.max(speed, 85);
       return speed;
     };
 
@@ -80,7 +80,7 @@ export function HeroColorText({
         if (current < totalChars) {
           const nextChar = getCharAtGlobalIndex(current);
           const isLineEnd = lineMetadata.some((meta) => meta.startIndex + meta.length === current + 1);
-          const delay = isLineEnd ? Math.max(speed, 120) : getDelay(nextChar);
+          const delay = isLineEnd ? Math.max(speed, 75) : getDelay(nextChar);
           timerId = setTimeout(advanceChar, delay);
         } else {
           // Finished converting all characters: Hold in full color
@@ -100,7 +100,7 @@ export function HeroColorText({
               if (rollbackCurrent >= 0) {
                 const prevChar = getCharAtGlobalIndex(rollbackCurrent);
                 const isLineStart = lineMetadata.some((meta) => meta.startIndex === rollbackCurrent + 1);
-                const rollbackDelay = isLineStart ? Math.max(speed, 90) : getDelay(prevChar);
+                const rollbackDelay = isLineStart ? Math.max(speed, 60) : getDelay(prevChar);
                 timerId = setTimeout(rollbackChar, rollbackDelay);
               } else {
                 // Fully rolled back to base color: brief rest then start again
@@ -109,7 +109,7 @@ export function HeroColorText({
                 timerId = setTimeout(() => {
                   if (isCancelled) return;
                   startCycle();
-                }, 800);
+                }, 750);
               }
             };
 
@@ -119,7 +119,7 @@ export function HeroColorText({
       };
 
       // Initial delay before starting character illumination
-      timerId = setTimeout(advanceChar, 350);
+      timerId = setTimeout(advanceChar, 250);
     };
 
     startCycle();
@@ -151,15 +151,15 @@ export function HeroColorText({
               {Array.from(meta.line).map((char, charIdx) => {
                 const globalIdx = lineStart + charIdx;
 
-                let charClasses = 'inline transition-colors duration-400 ease-out text-[var(--hero-beam-base,var(--text-secondary))]';
+                let charClasses = 'inline transition-colors duration-100 ease-out text-[var(--hero-beam-base,var(--text-secondary))]';
 
                 if (phase === 'hold') {
-                  charClasses = 'inline transition-colors duration-400 ease-out text-[var(--google-blue)] dark:text-[#4285f4]';
+                  charClasses = 'inline transition-colors duration-100 ease-out text-[var(--google-blue)] dark:text-[#8ab4f8]';
                 } else if (phase === 'converting' || phase === 'rolling-back') {
                   if (globalIdx < activeIndex) {
-                    charClasses = 'inline transition-colors duration-400 ease-out text-[var(--google-blue)] dark:text-[#4285f4]';
+                    charClasses = 'inline transition-colors duration-100 ease-out text-[var(--google-blue)] dark:text-[#8ab4f8]';
                   } else if (globalIdx === activeIndex) {
-                    charClasses = 'inline transition-all duration-300 ease-out text-[#4285f4] dark:text-[#8ab4f8] [text-shadow:0_0_12px_rgba(11,87,208,0.55)] dark:[text-shadow:0_0_14px_rgba(66,133,244,0.75),0_0_24px_rgba(66,133,244,0.45)]';
+                    charClasses = 'inline transition-all duration-75 ease-out text-[#1a73e8] dark:text-[#ffffff] [text-shadow:0_0_8px_rgba(26,115,232,0.7),0_0_14px_rgba(26,115,232,0.4)] dark:[text-shadow:0_0_10px_rgba(255,255,255,0.95),0_0_18px_rgba(138,180,248,0.8)]';
                   }
                 }
 

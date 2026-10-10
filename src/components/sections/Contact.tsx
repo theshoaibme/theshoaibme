@@ -30,7 +30,7 @@ function ContactInfoItem({ type, value }: { type: ContactInfoKey; value: string 
     <>
       <i className={`fa-solid ${CONTACT_ICONS[type]}`} aria-hidden="true" />
       <div>
-        <h4>{label}</h4>
+        <h3>{label}</h3>
         <p>{value}</p>
       </div>
     </>

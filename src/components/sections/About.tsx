@@ -59,6 +59,8 @@ export default function About({
                 className="about-img"
                 id="about-img"
                 loading="lazy"
+                width={380}
+                height={475}
               />
             </div>
           </div>
