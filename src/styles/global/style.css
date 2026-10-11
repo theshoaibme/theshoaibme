@@ -16,9 +16,10 @@
 
     /* Google Colors */
     --google-blue: #0b57d0;
-    --google-red: #EA4335;
-    --google-yellow: #FBBC05;
-    --google-green: #34A853;
+    --google-red: #ea4335;
+    --google-yellow: #fbbc05;
+    --google-green: #34a853;
+    --hero-beam-base: #5f6368;
 
     /* Semantic Colors - Light Mode (Default) */
     --background: #ffffff;
@@ -108,37 +109,38 @@
 
 :root.dark {
     /* Semantic Colors - Dark Mode */
-    --background: #0b0b0b;
+    --background: #08090a;
     --foreground: #e8eaed;
 
-    --card: rgba(30, 30, 30, 0.8);
+    --card: rgba(18, 19, 22, 0.85);
     --card-foreground: #e8eaed;
 
-    --popover: #161616;
+    --popover: #121316;
     --popover-foreground: #e8eaed;
 
     --primary: #ffffff;
     --primary-foreground: #000000;
 
-    --secondary: #161616;
+    --secondary: #121316;
     --secondary-foreground: #9aa0a6;
 
-    --muted: #202124;
+    --muted: #17181c;
     --muted-foreground: #9aa0a6;
 
-    --accent: #3c4043;
+    --accent: #22242a;
     --accent-foreground: #ffffff;
 
-    --border: #3c4043;
-    --input: #3c4043;
-    --ring: #d0d0d0;
+    --border: #26282e;
+    --input: #26282e;
+    --ring: #1a73e8;
 
     --btn-primary-hover-bg: #e8eaed;
     --btn-primary-hover-fg: #000000;
-    --btn-primary-hover-shadow: rgba(255, 255, 255, 0.12);
+    --btn-primary-hover-shadow: rgba(26, 115, 232, 0.25);
     --btn-outline-border: rgba(255, 255, 255, 0.28);
-    --btn-outline-hover-bg: rgba(11, 87, 208, 0.12);
-    --google-blue: #8ab4f8;
+    --btn-outline-hover-bg: rgba(26, 115, 232, 0.15);
+    --google-blue: #1a73e8;
+    --hero-beam-base: #80868b;
     --title-gradient-start: #ffffff;
     --title-gradient-end: #9aa0a6;
 
@@ -156,9 +158,9 @@
     --surface-variant: var(--muted);
 
     /* Glassmorphism Dark */
-    --glass-bg: rgba(25, 25, 25, 0.8);
+    --glass-bg: rgba(18, 19, 22, 0.85);
     --glass-border: 1px solid rgba(255, 255, 255, 0.08);
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.55);
 
     /* Shadows Dark */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -166,7 +168,7 @@
     --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.9);
 
     /* Modal Backdrop Dark */
-    --modal-backdrop: rgba(0, 0, 0, 0.7);
+    --modal-backdrop: rgba(0, 0, 0, 0.75);
 }
 
 /* Global & Reset */

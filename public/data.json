@@ -98,7 +98,7 @@
         ]
     },
     "about": {
-        "image": "https://avatars.githubusercontent.com/u/125272364",
+        "image": "/images/about/about.webp",
         "text": [
             "I help businesses and founders turn ideas into products people enjoy using - thoughtfully designed, solidly engineered, and built to scale with real business needs.",
             "On the frontend, I craft responsive interfaces with React, Next.js, Vue.js, Angular, and TypeScript, plus mobile apps with Flutter and React Native. On the backend, I build secure APIs with Spring Boot, FastAPI, Node.js, and Django, connected to PostgreSQL, MongoDB, Redis, and MySQL, and deployed on AWS, Docker, Kubernetes, and Vercel.",
@@ -228,27 +228,21 @@
     },
     "projects": [
         {
-            "name": "Meal Sphere",
-            "description": "Meal planning and recipe sharing platform.",
+            "name": "Foundation Management",
+            "description": "Non-profit foundation management platform empowering underprivileged communities through education, youth leadership, verified volunteer tracking, and transparent digital donations.",
             "tech_stack": [
+                "Laravel",
+                "PHP",
                 "React",
-                "Next.js",
-                "Node.js",
-                "TypeScript",
-                "Prisma",
-                "MongoDB",
+                "Inertia.js",
+                "PostgreSQL",
                 "Tailwind CSS",
-                "React Hook Form",
-                "NextAuth.js",
-                "Dotenv",
-                "Framer Motion",
-                "Recharts",
-                "Lucide React",
-                "Nodemailer"
+                "Cloudflare",
+                "REST API"
             ],
-            "repository": "https://github.com/theshoaibme/meal-sphere",
-            "image": null,
-            "live_preview": "https://meal-sphere.vercel.app",
+            "repository": "https://github.com/theshoaibme/ihaveaplanfoundation",
+            "image": "/images/projects/foundation-management.jpg",
+            "live_preview": "https://ihaveaplanfoundation.com/",
             "featured": true
         },
         {
@@ -271,8 +265,68 @@
                 "Google SSO / WebAuthn / 2FA"
             ],
             "repository": "https://github.com/theshoaibme/orthopedicsurgeon",
-            "image": null,
+            "image": "/images/projects/orthopedicsurgeon.jpg",
             "live_preview": "https://orthopedicsurgeonrahman.com/",
+            "featured": true
+        },
+        {
+            "name": "DeepConnect Provider",
+            "description": "OAuth 2.0 integration middleware & multi-platform API provider connecting web applications with Google Workspace, Meta APIs, Slack, and webhooks with AES-256 token encryption.",
+            "tech_stack": [
+                "Next.js",
+                "React",
+                "TypeScript",
+                "Tailwind CSS",
+                "Framer Motion",
+                "OAuth 2.0",
+                "REST API",
+                "Vercel"
+            ],
+            "repository": "https://github.com/the-shoaib2/deepconnect",
+            "image": "/images/projects/deepconnect.jpg",
+            "live_preview": "https://deepconnect.theshoaib.me/",
+            "featured": true
+        },
+        {
+            "name": "Kivorly",
+            "description": "All-in-one on-demand super app for Bangladesh — ride-sharing, food delivery, grocery bazaar, ticket booking, parcel courier, and fashion shopping across 64 districts with bKash and Nagad payments.",
+            "tech_stack": [
+                "SwiftUI",
+                "iOS",
+                "Jetpack Compose",
+                "Android",
+                "Next.js",
+                "TypeScript",
+                "Tailwind CSS",
+                "Node.js"
+            ],
+            "repository": "https://github.com/theshoaibme/kivorly",
+            "image": "/images/projects/kivorly.jpg",
+            "live_preview": null,
+            "featured": true
+        },
+        {
+            "name": "Meal Sphere",
+            "description": "Meal planning and recipe sharing platform.",
+            "tech_stack": [
+                "React",
+                "Next.js",
+                "Node.js",
+                "TypeScript",
+                "Prisma",
+                "MongoDB",
+                "Tailwind CSS",
+                "React Hook Form",
+                "NextAuth.js",
+                "Dotenv",
+                "Framer Motion",
+                "Recharts",
+                "Lucide React",
+                "Nodemailer"
+            ],
+            "repository": "https://github.com/theshoaibme/meal-sphere",
+            "image": "/images/projects/meal-sphere.jpg",
+            "live_preview": "https://meal-sphere.vercel.app",
             "featured": true
         },
         {
@@ -293,7 +347,7 @@
                 "Gemini"
             ],
             "repository": "https://github.com/theshoaibme/daffodil-intelligence",
-            "image": null,
+            "image": "/images/projects/daffodil-intelligence.jpg",
             "live_preview": "https://daffodil-intelligence.vercel.app",
             "featured": true
         },
@@ -314,7 +368,7 @@
                 "Turborepo"
             ],
             "repository": "https://github.com/zionmezba/sobujbd",
-            "image": null,
+            "image": "/images/projects/sobujbd.jpg",
             "live_preview": "https://app3.csetech.diu.edu.bd/",
             "featured": true
         },
@@ -328,7 +382,7 @@
                 "Cargo"
             ],
             "repository": "https://github.com/theshoaibme/app-pro",
-            "image": null,
+            "image": "/images/projects/app-pro.jpg",
             "live_preview": null,
             "featured": false
         },
@@ -349,7 +403,7 @@
                 "Chart.js"
             ],
             "repository": "https://github.com/theshoaibme/Pregnify",
-            "image": null,
+            "image": "/images/projects/pregnify.jpg",
             "live_preview": null,
             "featured": false
         },
@@ -376,7 +430,7 @@
                 "Recharts"
             ],
             "repository": "https://github.com/theshoaibme/Super-Shop-Management",
-            "image": null,
+            "image": "/images/projects/super-shop-management.jpg",
             "live_preview": null,
             "featured": false
         }

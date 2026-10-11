@@ -104,7 +104,7 @@ export function TypewriterText({
           return (
             <span key={lineIndex} className="block mb-1.5 whitespace-normal break-words last:mb-0">
               {revealedCount === lineStart && isCursorOnThisLine ? (
-                <span className="inline-block w-[2px] h-[1.15em] ml-[2px] -mr-[2px] align-[-0.15em] bg-[var(--google-blue)] dark:bg-[#4285f4] shadow-[0_0_8px_var(--google-blue)] dark:shadow-[0_0_10px_#4285f4] rounded-[1px] animate-pulse pointer-events-none" />
+                <span className="inline-block w-[2px] h-[1.15em] ml-[2px] -mr-[2px] align-[-0.15em] bg-[var(--google-blue)] shadow-[0_0_8px_var(--google-blue)] rounded-[1px] animate-pulse pointer-events-none" />
               ) : null}
               {Array.from(meta.line).map((char, charIdx) => {
                 const globalIdx = lineStart + charIdx;
@@ -116,7 +116,7 @@ export function TypewriterText({
                 if (!isRevealed) {
                   charClasses += 'opacity-0 select-none pointer-events-none';
                 } else if (isActive) {
-                  charClasses += 'opacity-100 text-[var(--google-blue)] dark:text-[#4285f4] [text-shadow:0_0_10px_rgba(11,87,208,0.45)] dark:[text-shadow:0_0_12px_rgba(66,133,244,0.7)]';
+                  charClasses += 'opacity-100 text-[var(--google-blue)] [text-shadow:0_0_10px_rgba(26,115,232,0.6)]';
                 } else {
                   charClasses += 'opacity-100 text-inherit';
                 }
@@ -127,7 +127,7 @@ export function TypewriterText({
                       {char}
                     </span>
                     {showCursorAfterChar ? (
-                      <span className="inline-block w-[2px] h-[1.15em] ml-[2px] -mr-[2px] align-[-0.15em] bg-[var(--google-blue)] dark:bg-[#4285f4] shadow-[0_0_8px_var(--google-blue)] dark:shadow-[0_0_10px_#4285f4] rounded-[1px] animate-pulse pointer-events-none" />
+                      <span className="inline-block w-[2px] h-[1.15em] ml-[2px] -mr-[2px] align-[-0.15em] bg-[var(--google-blue)] shadow-[0_0_8px_var(--google-blue)] rounded-[1px] animate-pulse pointer-events-none" />
                     ) : null}
                   </span>
                 );

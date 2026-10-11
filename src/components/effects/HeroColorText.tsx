@@ -154,12 +154,12 @@ export function HeroColorText({
                 let charClasses = 'inline transition-colors duration-100 ease-out text-[var(--hero-beam-base,var(--text-secondary))]';
 
                 if (phase === 'hold') {
-                  charClasses = 'inline transition-colors duration-100 ease-out text-[var(--google-blue)] dark:text-[#8ab4f8]';
+                  charClasses = 'inline transition-colors duration-100 ease-out text-[var(--google-blue)]';
                 } else if (phase === 'converting' || phase === 'rolling-back') {
                   if (globalIdx < activeIndex) {
-                    charClasses = 'inline transition-colors duration-100 ease-out text-[var(--google-blue)] dark:text-[#8ab4f8]';
+                    charClasses = 'inline transition-colors duration-100 ease-out text-[var(--google-blue)]';
                   } else if (globalIdx === activeIndex) {
-                    charClasses = 'inline transition-all duration-75 ease-out text-[#1a73e8] dark:text-[#ffffff] [text-shadow:0_0_8px_rgba(26,115,232,0.7),0_0_14px_rgba(26,115,232,0.4)] dark:[text-shadow:0_0_10px_rgba(255,255,255,0.95),0_0_18px_rgba(138,180,248,0.8)]';
+                    charClasses = 'inline transition-all duration-75 ease-out text-[var(--google-blue)] dark:text-[#1a73e8] [text-shadow:0_0_10px_rgba(11,87,208,0.8),0_0_18px_rgba(11,87,208,0.45)] dark:[text-shadow:0_0_12px_rgba(26,115,232,0.95),0_0_24px_rgba(26,115,232,0.7)]';
                   }
                 }
 
