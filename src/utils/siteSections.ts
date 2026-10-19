@@ -1,6 +1,7 @@
 import type { SiteSection } from '@/types';
 
 export const DEFAULT_SITE_SECTIONS: Record<string, SiteSection> = {
+  activity: { subtitle: 'Code & Contributions', title: 'Activity Skyline' },
   about: { subtitle: 'Who I Am', title: 'About Me' },
   skills: { subtitle: 'My Stack', title: 'Technical Skills' },
   services: { subtitle: 'What I Do', title: 'My Services' },

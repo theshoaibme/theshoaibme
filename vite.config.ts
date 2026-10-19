@@ -64,7 +64,7 @@ const devCsp = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
   "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net data:",
   "img-src 'self' data: https:",
-  "connect-src 'self' ws: wss: http://localhost:5173 http://127.0.0.1:5173 https://portfolio-contact-api.theshoaibme.workers.dev https://challenges.cloudflare.com",
+  "connect-src 'self' ws: wss: http://localhost:5173 http://127.0.0.1:5173 https://portfolio-contact-api.theshoaibme.workers.dev https://challenges.cloudflare.com https://github-contributions-api.jogruber.de",
   "frame-src https://challenges.cloudflare.com",
 ].join('; ');
 

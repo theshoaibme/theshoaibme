@@ -165,9 +165,6 @@ export default function Portfolio({ section, projects, onImageClick }: Portfolio
     <section id="portfolio" className="section portfolio">
       <div className="container">
         <div className="section-header reveal">
-          <span className="section-subtitle" id="portfolio-subtitle">
-            {section.subtitle}
-          </span>
           <h2 className="section-title" id="portfolio-title">
             {section.title}
           </h2>

@@ -4,10 +4,11 @@ import {
   type ServiceInquiryTemplate,
 } from '@/config/serviceInquiryTemplates';
 import ErrorMessage from '@/components/common/ErrorMessage';
-import CustomScrollbar from '@/components/layout/CustomScrollbar';
+import RulerScrollbar from '@/components/layout/RulerScrollbar';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import About from '@/components/sections/About';
+import Activity from '@/components/sections/Activity';
 import Contact from '@/components/sections/Contact';
 import Experience from '@/components/sections/Experience';
 import Hero from '@/components/sections/Hero';
@@ -22,7 +23,6 @@ import {
   useSectionObserver,
 } from '@/hooks/animation/useRevealAnimations';
 import { useDocumentTitle, useSiteData } from '@/hooks/data/useSiteData';
-import { useCustomScrollbar } from '@/hooks/scroll/useCustomScrollbar';
 import { useInitialHash } from '@/hooks/scroll/useInitialHash';
 import { useScrollSpy } from '@/hooks/scroll/useScrollSpy';
 import { useSmoothNavScroll } from '@/hooks/scroll/useSmoothNavScroll';
@@ -56,7 +56,6 @@ export default function HomePage() {
     }
   }, [loading, data]);
 
-  useCustomScrollbar();
   useRippleEffect();
 
   useScrollSpy(interactionsReady);
@@ -93,7 +92,7 @@ export default function HomePage() {
 
   return (
     <>
-      <CustomScrollbar />
+      <RulerScrollbar />
       <Header
         scrollEnabled={interactionsReady}
         logoText={data.site.logo.text}
@@ -107,6 +106,9 @@ export default function HomePage() {
             profile={data.profile}
             profileImageUrl={profileImageUrl}
             onProfileClick={() => openModal(profileImageUrl, 'round')}
+          />
+          <Activity
+            profile={data.profile}
           />
           <About
             section={getSiteSection(data.site.sections, 'about')}
@@ -155,3 +157,5 @@ export default function HomePage() {
     </>
   );
 }
+
+export { HomePage };

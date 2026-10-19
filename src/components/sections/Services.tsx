@@ -59,9 +59,6 @@ export default function Services({ section, services, onDiscussProject }: Servic
     <section id="services" className="section services">
       <div className="container">
         <div className="section-header reveal">
-          <span className="section-subtitle" id="services-subtitle">
-            {section.subtitle}
-          </span>
           <h2 className="section-title" id="services-title">
             {section.title}
           </h2>

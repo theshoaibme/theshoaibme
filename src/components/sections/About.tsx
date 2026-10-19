@@ -20,9 +20,6 @@ export default function About({
     <section id="about" className="section about">
       <div className="container">
         <div className="section-header reveal">
-          <span className="section-subtitle" id="about-subtitle">
-            {section.subtitle}
-          </span>
           <h2 className="section-title" id="about-title">
             {section.title}
           </h2>

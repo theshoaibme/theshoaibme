@@ -33,6 +33,10 @@
             }
         ],
         "sections": {
+            "activity": {
+                "subtitle": "Code & Contributions",
+                "title": "Activity Skyline"
+            },
             "about": {
                 "subtitle": "Who I Am",
                 "title": "About Me"

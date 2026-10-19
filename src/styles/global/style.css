@@ -72,7 +72,8 @@
     --surface-variant: var(--muted);
 
     /* Layout & Effects */
-    --container-width: 1440px;
+    --container-width: 1200px;
+    --header-container-width: 1440px;
     --header-height: 50px;
 
     /* Animations */
@@ -260,6 +261,12 @@ img {
     justify-content: center;
 }
 
+.section.activity {
+    min-height: auto;
+    padding-top: 0;
+    padding-bottom: 60px;
+}
+
 .section .container {
     width: 100%;
 }
@@ -280,13 +287,7 @@ img {
 }
 
 .section-subtitle {
-    display: inline-block;
-    margin-bottom: 12px;
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    display: none !important;
 }
 
 .section-title {
@@ -404,6 +405,10 @@ img {
 
 .header.hidden {
     transform: translateY(-100%);
+}
+
+.header .container {
+    max-width: var(--header-container-width);
 }
 
 .header-bar {

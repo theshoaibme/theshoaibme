@@ -5,6 +5,7 @@ import { getInitialTheme } from '@/utils/cookies';
 import { configureManualScrollRestoration } from '@/utils/hashScroll';
 import '@/styles/global/style.css';
 import '@/styles/modules/errors.css';
+import '@/styles/modules/ruler.css';
 
 configureManualScrollRestoration();
 

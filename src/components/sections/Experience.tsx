@@ -9,7 +9,6 @@ export default function Experience({ experience }: ExperienceProps) {
     <section id="experience" className="section experience">
       <div className="container">
         <div className="section-header reveal">
-          <span className="section-subtitle">My Journey</span>
           <h2 className="section-title">Work Experience</h2>
         </div>
         <div className="experience-timeline" id="experience-timeline">

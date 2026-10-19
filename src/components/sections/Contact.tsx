@@ -65,9 +65,6 @@ export default function Contact({ section, contact, inquiryTemplate = null }: Co
     <section id="contact" className="section contact">
       <div className="container">
         <div className="section-header reveal">
-          <span className="section-subtitle" id="contact-subtitle">
-            {section.subtitle}
-          </span>
           <h2 className="section-title" id="contact-title">
             {section.title}
           </h2>

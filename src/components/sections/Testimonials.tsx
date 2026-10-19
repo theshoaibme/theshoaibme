@@ -70,7 +70,6 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
     <section id="testimonials" className="section testimonials">
       <div className="container">
         <div className="section-header reveal">
-          <span className="section-subtitle">Client Feedback</span>
           <h2 className="section-title">Testimonials</h2>
         </div>
         <ScrollVelocityContainer className="testimonials-grid-container">
