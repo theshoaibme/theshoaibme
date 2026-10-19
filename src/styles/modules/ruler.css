@@ -36,6 +36,7 @@
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
+  display: none !important; /* Disabled by user request without removal */
 }
 
 /* Rail background - Transparent, no blurry background */

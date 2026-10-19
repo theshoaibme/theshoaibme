@@ -184,12 +184,29 @@ body {
     min-height: 100%;
     margin: 0;
     overflow-y: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--tertiary-color) transparent;
 }
 
 html::-webkit-scrollbar {
-    display: none;
+    width: 8px;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: var(--tertiary-color);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+    border: 2px solid transparent;
+    background-clip: padding-box;
 }
 
 html {
@@ -307,6 +324,7 @@ img {
     z-index: 10000;
     pointer-events: none;
     width: 6px;
+    display: none !important;
 }
 
 .scrollbar-thumb {

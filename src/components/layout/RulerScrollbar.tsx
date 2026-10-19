@@ -31,7 +31,20 @@ const PREV_TOP_ALPHA = 0.45;
 /** Overall size of the titles parked at the top of the rail */
 const TOP_TITLE_SCALE = 0.75;
 
-export default function RulerScrollbar() {
+interface RulerScrollbarProps {
+  /** Set to true to re-enable the right-side ruler scrollbar */
+  enabled?: boolean;
+}
+
+/** Disabled by user request. Change to true to re-enable without removing code. */
+const DEFAULT_ENABLED = false;
+
+export default function RulerScrollbar({ enabled = DEFAULT_ENABLED }: RulerScrollbarProps = {}) {
+  if (!enabled) return null;
+  return <RulerScrollbarContent />;
+}
+
+function RulerScrollbarContent() {
   const {
     sections,
     metrics,
