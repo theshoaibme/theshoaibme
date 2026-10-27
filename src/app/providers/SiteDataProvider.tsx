@@ -3,9 +3,9 @@ import type { PortfolioData } from '@/types';
 import {
   clearPortfolioDataCache,
   getCachedPortfolioData,
-  loadPortfolioData,
-} from '@/data/loadPortfolioData';
-import { getErrorMessage } from '@/utils/errors';
+  portfolioService,
+} from '@/services';
+import { getErrorMessage, isAbortError } from '@/utils/errors';
 
 interface SiteDataContextValue {
   data: PortfolioData | null;
@@ -31,18 +31,20 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     setError(null);
 
     try {
-      const portfolioData = await loadPortfolioData({ force });
+      const response = await portfolioService.getPortfolioData({ force, signal });
 
       if (signal.aborted) return;
 
-      setData(portfolioData);
+      setData(response.data);
+
     } catch (err) {
-      if (signal.aborted) return;
+      if (signal.aborted || isAbortError(err)) return;
 
       const message = getErrorMessage(err, 'Failed to load portfolio data.');
       console.error('Error loading data:', err);
       setData(null);
       setError(message);
+
     } finally {
       if (!signal.aborted) {
         setLoading(false);

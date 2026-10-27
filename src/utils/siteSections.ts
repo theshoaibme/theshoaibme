@@ -1,11 +1,14 @@
 import type { SiteSection } from '@/types';
 
 export const DEFAULT_SITE_SECTIONS: Record<string, SiteSection> = {
+  hero: { subtitle: "Hello, I'm", title: 'Introduction' },
   activity: { subtitle: 'Code & Contributions', title: 'Activity Skyline' },
   about: { subtitle: 'Who I Am', title: 'About Me' },
   skills: { subtitle: 'My Stack', title: 'Technical Skills' },
+  experience: { subtitle: 'My Journey', title: 'Work Experience' },
   services: { subtitle: 'What I Do', title: 'My Services' },
   portfolio: { subtitle: 'My Works', title: 'Featured Projects' },
+  testimonials: { subtitle: 'Client Feedback', title: 'Testimonials' },
   contact: { subtitle: 'Get in Touch', title: 'Contact Me' },
 };
 

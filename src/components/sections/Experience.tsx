@@ -1,15 +1,16 @@
-import type { ExperienceItem } from '@/types';
+import type { ExperienceItem, SiteSection } from '@/types';
 
 interface ExperienceProps {
+  section: SiteSection;
   experience: ExperienceItem[];
 }
 
-export default function Experience({ experience }: ExperienceProps) {
+export default function Experience({ section, experience }: ExperienceProps) {
   return (
     <section id="experience" className="section experience">
       <div className="container">
         <div className="section-header reveal">
-          <h2 className="section-title">Work Experience</h2>
+          <h2 className="section-title">{section.title}</h2>
         </div>
         <div className="experience-timeline" id="experience-timeline">
           {experience.map((item, index) => (

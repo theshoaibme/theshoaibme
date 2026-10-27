@@ -1,3 +1,4 @@
+import { PROJECT_CARD_LABELS } from '@/data/portfolioData';
 import type { Project } from '@/types';
 import { getProjectImage } from '@/utils/projects';
 import { isSafeExternalUrl } from '@/utils/urlValidation';
@@ -38,7 +39,11 @@ export default function ProjectCard({
                 }
               : undefined
           }
-          aria-label={onImageClick ? `View full image for ${project.name}` : undefined}
+          aria-label={
+            onImageClick
+              ? `${PROJECT_CARD_LABELS.viewFullImagePrefix} ${project.name}`
+              : undefined
+          }
         >
           <img
             src={projectImg}
@@ -75,7 +80,7 @@ export default function ProjectCard({
         <div className="project-links flex gap-4 mt-auto pt-[14px]">
           {isSafeExternalUrl(project.repository) ? (
             <a href={project.repository} target="_blank" rel="noreferrer noopener" className="project-link flex items-center gap-[6px] text-[var(--primary)] text-[0.82rem] font-semibold transition-opacity duration-200 hover:opacity-70">
-              <i className="fa-brands fa-github" /> Source
+              <i className="fa-brands fa-github" /> {PROJECT_CARD_LABELS.sourceCode}
             </a>
           ) : null}
           {project.live_preview && isSafeExternalUrl(project.live_preview) ? (
@@ -85,7 +90,7 @@ export default function ProjectCard({
               rel="noreferrer noopener"
               className="project-link demo-link flex items-center gap-[6px] text-[var(--primary)] text-[0.82rem] font-semibold transition-opacity duration-200 hover:opacity-70"
             >
-              <i className="fa-solid fa-arrow-up-right-from-square" /> Live Preview Link
+              <i className="fa-solid fa-arrow-up-right-from-square" /> {PROJECT_CARD_LABELS.livePreview}
             </a>
           ) : null}
         </div>

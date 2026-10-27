@@ -103,11 +103,13 @@ export default function HomePage() {
       <div className="scroll-container" id="scroll-container">
         <main id="main-content">
           <Hero
+            section={getSiteSection(data.site.sections, 'hero')}
             profile={data.profile}
             profileImageUrl={profileImageUrl}
             onProfileClick={() => openModal(profileImageUrl, 'round')}
           />
           <Activity
+            section={getSiteSection(data.site.sections, 'activity')}
             profile={data.profile}
           />
           <About
@@ -118,7 +120,10 @@ export default function HomePage() {
             onImageClick={() => openModal(aboutImageUrl, 'square')}
           />
           <Skills section={getSiteSection(data.site.sections, 'skills')} skills={data.skills} />
-          <Experience experience={data.experience} />
+          <Experience
+            section={getSiteSection(data.site.sections, 'experience')}
+            experience={data.experience}
+          />
           <Services
             section={getSiteSection(data.site.sections, 'services')}
             services={data.services}
@@ -129,7 +134,10 @@ export default function HomePage() {
             projects={data.projects}
             onImageClick={(url) => openModal(url, 'video')}
           />
-          <Testimonials testimonials={data.testimonials} />
+          <Testimonials
+            section={getSiteSection(data.site.sections, 'testimonials')}
+            testimonials={data.testimonials}
+          />
           <Contact
             section={getSiteSection(data.site.sections, 'contact')}
             contact={data.contact}

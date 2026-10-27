@@ -1,17 +1,7 @@
 import { motion, type Variants } from 'framer-motion';
-import {
-  Code2,
-  Smartphone,
-  Sparkles,
-  Palette,
-  Cloud,
-  Server,
-  Handshake,
-  ShoppingCart,
-  ArrowRight,
-  type LucideIcon,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import ServicesSnakeMarquee from '@/components/sections/ServicesSnakeMarquee';
+import { SERVICE_LUCIDE_MAP, SERVICES_LABELS } from '@/data/servicesData';
 import type { Service, SiteSection } from '@/types';
 
 interface ServicesProps {
@@ -19,17 +9,6 @@ interface ServicesProps {
   services: Service[];
   onDiscussProject?: (service: Service) => void;
 }
-
-const SERVICE_LUCIDE_MAP: Record<string, LucideIcon> = {
-  'Web Development': Code2,
-  'Mobile App Development': Smartphone,
-  'AI Solutions': Sparkles,
-  'UI/UX Design': Palette,
-  'Cloud & DevOps': Cloud,
-  'API & Backend': Server,
-  'Freelance Consulting': Handshake,
-  'E-Commerce Solutions': ShoppingCart,
-};
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -103,11 +82,11 @@ export default function Services({ section, services, onDiscussProject }: Servic
                 <a
                   href="#contact"
                   className="service-cta mt-auto flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full bg-[var(--background)] text-[var(--text-color)] font-semibold text-[0.85rem] transition-all duration-200 hover:text-[var(--primary)]"
-                  data-tooltip="Contact me about this service"
-                  aria-label={`Contact me about ${service.title}`}
+                  data-tooltip={SERVICES_LABELS.ctaTooltip}
+                  aria-label={`${SERVICES_LABELS.ctaAriaPrefix} ${service.title}`}
                   onClick={() => onDiscussProject?.(service)}
                 >
-                  <span className="btn-shine-text">Discuss your project</span>
+                  <span className="btn-shine-text">{SERVICES_LABELS.ctaText}</span>
                   <ArrowRight
                     className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
                     aria-hidden="true"

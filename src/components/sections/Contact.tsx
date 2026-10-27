@@ -1,5 +1,6 @@
 import type { ServiceInquiryTemplate } from '@/config/serviceInquiryTemplates';
 import ContactForm from '@/components/sections/ContactForm';
+import { CONTACT_ICONS, CONTACT_LABELS, CONTACT_ORDER } from '@/data/contactData';
 import type { Contact, SiteSection } from '@/types';
 import { getContactInfoHref, type ContactInfoKey } from '@/utils/contactLinks';
 
@@ -8,20 +9,6 @@ interface ContactProps {
   contact: Contact;
   inquiryTemplate?: ServiceInquiryTemplate | null;
 }
-
-const CONTACT_ICONS: Record<ContactInfoKey, string> = {
-  location: 'fa-location-dot',
-  email: 'fa-envelope',
-  phone: 'fa-phone',
-};
-
-const CONTACT_LABELS: Record<ContactInfoKey, string> = {
-  location: 'Location',
-  email: 'Email',
-  phone: 'Phone',
-};
-
-const CONTACT_ORDER: ContactInfoKey[] = ['location', 'email', 'phone'];
 
 function ContactInfoItem({ type, value }: { type: ContactInfoKey; value: string }) {
   const href = getContactInfoHref(type, value);

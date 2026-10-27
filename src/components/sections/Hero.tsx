@@ -1,21 +1,23 @@
-import type { Profile } from '@/types';
+import type { Profile, SiteSection } from '@/types';
 import { isSafeExternalUrl } from '@/utils/urlValidation';
 import { getSocialLabel } from '@/utils/contactLinks';
 import { LiquidCtaButton } from '@/components/buttons/LiquidCtaButton';
 import { HeroColorText } from '@/components/effects/HeroColorText';
+import { HERO_LABELS } from '@/data/heroData';
 
 interface HeroProps {
+  section?: SiteSection;
   profile: Profile;
   profileImageUrl: string;
   onProfileClick: () => void;
 }
 
-export default function Hero({ profile, profileImageUrl, onProfileClick }: HeroProps) {
+export default function Hero({ section, profile, profileImageUrl, onProfileClick }: HeroProps) {
   return (
     <section id="hero" className="hero">
       <div className="container hero-container">
         <div className="hero-content fade-in-up">
-          <span className="subtitle">Hello, I&apos;m</span>
+          <span className="subtitle">{section?.subtitle ?? HERO_LABELS.defaultGreeting}</span>
           <h1 className="title" id="hero-name">
             {profile.name}
           </h1>
@@ -25,10 +27,10 @@ export default function Hero({ profile, profileImageUrl, onProfileClick }: HeroP
           />
           <div className="hero-btns">
             <LiquidCtaButton href="#portfolio">
-              View My Work
+              {HERO_LABELS.viewWork}
             </LiquidCtaButton>
             <a href="#contact" className="btn btn-outline ripple">
-              Contact Me
+              {HERO_LABELS.contactMe}
             </a>
           </div>
           <div className="social-links" id="hero-social">

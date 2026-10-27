@@ -1,4 +1,4 @@
-import type { Testimonial } from '@/types';
+import type { SiteSection, Testimonial } from '@/types';
 import {
   ScrollVelocityContainer,
   ScrollVelocityColumn,
@@ -6,6 +6,7 @@ import {
 import { resolveImageUrl } from '@/utils/images';
 
 interface TestimonialsProps {
+  section: SiteSection;
   testimonials: Testimonial[];
 }
 
@@ -48,7 +49,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   );
 }
 
-export default function Testimonials({ testimonials }: TestimonialsProps) {
+export default function Testimonials({ section, testimonials }: TestimonialsProps) {
   const colCount = 4;
   const rawColumns: Testimonial[][] = Array.from({ length: colCount }, () => []);
 
@@ -70,7 +71,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
     <section id="testimonials" className="section testimonials">
       <div className="container">
         <div className="section-header reveal">
-          <h2 className="section-title">Testimonials</h2>
+          <h2 className="section-title">{section.title}</h2>
         </div>
         <ScrollVelocityContainer className="testimonials-grid-container">
           {/* Column 1: UP */}

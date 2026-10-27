@@ -12,10 +12,7 @@ import {
   useScrollVelocityFactor,
 } from '@/components/effects/ScrollVelocity';
 
-interface SnakeIconItem {
-  icon: string;
-  title: string;
-}
+import { DEVELOPMENT_SNAKE_ICONS, type SnakeIconItem } from '@/data/servicesSnakeIcons';
 
 interface SnakeWaveMetrics {
   amplitude: number;
@@ -24,39 +21,6 @@ interface SnakeWaveMetrics {
 const SNAKE_WAVE_COUNT = 1;
 const BASE_WAVE_SPEED = 0.85;
 const SCROLL_DRIFT_SPEED = 90;
-
-const DEVELOPMENT_SNAKE_ICONS: SnakeIconItem[] = [
-  { icon: 'fa-brands fa-react', title: 'React' },
-  { icon: 'fa-brands fa-node-js', title: 'Node.js' },
-  { icon: 'fa-brands fa-python', title: 'Python' },
-  { icon: 'fa-brands fa-java', title: 'Java' },
-  { icon: 'fa-brands fa-aws', title: 'AWS' },
-  { icon: 'fa-brands fa-docker', title: 'Docker' },
-  { icon: 'fa-brands fa-js', title: 'JavaScript' },
-  { icon: 'fa-brands fa-github', title: 'GitHub' },
-  { icon: 'fa-solid fa-database', title: 'Databases' },
-  { icon: 'fa-solid fa-server', title: 'Backend APIs' },
-  { icon: 'fa-solid fa-cloud', title: 'Cloud' },
-  { icon: 'fa-solid fa-mobile-screen', title: 'Mobile Apps' },
-  { icon: 'fa-solid fa-brain', title: 'AI Solutions' },
-  { icon: 'fa-brands fa-angular', title: 'Angular' },
-  { icon: 'fa-brands fa-vuejs', title: 'Vue.js' },
-  { icon: 'fa-solid fa-code', title: 'Development' },
-  { icon: 'fa-brands fa-linux', title: 'Linux' },
-  { icon: 'fa-brands fa-git-alt', title: 'Git' },
-  { icon: 'fa-brands fa-html5', title: 'HTML5' },
-  { icon: 'fa-brands fa-css3-alt', title: 'CSS3' },
-  { icon: 'fa-brands fa-bootstrap', title: 'Bootstrap' },
-  { icon: 'fa-brands fa-php', title: 'PHP' },
-  { icon: 'fa-brands fa-npm', title: 'npm' },
-  { icon: 'fa-solid fa-terminal', title: 'CLI' },
-  { icon: 'fa-solid fa-microchip', title: 'System Design' },
-  { icon: 'fa-solid fa-robot', title: 'Automation' },
-  { icon: 'fa-solid fa-plug', title: 'Integrations' },
-  { icon: 'fa-solid fa-shield-halved', title: 'Security' },
-  { icon: 'fa-solid fa-gears', title: 'DevOps' },
-  { icon: 'fa-solid fa-layer-group', title: 'Architecture' },
-];
 
 function getSnakeWaveMetrics(width: number): SnakeWaveMetrics {
   if (width < 480) {
@@ -98,7 +62,11 @@ function SnakeIcon({ index, waveStep, phase, amplitude, icon, title }: SnakeIcon
   );
 }
 
-function ServicesSnakeWave() {
+interface ServicesSnakeMarqueeProps {
+  icons?: SnakeIconItem[];
+}
+
+function ServicesSnakeWave({ icons = DEVELOPMENT_SNAKE_ICONS }: ServicesSnakeMarqueeProps) {
   const velocityFactor = useScrollVelocityFactor();
   const [metrics, setMetrics] = useState(() => getSnakeWaveMetrics(window.innerWidth));
   const metricsRef = useRef(metrics);
@@ -178,8 +146,8 @@ function ServicesSnakeWave() {
     }
   });
 
-  const snakeIcons = [...DEVELOPMENT_SNAKE_ICONS, ...DEVELOPMENT_SNAKE_ICONS];
-  const waveStep = getWaveStep(DEVELOPMENT_SNAKE_ICONS.length);
+  const snakeIcons = [...icons, ...icons];
+  const waveStep = getWaveStep(icons.length);
 
   return (
     <div
@@ -190,7 +158,7 @@ function ServicesSnakeWave() {
         {snakeIcons.map((item, index) => (
           <SnakeIcon
             key={`${item.title}-${index}`}
-            index={index % DEVELOPMENT_SNAKE_ICONS.length}
+            index={index % icons.length}
             waveStep={waveStep}
             phase={smoothPhase}
             amplitude={metrics.amplitude}
@@ -203,10 +171,10 @@ function ServicesSnakeWave() {
   );
 }
 
-export default function ServicesSnakeMarquee() {
+export default function ServicesSnakeMarquee({ icons }: ServicesSnakeMarqueeProps) {
   return (
     <ScrollVelocityContainer className="services-snake-marquee" aria-hidden="true">
-      <ServicesSnakeWave />
+      <ServicesSnakeWave icons={icons} />
     </ScrollVelocityContainer>
   );
 }

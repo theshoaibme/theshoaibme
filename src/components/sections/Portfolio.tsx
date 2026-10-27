@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { PORTFOLIO_LABELS } from '@/data/portfolioData';
 import type { Project, SiteSection } from '@/types';
 import ProjectCard from '@/components/sections/ProjectCard';
 import { getFeaturedProjects, hasMoreProjects } from '@/utils/projects';
@@ -181,7 +182,7 @@ export default function Portfolio({ section, projects, onImageClick }: Portfolio
             onPointerCancel={handlePointerUp}
             onClickCapture={handleClickCapture}
             role="region"
-            aria-label="Featured projects carousel"
+            aria-label={PORTFOLIO_LABELS.carouselAriaLabel}
             tabIndex={0}
             onKeyDown={(e) => {
               if (e.key === 'ArrowLeft') {
@@ -199,7 +200,7 @@ export default function Portfolio({ section, projects, onImageClick }: Portfolio
                 className="portfolio-carousel-slide"
                 role="group"
                 aria-roledescription="slide"
-                aria-label={`${index + 1} of ${featuredProjects.length}`}
+                aria-label={PORTFOLIO_LABELS.slideAriaLabel(index + 1, featuredProjects.length)}
               >
                 <ProjectCard
                   project={project}
@@ -217,7 +218,7 @@ export default function Portfolio({ section, projects, onImageClick }: Portfolio
               className="carousel-nav-btn carousel-prev-btn"
               onClick={scrollPrev}
               disabled={!canScrollPrev}
-              aria-label="Previous project"
+              aria-label={PORTFOLIO_LABELS.prevButtonAriaLabel}
             >
               <i className="fa-solid fa-chevron-left" aria-hidden="true" />
             </button>
@@ -229,7 +230,7 @@ export default function Portfolio({ section, projects, onImageClick }: Portfolio
                   type="button"
                   role="tab"
                   aria-selected={activeIndex === idx}
-                  aria-label={`Go to slide ${idx + 1}: ${project.name}`}
+                  aria-label={PORTFOLIO_LABELS.dotAriaLabel(idx, project.name)}
                   className={`carousel-dot${activeIndex === idx ? ' active' : ''}`}
                   onClick={() => scrollToSlide(idx)}
                 />
@@ -241,7 +242,7 @@ export default function Portfolio({ section, projects, onImageClick }: Portfolio
               className="carousel-nav-btn carousel-next-btn"
               onClick={scrollNext}
               disabled={!canScrollNext}
-              aria-label="Next project"
+              aria-label={PORTFOLIO_LABELS.nextButtonAriaLabel}
             >
               <i className="fa-solid fa-chevron-right" aria-hidden="true" />
             </button>
@@ -251,7 +252,7 @@ export default function Portfolio({ section, projects, onImageClick }: Portfolio
         {showViewAll ? (
           <div className="portfolio-actions reveal">
             <Link to="/projects" className="btn btn-outline view-all-projects">
-              View All Projects
+              {PORTFOLIO_LABELS.viewAllProjects}
               <i className="fa-solid fa-arrow-right" aria-hidden="true" />
             </Link>
           </div>
