@@ -34,14 +34,12 @@ export default defineConfig({
     reuseExistingServer: !isCI,
     timeout: isCI ? 180_000 : 120_000,
     env: {
-      GITHUB_REPOSITORY: process.env.GITHUB_REPOSITORY ?? 'the-shoaib2/the-shoaib2.github.io',
+      GITHUB_REPOSITORY: process.env.GITHUB_REPOSITORY ?? 'theshoaibme/theshoaibme.github.io',
       VITE_TURNSTILE_SITE_KEY: process.env.VITE_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA',
       VITE_CONTACT_API_URL:
-        process.env.VITE_CONTACT_API_URL ?? 'https://portfolio-contact-api.the-shoaib2.workers.dev',
+        process.env.VITE_CONTACT_API_URL ?? 'https://portfolio-contact-api.theshoaibme.workers.dev',
       VITE_CDN_BASE_URL: process.env.VITE_CDN_BASE_URL ?? '',
       VITE_CLOUDINARY_CLOUD_NAME: process.env.VITE_CLOUDINARY_CLOUD_NAME ?? '',
-      VITE_DATA_ENCRYPTION_KEY:
-        process.env.VITE_DATA_ENCRYPTION_KEY ?? '8TLUvl3xGaY7Ue0pgPlIXZLJRKRpyFPjICmo3Gm+/Mo=',
     },
   },
 });

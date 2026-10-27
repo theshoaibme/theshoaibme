@@ -16,9 +16,9 @@ const PROJECTS = [
   { slug: 'daffodil-intelligence', url: 'https://daffodil-intelligence.vercel.app' },
   { slug: 'orthopedicsurgeon', url: 'https://orthopedicsurgeonrahman.com/' },
   { slug: 'sobujbd', url: 'https://app3.csetech.diu.edu.bd/' },
-  { slug: 'app-pro', url: 'https://github.com/the-shoaib2/app-pro' },
-  { slug: 'pregnify', url: 'https://github.com/the-shoaib2/Pregnify' },
-  { slug: 'super-shop-management', url: 'https://github.com/the-shoaib2/Super-Shop-Management' },
+  { slug: 'app-pro', url: 'https://github.com/theshoaibme/app-pro' },
+  { slug: 'pregnify', url: 'https://github.com/theshoaibme/Pregnify' },
+  { slug: 'super-shop-management', url: 'https://github.com/theshoaibme/Super-Shop-Management' },
 ];
 
 const TESTIMONIAL_AVATARS = [

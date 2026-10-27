@@ -10,6 +10,18 @@ export function getErrorMessage(error: unknown, fallback = 'Something went wrong
   return fallback;
 }
 
+export function isAbortError(error: unknown): boolean {
+  if (error instanceof DOMException && error.name === 'AbortError') {
+    return true;
+  }
+  if (error instanceof Error) {
+    return error.name === 'AbortError' || /aborted/i.test(error.message);
+  }
+  return false;
+}
+
+
+
 export function getDisplayErrorMessage(
   error: unknown,
   fallback = 'Something went wrong while loading this page. Please refresh and try again.',

@@ -23,8 +23,7 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 11.6.0
+
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -46,7 +45,6 @@ jobs:
           VITE_CONTACT_API_URL: ${{ secrets.VITE_CONTACT_API_URL }}
           VITE_CDN_BASE_URL: ${{ secrets.VITE_CDN_BASE_URL }}
           VITE_CLOUDINARY_CLOUD_NAME: ${{ secrets.VITE_CLOUDINARY_CLOUD_NAME }}
-          VITE_DATA_ENCRYPTION_KEY: ${{ secrets.VITE_DATA_ENCRYPTION_KEY }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -1,18 +1,41 @@
 import { copyFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import type { ProxyOptions } from 'vite';
+import type { Plugin, ProxyOptions, UserConfig } from 'vite';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { SITE_URL } from './src/config/site';
-import { blockPlainPortfolioData, dropConsoleInProduction, portfolioDataEncryptionPlugin } from './vite.portfolio-data';
+import tailwindcss from '@tailwindcss/vite';
+import { SITE_URL } from './src/config/site.ts';
 
-const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'the-shoaib2.github.io';
+function dropConsoleInProduction(): Plugin {
+  return {
+    name: 'drop-console-in-production',
+    apply: 'build',
+    config() {
+      return {
+        build: {
+          rolldownOptions: {
+            output: {
+              minify: {
+                compress: {
+                  dropConsole: true,
+                  dropDebugger: true,
+                },
+              },
+            },
+          },
+        },
+      } as UserConfig;
+    },
+  };
+}
+
+const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'theshoaibme.github.io';
 const isUserPage = repoName.endsWith('.github.io');
 const base = isUserPage ? '/' : `/${repoName}/`;
 
 const contactApiTarget =
   process.env.VITE_CONTACT_API_URL?.trim() ||
-  'https://portfolio-contact-api.the-shoaib2.workers.dev';
+  'https://portfolio-contact-api.theshoaibme.workers.dev';
 
 const productionOrigin = SITE_URL;
 
@@ -41,14 +64,14 @@ const devCsp = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
   "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net data:",
   "img-src 'self' data: https:",
-  "connect-src 'self' ws: wss: http://localhost:5173 http://127.0.0.1:5173 https://portfolio-contact-api.the-shoaib2.workers.dev https://challenges.cloudflare.com",
+  "connect-src 'self' ws: wss: http://localhost:5173 http://127.0.0.1:5173 https://portfolio-contact-api.theshoaibme.workers.dev https://challenges.cloudflare.com https://github-contributions-api.jogruber.de",
   "frame-src https://challenges.cloudflare.com",
 ].join('; ');
 
 export default defineConfig({
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      '@': resolve(import.meta.dirname, 'src'),
     },
   },
   server: {
@@ -77,9 +100,8 @@ export default defineConfig({
     },
   },
   plugins: [
+    tailwindcss(),
     react(),
-    portfolioDataEncryptionPlugin(),
-    blockPlainPortfolioData(),
     dropConsoleInProduction(),
     {
       name: 'dev-csp-relax',
@@ -94,7 +116,7 @@ export default defineConfig({
     {
       name: 'github-pages-spa-fallback',
       closeBundle() {
-        const distDir = resolve(__dirname, 'dist');
+        const distDir = resolve(import.meta.dirname, 'dist');
         const indexPath = join(distDir, 'index.html');
         const fallbackPath = join(distDir, '404.html');
 

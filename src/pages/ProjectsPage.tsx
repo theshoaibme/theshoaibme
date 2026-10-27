@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import PageStatus from '@/components/common/PageStatus';
+import ImageModal from '@/components/effects/ImageModal';
 import PolicyHeader from '@/components/layout/PolicyHeader';
 import ProjectCard from '@/components/sections/ProjectCard';
 import { useDocumentTitle, useSiteData } from '@/hooks/data/useSiteData';
+import { useImageModal } from '@/hooks/ui/useImageModal';
 import { usePolicyTheme } from '@/hooks/ui/useTheme';
 import { sanitizeHtml } from '@/utils/sanitize';
 import { getSiteSection } from '@/utils/siteSections';
@@ -10,6 +12,7 @@ import { getSiteSection } from '@/utils/siteSections';
 export default function ProjectsPage() {
   const { data, loading, error, retry } = useSiteData();
   const section = data ? getSiteSection(data.site.sections, 'portfolio') : undefined;
+  const { isOpen, imageSrc, variant, openModal, closeModal, clearModal } = useImageModal();
 
   usePolicyTheme();
   useDocumentTitle(section ? `${section.title} | Projects` : 'All Projects');
@@ -38,11 +41,25 @@ export default function ProjectsPage() {
 
           <div className="portfolio-grid projects-page-grid">
             {data?.projects.map((project, index) => (
-              <ProjectCard key={project.name} project={project} index={index} animate={false} />
+              <ProjectCard
+                key={project.name}
+                project={project}
+                index={index}
+                animate={false}
+                onImageClick={(url) => openModal(url, 'video')}
+              />
             ))}
           </div>
         </div>
       </main>
+
+      <ImageModal
+        isOpen={isOpen}
+        imageSrc={imageSrc ?? ''}
+        variant={variant}
+        onClose={closeModal}
+        onClosed={clearModal}
+      />
 
       <footer className="footer">
         <div className="container footer-content">

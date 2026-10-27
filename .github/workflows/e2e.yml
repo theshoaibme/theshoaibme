@@ -20,8 +20,7 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 11.6.0
+
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -42,7 +41,6 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           VITE_TURNSTILE_SITE_KEY: ${{ secrets.VITE_TURNSTILE_SITE_KEY }}
           VITE_CONTACT_API_URL: ${{ secrets.VITE_CONTACT_API_URL }}
-          VITE_DATA_ENCRYPTION_KEY: ${{ secrets.VITE_DATA_ENCRYPTION_KEY }}
 
       - name: Upload Playwright report
         if: failure()

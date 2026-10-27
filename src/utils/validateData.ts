@@ -110,7 +110,12 @@ export function validatePortfolioData(data: unknown): PortfolioData {
     if (!isObject(item)) {
       throw new DataValidationError(`Invalid testimonial at index ${index}.`);
     }
-    requireSafeImageUrl(item.avatar, `testimonials[${index}].avatar`);
+    requireString(item.name, `testimonials[${index}].name`);
+    requireString(item.role, `testimonials[${index}].role`);
+    requireString(item.feedback, `testimonials[${index}].feedback`);
+    if (item.avatar !== null && item.avatar !== undefined && typeof item.avatar === 'string' && item.avatar.trim()) {
+      requireSafeImageUrl(item.avatar, `testimonials[${index}].avatar`);
+    }
   }
 
   if (!isObject(data.contact)) {

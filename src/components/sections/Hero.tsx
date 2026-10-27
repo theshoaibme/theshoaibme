@@ -1,40 +1,56 @@
-import type { Profile } from '@/types';
+import type { Profile, SiteSection } from '@/types';
 import { isSafeExternalUrl } from '@/utils/urlValidation';
+import { getSocialLabel } from '@/utils/contactLinks';
+import { LiquidCtaButton } from '@/components/buttons/LiquidCtaButton';
+import { HeroColorText } from '@/components/effects/HeroColorText';
+import { HERO_LABELS } from '@/data/heroData';
 
 interface HeroProps {
+  section?: SiteSection;
   profile: Profile;
   profileImageUrl: string;
   onProfileClick: () => void;
 }
 
-export default function Hero({ profile, profileImageUrl, onProfileClick }: HeroProps) {
+export default function Hero({ section, profile, profileImageUrl, onProfileClick }: HeroProps) {
   return (
     <section id="hero" className="hero">
       <div className="container hero-container">
         <div className="hero-content fade-in-up">
-          <span className="subtitle">Hello, I&apos;m</span>
+          <span className="subtitle">{section?.subtitle ?? HERO_LABELS.defaultGreeting}</span>
           <h1 className="title" id="hero-name">
             {profile.name}
           </h1>
-          <p className="description" id="hero-desc">
-            {profile.description}
-          </p>
+          <HeroColorText
+            text={profile.description}
+            id="hero-desc"
+          />
           <div className="hero-btns">
-            <a href="#portfolio" className="btn btn-primary ripple">
-              View My Work
-            </a>
+            <LiquidCtaButton href="#portfolio">
+              {HERO_LABELS.viewWork}
+            </LiquidCtaButton>
             <a href="#contact" className="btn btn-outline ripple">
-              Contact Me
+              {HERO_LABELS.contactMe}
             </a>
           </div>
           <div className="social-links" id="hero-social">
-            {profile.social.map((link) =>
-              isSafeExternalUrl(link.url) ? (
-                <a key={link.url} href={link.url} target="_blank" rel="noreferrer noopener">
-                  <i className={link.icon} />
+            {profile.social.map((link) => {
+              if (!isSafeExternalUrl(link.url)) return null;
+              const label = getSocialLabel(link.url, link.icon);
+              return (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label={label}
+                  title={label}
+                >
+                  <i className={link.icon} aria-hidden="true" />
+                  <span className="sr-only">{label}</span>
                 </a>
-              ) : null,
-            )}
+              );
+            })}
           </div>
         </div>
         <div className="hero-visual fade-in-left">
@@ -50,7 +66,15 @@ export default function Hero({ profile, profileImageUrl, onProfileClick }: HeroP
               role="button"
               tabIndex={0}
             >
-              <img src={profileImageUrl} alt={profile.name} id="hero-img" loading="eager" />
+              <img
+                src={profileImageUrl}
+                alt={profile.name}
+                id="hero-img"
+                loading="eager"
+                width={460}
+                height={460}
+                fetchPriority="high"
+              />
             </div>
           ) : null}
         </div>

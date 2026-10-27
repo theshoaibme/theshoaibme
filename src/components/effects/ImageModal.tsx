@@ -86,13 +86,13 @@ export default function ImageModal({
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label={variant === 'round' ? 'Profile image preview' : 'About image preview'}
+      aria-label={variant === 'round' ? 'Profile image preview' : variant === 'square' ? 'About image preview' : 'Project image preview'}
     >
       <div className="modal-backdrop" />
       <button
         type="button"
         className="modal-close"
-        aria-label={variant === 'round' ? 'Close profile image' : 'Close about image'}
+        aria-label={variant === 'round' ? 'Close profile image' : variant === 'square' ? 'Close about image' : 'Close project image'}
         onClick={(event) => {
           event.stopPropagation();
           onClose();
@@ -103,7 +103,7 @@ export default function ImageModal({
       <div className={`modal-content modal-content--${variant}`}>
         <img
           src={safeSrc}
-          alt={variant === 'round' ? 'Profile full size' : 'About full size'}
+          alt={variant === 'round' ? 'Profile full size' : variant === 'square' ? 'About full size' : 'Project full size preview'}
           id="modal-img"
           className={`modal-img modal-img--${variant}`}
           onError={(event) => {

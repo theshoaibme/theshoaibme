@@ -33,9 +33,6 @@ export default function Skills({ section, skills }: SkillsProps) {
     <section id="skills" className="section skills">
       <div className="container">
         <div className="section-header reveal">
-          <span className="section-subtitle" id="skills-subtitle">
-            {section.subtitle}
-          </span>
           <h2 className="section-title" id="skills-title">
             {section.title}
           </h2>

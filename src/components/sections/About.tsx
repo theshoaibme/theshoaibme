@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ABOUT_LABELS } from '@/data/aboutData';
 import type { About, SiteSection } from '@/types';
 
 interface AboutProps {
@@ -20,9 +21,6 @@ export default function About({
     <section id="about" className="section about">
       <div className="container">
         <div className="section-header reveal">
-          <span className="section-subtitle" id="about-subtitle">
-            {section.subtitle}
-          </span>
           <h2 className="section-title" id="about-title">
             {section.title}
           </h2>
@@ -34,14 +32,14 @@ export default function About({
             ))}
             <div className="about-actions">
               <Link to="/resume" className="btn btn-outline ripple">
-                View Resume
+                {ABOUT_LABELS.viewResume}
               </Link>
             </div>
           </div>
           <div className="about-visual">
             <div
               className="about-img-container"
-              {...(onImageClick ? { 'data-tooltip': 'Click to show full view' } : {})}
+              {...(onImageClick ? { 'data-tooltip': ABOUT_LABELS.imageTooltip } : {})}
               onClick={onImageClick}
               onKeyDown={(event) => {
                 if (onImageClick && (event.key === 'Enter' || event.key === ' ')) {
@@ -51,7 +49,11 @@ export default function About({
               }}
               role={onImageClick ? 'button' : undefined}
               tabIndex={onImageClick ? 0 : undefined}
-              aria-label={onImageClick ? `View ${profileName} profile photo` : undefined}
+              aria-label={
+                onImageClick
+                  ? `${ABOUT_LABELS.profilePhotoAriaPrefix} ${profileName} ${ABOUT_LABELS.profilePhotoAriaSuffix}`
+                  : undefined
+              }
             >
               <img
                 src={aboutImage}
@@ -59,6 +61,8 @@ export default function About({
                 className="about-img"
                 id="about-img"
                 loading="lazy"
+                width={380}
+                height={475}
               />
             </div>
           </div>

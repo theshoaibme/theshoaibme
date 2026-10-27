@@ -18,8 +18,10 @@ const DEFAULT_NAV: NavItem[] = [
   { label: 'Home', link: '#hero' },
   { label: 'About', link: '#about' },
   { label: 'Skills', link: '#skills' },
+  { label: 'Experience', link: '#experience' },
   { label: 'Services', link: '#services' },
   { label: 'Portfolio', link: '#portfolio' },
+  { label: 'Testimonials', link: '#testimonials' },
   { label: 'Contact', link: '#contact' },
 ];
 
@@ -90,7 +92,7 @@ export default function ResumePage() {
   const turnstileSiteKey = getTurnstileSiteKey();
   const secureTrackingEnabled =
     isTurnstileConfigured() && isResumeDownloadTrackingConfigured() && Boolean(turnstileSiteKey);
-  const photoSrc = resolveImageUrl(content.personal.photo);
+  const photoSrc = resolveImageUrl(data?.profile.profileImage || content.personal.photo || '');
   const photoIsCrossOrigin =
     photoSrc.length > 0 &&
     new URL(photoSrc, window.location.origin).origin !== window.location.origin;
@@ -258,7 +260,7 @@ export default function ResumePage() {
         scrollEnabled
         logoText={data?.site.logo.text ?? 'Dev'}
         logoSpan={data?.site.logo.span ?? 'Portfolio.'}
-        favicon={data?.site.favicon ?? '/images/favicon.ico'}
+        favicon={data?.site.favicon}
         nav={data?.site.nav ?? DEFAULT_NAV}
       />
 

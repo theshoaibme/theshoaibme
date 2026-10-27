@@ -10,8 +10,10 @@ const DEFAULT_NAV: NavItem[] = [
   { label: 'Home', link: '#hero' },
   { label: 'About', link: '#about' },
   { label: 'Skills', link: '#skills' },
+  { label: 'Experience', link: '#experience' },
   { label: 'Services', link: '#services' },
   { label: 'Portfolio', link: '#portfolio' },
+  { label: 'Testimonials', link: '#testimonials' },
   { label: 'Contact', link: '#contact' },
 ];
 
@@ -40,7 +42,7 @@ export default function PolicyPageLayout({
         scrollEnabled
         logoText={site?.logo.text ?? 'Dev'}
         logoSpan={site?.logo.span ?? 'Portfolio.'}
-        favicon={site?.favicon ?? '/images/favicon.ico'}
+        favicon={site?.favicon}
         nav={site?.nav ?? DEFAULT_NAV}
       />
 

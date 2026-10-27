@@ -1,5 +1,6 @@
 import type { ServiceInquiryTemplate } from '@/config/serviceInquiryTemplates';
 import ContactForm from '@/components/sections/ContactForm';
+import { CONTACT_ICONS, CONTACT_LABELS, CONTACT_ORDER } from '@/data/contactData';
 import type { Contact, SiteSection } from '@/types';
 import { getContactInfoHref, type ContactInfoKey } from '@/utils/contactLinks';
 
@@ -9,20 +10,6 @@ interface ContactProps {
   inquiryTemplate?: ServiceInquiryTemplate | null;
 }
 
-const CONTACT_ICONS: Record<ContactInfoKey, string> = {
-  location: 'fa-location-dot',
-  email: 'fa-envelope',
-  phone: 'fa-phone',
-};
-
-const CONTACT_LABELS: Record<ContactInfoKey, string> = {
-  location: 'Location',
-  email: 'Email',
-  phone: 'Phone',
-};
-
-const CONTACT_ORDER: ContactInfoKey[] = ['location', 'email', 'phone'];
-
 function ContactInfoItem({ type, value }: { type: ContactInfoKey; value: string }) {
   const href = getContactInfoHref(type, value);
   const label = CONTACT_LABELS[type];
@@ -30,7 +17,7 @@ function ContactInfoItem({ type, value }: { type: ContactInfoKey; value: string 
     <>
       <i className={`fa-solid ${CONTACT_ICONS[type]}`} aria-hidden="true" />
       <div>
-        <h4>{label}</h4>
+        <h3>{label}</h3>
         <p>{value}</p>
       </div>
     </>
@@ -65,9 +52,6 @@ export default function Contact({ section, contact, inquiryTemplate = null }: Co
     <section id="contact" className="section contact">
       <div className="container">
         <div className="section-header reveal">
-          <span className="section-subtitle" id="contact-subtitle">
-            {section.subtitle}
-          </span>
           <h2 className="section-title" id="contact-title">
             {section.title}
           </h2>

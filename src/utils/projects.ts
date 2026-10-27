@@ -1,26 +1,16 @@
 import type { Project } from '@/types';
 import { resolveImageUrl } from '@/utils/images';
+import { isSafeExternalUrl } from '@/utils/urlValidation';
 
 export const FEATURED_PROJECT_LIMIT = 4;
-
-function getProjectSlug(project: Project): string {
-  try {
-    const repoPath = new URL(project.repository).pathname.split('/').filter(Boolean);
-    const repoName = repoPath[repoPath.length - 1] ?? '';
-    return repoName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  } catch {
-    return '';
-  }
-}
 
 export function getProjectImage(project: Project): string {
   if (project.image) {
     return resolveImageUrl(project.image);
   }
 
-  const slug = getProjectSlug(project);
-  if (slug) {
-    return resolveImageUrl(`/images/projects/${slug}.jpg`);
+  if (project.live_preview && isSafeExternalUrl(project.live_preview)) {
+    return `https://s0.wp.com/mshots/v1/${encodeURIComponent(project.live_preview)}?w=1200`;
   }
 
   return '';

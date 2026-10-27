@@ -60,10 +60,10 @@ export const RESUME_CONTENT: ResumeContent = {
     phone: '+8801909978166',
     address: 'Daffodil Smart City, Ashulia, Dhaka',
     website: 'https://theshoaib.me',
-    github: 'https://github.com/the-shoaib2',
+    github: 'https://github.com/theshoaibme',
     sex: 'Male',
     dateOfBirth: '1 December 2001',
-    photo: '/images/profile.jpg',
+    photo: 'https://avatars.githubusercontent.com/u/125272364',
   },
   about:
     'I am MD Shoaib Khan, a motivated Computer Science student focused on AI and full-stack development. I specialize in designing scalable, innovative solutions using modern technologies. Committed to continuous growth, I excel at solving complex problems and delivering high-quality software. I aim to contribute my skills to forward-thinking organizations and grow as a technology leader. I thrive in collaborative environments where creativity and teamwork drive success. Passionate about learning, I stay updated with industry trends to deliver impactful results.',
@@ -102,7 +102,7 @@ export const RESUME_CONTENT: ResumeContent = {
         'TypeScript, Node.js, NestJS, TypeORM, React, LLMs, Whisper, TTS, WebSockets, Redis, Docker, Python (Tools), Postgres, LangChain, PNPM Monorepo.',
       description:
         'Built a modular AI agent framework with 100+ dynamic plugins for messaging (Telegram, WhatsApp, API), task automation, and multi-modal reasoning. Integrated real-time voice I/O (Speech-to-Text & TTS), vector/structured memory, and ReAct-style decision logic. Architected a custom plugin system extensible tool chaining and external service orchestration. Supports multilingual speech, microservices, and agent-level reasoning via LLMs.',
-      github: 'https://github.com/the-shoaib2',
+      github: 'https://github.com/theshoaibme',
       liveDemo: 'https://theshoaib.me',
     },
   ],
@@ -114,7 +114,7 @@ export const RESUME_CONTENT: ResumeContent = {
         'React.js, Node.js, Express, MongoDB, Python (ML), Docker, TensorFlow, Firebase, WebRTC, Stripe',
       description:
         'Built a multi-platform AI system to assess pregnancy risks in real time using health data and ML. Implemented secure doctor-patient video calls (WebRTC), role-based access, and integrated payments. Developed real-time dashboards, emergency alerts, and responsive UI for Web, Mobile, and Smartwatch.',
-      github: 'https://github.com/the-shoaib2/Pregnify',
+      github: 'https://github.com/theshoaibme/Pregnify',
     },
     {
       date: '(August 2024 – December 2024)',
@@ -123,7 +123,7 @@ export const RESUME_CONTENT: ResumeContent = {
         'Java, Spring Boot, MongoDB, React.js, Maven, JWT, REST API, Docker, Microservices',
       description:
         'Built a full-stack e-commerce platform with Spring Boot and MongoDB, featuring JWT-secured APIs and role-based access. Developed React.js dashboards for product, order, and analytics management. Integrated shopping cart and order processing with a scalable payment gateway via microservices. Tested APIs with Postman and cURL, deployed secure endpoints, and used Docker for scalable infrastructure with Maven and JDK 17.',
-      github: 'https://github.com/the-shoaib2/Super-Shop-Management',
+      github: 'https://github.com/theshoaibme/Super-Shop-Management',
     },
   ],
   skills: [

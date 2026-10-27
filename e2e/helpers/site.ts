@@ -33,11 +33,15 @@ interface PortfolioDataFile {
 }
 
 export const portfolioData = JSON.parse(
-  readFileSync(resolve(process.cwd(), 'data/portfolio.json'), 'utf-8'),
+  readFileSync(resolve(process.cwd(), 'public/data.json'), 'utf-8'),
 ) as PortfolioDataFile;
 
-export const featuredProjects = portfolioData.projects.filter((project) => project.featured);
-export const secondaryProjects = portfolioData.projects.filter((project) => !project.featured);
+const pinnedProjects = portfolioData.projects.filter((project) => project.featured);
+export const featuredProjects = pinnedProjects.slice(0, 4);
+export const secondaryProjects = portfolioData.projects.filter(
+  (project) => !featuredProjects.some((featured) => featured.name === project.name),
+);
+
 
 export async function waitForHomeReady(page: Page) {
   await page.goto('/');

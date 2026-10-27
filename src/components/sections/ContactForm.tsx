@@ -7,6 +7,7 @@ import {
   getTurnstileSiteKey,
   isTurnstileConfigured,
 } from '@/config/turnstile';
+import { CONTACT_FORM_TEXT } from '@/data/contactFormData';
 import { useContactForm } from '@/hooks/forms/useContactForm';
 import { getCookie } from '@/utils/cookies';
 import { scrollToElement } from '@/utils/smoothScroll';
@@ -160,7 +161,7 @@ export default function ContactForm({
 
       <div className="form-group">
         <label className="floating-label" htmlFor="contact-name">
-          Name
+          {CONTACT_FORM_TEXT.fields.name.label}
         </label>
         <input
           type="text"
@@ -170,7 +171,7 @@ export default function ContactForm({
           minLength={CONTACT_FIELD_LIMITS.name.min}
           maxLength={CONTACT_FIELD_LIMITS.name.max}
           autoComplete="name"
-          placeholder="Enter your name"
+          placeholder={CONTACT_FORM_TEXT.fields.name.placeholder}
           value={values.user_name}
           aria-invalid={Boolean(fieldErrors.user_name)}
           aria-describedby={fieldErrors.user_name ? 'contact-name-error' : undefined}
@@ -185,7 +186,7 @@ export default function ContactForm({
       </div>
       <div className="form-group">
         <label className="floating-label" htmlFor="contact-email">
-          Email
+          {CONTACT_FORM_TEXT.fields.email.label}
         </label>
         <input
           type="email"
@@ -194,7 +195,7 @@ export default function ContactForm({
           required
           maxLength={CONTACT_FIELD_LIMITS.email.max}
           autoComplete="email"
-          placeholder="Enter your email"
+          placeholder={CONTACT_FORM_TEXT.fields.email.placeholder}
           value={values.user_email}
           aria-invalid={Boolean(fieldErrors.user_email)}
           aria-describedby={fieldErrors.user_email ? 'contact-email-error' : undefined}
@@ -209,14 +210,14 @@ export default function ContactForm({
       </div>
       <div className="form-group">
         <label className="floating-label" htmlFor="contact-subject">
-          Subject
+          {CONTACT_FORM_TEXT.fields.subject.label}
         </label>
         <input
           type="text"
           id="contact-subject"
           name="subject"
           maxLength={CONTACT_FIELD_LIMITS.subject.max}
-          placeholder="Enter your subject"
+          placeholder={CONTACT_FORM_TEXT.fields.subject.placeholder}
           value={values.subject}
           aria-invalid={Boolean(fieldErrors.subject)}
           aria-describedby={fieldErrors.subject ? 'contact-subject-error' : undefined}
@@ -232,7 +233,7 @@ export default function ContactForm({
       <div className="form-group">
         <div className="form-group__label-row">
           <label className="floating-label" htmlFor="contact-message">
-            Message
+            {CONTACT_FORM_TEXT.fields.message.label}
           </label>
           <span
             className={`field-counter${
@@ -255,7 +256,7 @@ export default function ContactForm({
           required
           minLength={CONTACT_FIELD_LIMITS.message.min}
           maxLength={CONTACT_FIELD_LIMITS.message.max}
-          placeholder="Enter your message"
+          placeholder={CONTACT_FORM_TEXT.fields.message.placeholder}
           value={values.message}
           aria-invalid={Boolean(fieldErrors.message)}
           aria-describedby={fieldErrors.message ? 'contact-message-error' : undefined}
@@ -285,11 +286,11 @@ export default function ContactForm({
             onSuccess={onTurnstileSuccess}
             onExpire={() => {
               resetSecurity();
-              setFormError('Security check expired. Please submit the form again.');
+              setFormError(CONTACT_FORM_TEXT.security.expiredError);
             }}
             onError={() => {
               resetSecurity();
-              setFormError('Security verification failed to load. Please refresh and try again.');
+              setFormError(CONTACT_FORM_TEXT.security.loadError);
             }}
             options={{ theme: turnstileTheme }}
           />
@@ -300,12 +301,12 @@ export default function ContactForm({
         {submitting ? (
           <>
             <i className="fa-solid fa-spinner fa-spin" />
-            Sending...
+            {CONTACT_FORM_TEXT.submit.sending}
           </>
         ) : (
           <>
             <i className="fa-solid fa-paper-plane" />
-            Send Message
+            {CONTACT_FORM_TEXT.submit.send}
           </>
         )}
       </button>

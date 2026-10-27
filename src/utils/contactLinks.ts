@@ -24,3 +24,22 @@ export function getContactInfoHref(key: ContactInfoKey, value: string): string |
       return null;
   }
 }
+
+export function getSocialLabel(url: string, icon?: string): string {
+  const lowerUrl = url.toLowerCase();
+  if (lowerUrl.includes('github.com')) return 'GitHub';
+  if (lowerUrl.includes('linkedin.com')) return 'LinkedIn';
+  if (lowerUrl.includes('telegram.me') || lowerUrl.includes('t.me')) return 'Telegram';
+  if (lowerUrl.includes('instagram.com')) return 'Instagram';
+  if (lowerUrl.includes('twitter.com') || lowerUrl.includes('x.com')) return 'X (Twitter)';
+  if (lowerUrl.includes('facebook.com')) return 'Facebook';
+  if (lowerUrl.includes('youtube.com')) return 'YouTube';
+  if (icon) {
+    const match = icon.match(/fa-([a-z0-9-]+)/);
+    if (match) {
+      const clean = match[1].replace(/^brands-/, '').replace(/-in$/, '');
+      return clean.charAt(0).toUpperCase() + clean.slice(1);
+    }
+  }
+  return 'Social Profile';
+}
