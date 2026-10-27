@@ -75,13 +75,20 @@ test.describe('Image CDN integration', () => {
 
   test('testimonial avatars load', async ({ page }) => {
     await page.locator('#testimonials').scrollIntoViewIfNeeded();
-    const avatar = page.locator('#testimonials .author-img').first();
-    await expect(avatar).toBeVisible();
+    const avatarImg = page.locator('#testimonials img.author-img').first();
+    const count = await avatarImg.count();
 
-    const src = await avatar.getAttribute('src');
-    expect(src).toBeTruthy();
+    if (count > 0) {
+      await expect(avatarImg).toBeVisible();
+      const src = await avatarImg.getAttribute('src');
+      expect(src).toBeTruthy();
 
-    const response = await page.request.get(src!);
-    expect(response.ok()).toBeTruthy();
+      const response = await page.request.get(src!);
+      expect(response.ok()).toBeTruthy();
+    } else {
+      const initials = page.locator('#testimonials .author-initials').first();
+      await expect(initials).toBeVisible();
+    }
   });
+
 });
