@@ -3,6 +3,7 @@ function isSecureContext(): boolean {
 }
 
 export function setCookie(name: string, value: string, days?: number): void {
+  if (typeof document === 'undefined') return;
   let expires = '';
   if (days) {
     const date = new Date();
@@ -15,6 +16,7 @@ export function setCookie(name: string, value: string, days?: number): void {
 }
 
 export function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
   const nameEQ = `${name}=`;
   const ca = document.cookie.split(';');
   for (let i = 0; i < ca.length; i++) {

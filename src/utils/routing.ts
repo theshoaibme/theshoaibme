@@ -1,5 +1,7 @@
+import { getBaseUrl } from '@/utils/env';
+
 export function isHomePath(pathname: string): boolean {
-  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const base = getBaseUrl().replace(/\/$/, '');
   if (!base || base === '/') {
     return pathname === '/' || pathname === '';
   }

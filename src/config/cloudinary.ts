@@ -1,3 +1,5 @@
+import { getEnv } from '@/utils/env';
+
 /** Public Cloudinary cloud name (safe to expose in client URLs). */
 export const CLOUDINARY_CLOUD_NAME = 'ddp8owdtu';
 
@@ -5,11 +7,11 @@ export const CLOUDINARY_CLOUD_NAME = 'ddp8owdtu';
 export const CLOUDINARY_TRANSFORMS = 'f_auto,q_auto';
 
 export function getCloudinaryCloudName(): string {
-  return import.meta.env.VITE_CLOUDINARY_CLOUD_NAME?.trim() ?? '';
+  return getEnv('CLOUDINARY_CLOUD_NAME').trim();
 }
 
 export function getCloudinaryTransforms(): string {
-  return import.meta.env.VITE_CLOUDINARY_TRANSFORMS?.trim() || CLOUDINARY_TRANSFORMS;
+  return getEnv('CLOUDINARY_TRANSFORMS').trim() || CLOUDINARY_TRANSFORMS;
 }
 
 export function buildCloudinaryImageBase(cloudName = getCloudinaryCloudName()): string {

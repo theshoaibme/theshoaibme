@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+
+import { Link } from '@/components/common/UniversalLink';
 import LogoMark from '@/components/common/LogoMark';
 import { useHeaderScroll } from '@/hooks/scroll/useHeaderScroll';
 import { resolveAssetPath } from '@/utils/logo';

@@ -1,5 +1,6 @@
 import { getCdnBaseUrl } from '@/config/cdn';
 import { isCloudinaryCdn, toCloudinaryPublicId } from '@/config/cloudinary';
+import { getBaseUrl } from '@/utils/env';
 
 function isAbsoluteUrl(path: string): boolean {
   return /^https?:\/\//i.test(path);
@@ -17,7 +18,7 @@ function buildCdnAssetUrl(cdnBase: string, normalized: string): string {
 /**
  * Resolves an image path for use in <img src>.
  * - Full URLs (https://...) are returned unchanged.
- * - Local paths use Cloudinary, VITE_CDN_BASE_URL, or same-origin /images/ fallback.
+ * - Local paths use Cloudinary, CDN_BASE_URL, or same-origin /images/ fallback.
  */
 export function resolveImageUrl(path: string): string {
   const trimmed = path.trim();
@@ -34,6 +35,6 @@ export function resolveImageUrl(path: string): string {
     return buildCdnAssetUrl(cdnBase, normalized);
   }
 
-  const siteBase = import.meta.env.BASE_URL.replace(/\/+$/, '');
+  const siteBase = getBaseUrl().replace(/\/+$/, '');
   return siteBase ? `${siteBase}/${normalized}` : `/${normalized}`;
 }

@@ -1,5 +1,8 @@
+"use client";
+
 import { useCallback, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from '@/components/common/UniversalLink';
+import { useLocation } from '@/hooks/useLocation';
 import type { NavItem } from '@/types';
 import LogoMark from '@/components/common/LogoMark';
 import { useActiveNavSection } from '@/hooks/scroll/useActiveNavSection';

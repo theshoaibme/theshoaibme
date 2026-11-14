@@ -28,8 +28,8 @@ export default defineConfig({
       ],
   webServer: {
     command: isCI
-      ? 'pnpm build && pnpm preview -- --host 127.0.0.1 --port 4173'
-      : 'pnpm dev -- --host 127.0.0.1 --port 5173',
+      ? 'pnpm build && pnpm start -H 127.0.0.1 -p 4173'
+      : 'pnpm exec next dev -H 127.0.0.1 -p 5173',
     url: baseURL,
     reuseExistingServer: !isCI,
     timeout: isCI ? 180_000 : 120_000,

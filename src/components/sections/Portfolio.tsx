@@ -1,5 +1,7 @@
+"use client";
+
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '@/components/common/UniversalLink';
 import { PORTFOLIO_LABELS } from '@/data/portfolioData';
 import type { Project, SiteSection } from '@/types';
 import ProjectCard from '@/components/sections/ProjectCard';

@@ -3,14 +3,14 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 import SmoothScrollProvider from '@/components/layout/SmoothScrollProvider';
 import { SiteDataProvider } from '@/app/providers/SiteDataProvider';
-import HomePage from '@/pages/HomePage';
+import HomePage from '@/views/HomePage';
 
-const ProjectsPage = lazy(() => import('@/pages/ProjectsPage'));
-const ResumePage = lazy(() => import('@/pages/ResumePage'));
-const PrivacyPage = lazy(() => import('@/pages/PrivacyPage'));
-const TermsPage = lazy(() => import('@/pages/TermsPage'));
-const LoaderPage = lazy(() => import('@/pages/LoaderPage'));
-const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
+const ProjectsPage = lazy(() => import('@/views/ProjectsPage'));
+const ResumePage = lazy(() => import('@/views/ResumePage'));
+const PrivacyPage = lazy(() => import('@/views/PrivacyPage'));
+const TermsPage = lazy(() => import('@/views/TermsPage'));
+const LoaderPage = lazy(() => import('@/views/LoaderPage'));
+const NotFoundPage = lazy(() => import('@/views/NotFoundPage'));
 
 export default function App() {
   return (

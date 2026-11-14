@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactLenis, useLenis } from 'lenis/react';
 import { useEffect, useState, type ReactNode } from 'react';
 import { setLenis } from '@/utils/smoothScroll';
@@ -21,7 +23,7 @@ interface SmoothScrollProviderProps {
 
 export default function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   const [enabled, setEnabled] = useState(
-    () => !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    () => typeof window !== 'undefined' ? !window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,
   );
 
   useEffect(() => {

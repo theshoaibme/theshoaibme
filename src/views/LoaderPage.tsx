@@ -1,3 +1,5 @@
+"use client";
+
 import CircularLoader from '@/components/common/CircularLoader';
 import { useDocumentTitle } from '@/hooks/data/useSiteData';
 import '@/styles/modules/loader.css';

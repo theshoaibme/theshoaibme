@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+
+import { Link } from '@/components/common/UniversalLink';
 import { ABOUT_LABELS } from '@/data/aboutData';
 import type { About, SiteSection } from '@/types';
 

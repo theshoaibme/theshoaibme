@@ -2,17 +2,19 @@ import { isHomePath } from '@/utils/routing';
 import { setActiveNavSection, syncActiveNavSectionFromHash } from '@/utils/navActive';
 import { getLenis, SCROLL_OFFSET, scrollToElement } from '@/utils/smoothScroll';
 
-let hashRestoreComplete = !getInitialHash();
-let restoreGeneration = 0;
-
 function getInitialHash(): string {
+  if (typeof window === 'undefined') return '';
   const hash = window.location.hash;
   if (!hash || hash === '#') return '';
   return hash;
 }
 
+let hashRestoreComplete = typeof window !== 'undefined' ? !getInitialHash() : true;
+let restoreGeneration = 0;
+
 export function configureManualScrollRestoration(): void {
-  if ('scrollRestoration' in history) {
+  if (typeof window === 'undefined') return;
+  if (typeof history !== 'undefined' && 'scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
 
@@ -29,6 +31,7 @@ export function isHashRestoreComplete(): boolean {
 }
 
 function getSectionIdFromHash(): string | null {
+  if (typeof window === 'undefined') return null;
   const hash = window.location.hash;
   if (!hash || hash === '#') return null;
   return decodeURIComponent(hash.slice(1));
@@ -52,6 +55,7 @@ async function waitForSection(sectionId: string, timeoutMs = 8000): Promise<HTML
 }
 
 async function waitForScrollReady(timeoutMs = 8000): Promise<void> {
+  if (typeof window === 'undefined') return;
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) return;
 

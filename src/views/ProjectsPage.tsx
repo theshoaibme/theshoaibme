@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+
+import { Link } from '@/components/common/UniversalLink';
 import PageStatus from '@/components/common/PageStatus';
 import ImageModal from '@/components/effects/ImageModal';
 import PolicyHeader from '@/components/layout/PolicyHeader';

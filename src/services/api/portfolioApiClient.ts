@@ -1,12 +1,14 @@
 import type { PortfolioData } from '@/types';
 import { validatePortfolioData } from '@/utils/validateData';
+import { getBaseUrl } from '@/utils/env';
 import { ApiError, type RequestOptions } from './types';
+import rawDataJson from '../../../public/data.json';
 
 let cachedPortfolioData: PortfolioData | null = null;
 let inFlightRequest: Promise<PortfolioData> | null = null;
 
 function getDataUrl(): string {
-  const baseUrl = import.meta.env.BASE_URL || '/';
+  const baseUrl = getBaseUrl() || '/';
   const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
   return `${cleanBase}data.json`;
 }
@@ -21,6 +23,11 @@ export function clearPortfolioDataCache(): void {
 }
 
 async function requestPortfolioData(): Promise<PortfolioData> {
+  // If executing on the server (Next.js SSR/SSG/Build), load from local data.json directly
+  if (typeof window === 'undefined') {
+    return validatePortfolioData(rawDataJson);
+  }
+
   const url = getDataUrl();
   let response: Response;
 
@@ -65,65 +72,57 @@ export async function fetchRawPortfolioData(
   const { force = false, signal } = options;
 
   if (signal?.aborted) {
-    throw signal.reason ?? new DOMException('The operation was aborted.', 'AbortError');
+    throw new DOMException('The operation was aborted.', 'AbortError');
   }
 
   if (!force && cachedPortfolioData) {
     return { data: cachedPortfolioData, cached: true };
   }
 
-  if (!inFlightRequest || force) {
+  if (inFlightRequest) {
     const request = requestPortfolioData()
       .then((data) => {
         cachedPortfolioData = data;
         return data;
       })
-      .catch((err) => {
-        if (inFlightRequest === request) {
-          inFlightRequest = null;
-        }
-        throw err;
-      })
       .finally(() => {
-        if (inFlightRequest === request) {
-          inFlightRequest = null;
-        }
+        inFlightRequest = null;
       });
 
     inFlightRequest = request;
+  } else {
+    inFlightRequest = requestPortfolioData()
+      .then((data) => {
+        cachedPortfolioData = data;
+        return data;
+      })
+      .finally(() => {
+        inFlightRequest = null;
+      });
   }
-
-  const currentRequest = inFlightRequest;
 
   let data: PortfolioData;
   if (signal) {
     data = await new Promise<PortfolioData>((resolve, reject) => {
-      const onAbort = () => {
-        signal.removeEventListener('abort', onAbort);
-        reject(signal.reason ?? new DOMException('The operation was aborted.', 'AbortError'));
+      const abortHandler = () => {
+        reject(new DOMException('The operation was aborted.', 'AbortError'));
       };
 
-      if (signal.aborted) {
-        onAbort();
-        return;
-      }
+      signal.addEventListener('abort', abortHandler, { once: true });
 
-      signal.addEventListener('abort', onAbort, { once: true });
-
-      currentRequest
+      inFlightRequest!
         .then((result) => {
-          signal.removeEventListener('abort', onAbort);
+          signal.removeEventListener('abort', abortHandler);
           resolve(result);
         })
         .catch((err) => {
-          signal.removeEventListener('abort', onAbort);
+          signal.removeEventListener('abort', abortHandler);
           reject(err);
         });
     });
   } else {
-    data = await currentRequest;
+    data = await inFlightRequest;
   }
 
   return { data, cached: Boolean(cachedPortfolioData && !force) };
 }
-

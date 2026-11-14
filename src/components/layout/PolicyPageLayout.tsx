@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+
+import { Link } from '@/components/common/UniversalLink';
 import type { ReactNode } from 'react';
 import PageStatus from '@/components/common/PageStatus';
 import Header from '@/components/layout/Header';

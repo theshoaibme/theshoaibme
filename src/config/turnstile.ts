@@ -1,3 +1,5 @@
+import { getEnv } from '@/utils/env';
+
 /** Cloudflare dummy keys always show the "For testing only" banner — never use these. */
 const TURNSTILE_TEST_SITE_KEYS = new Set([
   '1x00000000000000000000AA',
@@ -10,7 +12,7 @@ export function isTurnstileTestSiteKey(siteKey: string): boolean {
 }
 
 export function getTurnstileSiteKey(): string {
-  const configuredKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim() ?? '';
+  const configuredKey = getEnv('TURNSTILE_SITE_KEY').trim();
 
   if (!configuredKey || isTurnstileTestSiteKey(configuredKey)) {
     return '';
@@ -24,10 +26,10 @@ export function isTurnstileConfigured(): boolean {
 }
 
 export function getTurnstileSetupMessage(): string {
-  const configuredKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim() ?? '';
+  const configuredKey = getEnv('TURNSTILE_SITE_KEY').trim();
 
   if (!configuredKey) {
-    return 'Add your Cloudflare Turnstile site key to .env as VITE_TURNSTILE_SITE_KEY (see .env.example).';
+    return 'Add your Cloudflare Turnstile site key to .env as TURNSTILE_SITE_KEY or VITE_TURNSTILE_SITE_KEY (see .env.example).';
   }
 
   if (isTurnstileTestSiteKey(configuredKey)) {

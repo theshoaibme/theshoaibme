@@ -1,4 +1,5 @@
 function getSectionIdFromHash(): string {
+  if (typeof window === 'undefined') return 'hero';
   const hash = window.location.hash;
   if (!hash || hash === '#') return 'hero';
   return decodeURIComponent(hash.slice(1));

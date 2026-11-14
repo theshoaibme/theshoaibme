@@ -1,3 +1,5 @@
+"use client";
+
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import { getDisplayErrorMessage } from '@/utils/errors';

@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+
+import { Link } from '@/components/common/UniversalLink';
 import type { Profile } from '@/types';
 import LogoMark from '@/components/common/LogoMark';
 import { sanitizeHtml } from '@/utils/sanitize';

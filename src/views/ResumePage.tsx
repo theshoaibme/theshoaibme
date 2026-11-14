@@ -1,3 +1,5 @@
+"use client";
+
 import { type ReactNode, useCallback, useMemo, useRef, useState } from 'react';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import PageStatus from '@/components/common/PageStatus';
@@ -84,16 +86,21 @@ export default function ResumePage() {
   const [downloading, setDownloading] = useState(false);
   const [honeyPot, setHoneyPot] = useState('');
   const [turnstileTheme, setTurnstileTheme] = useState<'light' | 'dark'>(() =>
-    document.documentElement.classList.contains('dark') ? 'dark' : 'light',
+    typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+      ? 'dark'
+      : 'light',
   );
   const { theme, toggleTheme } = useTheme(() => {
-    setTurnstileTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    if (typeof document !== 'undefined') {
+      setTurnstileTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    }
   });
   const turnstileSiteKey = getTurnstileSiteKey();
   const secureTrackingEnabled =
     isTurnstileConfigured() && isResumeDownloadTrackingConfigured() && Boolean(turnstileSiteKey);
   const photoSrc = resolveImageUrl(data?.profile.profileImage || content.personal.photo || '');
   const photoIsCrossOrigin =
+    typeof window !== 'undefined' &&
     photoSrc.length > 0 &&
     new URL(photoSrc, window.location.origin).origin !== window.location.origin;
   const aboutParts = content.about.split('MD Shoaib Khan');

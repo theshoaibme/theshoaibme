@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+
+import { Link } from '@/components/common/UniversalLink';
 import '@/styles/modules/errors.css';
 import { useDocumentTitle } from '@/hooks/data/useSiteData';
 
