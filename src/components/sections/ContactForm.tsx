@@ -1,15 +1,8 @@
-import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { CONTACT_FIELD_LIMITS } from '@/config/contactValidation';
 import type { ServiceInquiryTemplate } from '@/config/serviceInquiryTemplates';
-import {
-  getTurnstileSetupMessage,
-  getTurnstileSiteKey,
-  isTurnstileConfigured,
-} from '@/config/turnstile';
 import { CONTACT_FORM_TEXT } from '@/data/contactFormData';
 import { useContactForm } from '@/hooks/forms/useContactForm';
-import { getCookie } from '@/utils/cookies';
 import { scrollToElement } from '@/utils/smoothScroll';
 
 const MESSAGE_MIN_HEIGHT = 96;
@@ -24,20 +17,9 @@ export default function ContactForm({
   className = 'contact-form',
   inquiryTemplate = null,
 }: ContactFormProps) {
-  const turnstileRef = useRef<TurnstileInstance>(null);
-  const turnstileContainerRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const appliedInquiryKeyRef = useRef<string | null>(null);
-  const [showTurnstile, setShowTurnstile] = useState(false);
   const [messageScrollable, setMessageScrollable] = useState(false);
-  const [turnstileTheme, setTurnstileTheme] = useState<'light' | 'dark' | 'auto'>(() =>
-    document.documentElement.classList.contains('dark') ? 'dark' : 'light',
-  );
-
-  const resetSecurity = useCallback(() => {
-    turnstileRef.current?.reset();
-    setShowTurnstile(false);
-  }, []);
 
   const {
     values,
@@ -46,15 +28,9 @@ export default function ContactForm({
     submitting,
     updateField,
     validateForm,
-    requestVerification,
     sendMessage,
-    clearStatus,
-    setFormError,
     applyInquiryTemplate,
-  } = useContactForm({
-    onResetSecurity: resetSecurity,
-  });
-  const turnstileSiteKey = getTurnstileSiteKey();
+  } = useContactForm();
 
   const adjustMessageHeight = useCallback(() => {
     const textarea = messageRef.current;
@@ -71,20 +47,8 @@ export default function ContactForm({
   }, []);
 
   useEffect(() => {
-    const savedTheme = getCookie('theme') || 'light';
-    setTurnstileTheme(savedTheme === 'dark' ? 'dark' : 'light');
-  }, []);
-
-  useEffect(() => {
     adjustMessageHeight();
   }, [values.message, adjustMessageHeight]);
-
-  useEffect(() => {
-    if (!showTurnstile) return;
-
-    turnstileContainerRef.current &&
-      scrollToElement(turnstileContainerRef.current, { immediate: false });
-  }, [showTurnstile]);
 
   useEffect(() => {
     if (!inquiryTemplate) {
@@ -98,8 +62,6 @@ export default function ContactForm({
 
     appliedInquiryKeyRef.current = inquiryTemplate.key;
     applyInquiryTemplate(inquiryTemplate);
-    setShowTurnstile(false);
-    turnstileRef.current?.reset();
 
     window.setTimeout(() => {
       adjustMessageHeight();
@@ -114,35 +76,16 @@ export default function ContactForm({
     if (field === 'message') {
       window.requestAnimationFrame(adjustMessageHeight);
     }
-
-    if (showTurnstile) {
-      turnstileRef.current?.reset();
-      setShowTurnstile(false);
-      clearStatus();
-    }
   };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!validateForm()) {
-      setShowTurnstile(false);
-      turnstileRef.current?.reset();
       return;
     }
 
-    const shouldShowTurnstile = requestVerification();
-    if (shouldShowTurnstile) {
-      setShowTurnstile(true);
-    }
-  };
-
-  const onTurnstileSuccess = async (token: string) => {
-    if (!showTurnstile || submitting || !token) {
-      return;
-    }
-
-    await sendMessage(token);
+    await sendMessage('');
   };
 
   return (
@@ -278,25 +221,6 @@ export default function ContactForm({
         {status.message}
       </div>
 
-      {showTurnstile && isTurnstileConfigured() ? (
-        <div ref={turnstileContainerRef} className="form-group contact-turnstile contact-turnstile--visible">
-          <Turnstile
-            ref={turnstileRef}
-            siteKey={turnstileSiteKey}
-            onSuccess={onTurnstileSuccess}
-            onExpire={() => {
-              resetSecurity();
-              setFormError(CONTACT_FORM_TEXT.security.expiredError);
-            }}
-            onError={() => {
-              resetSecurity();
-              setFormError(CONTACT_FORM_TEXT.security.loadError);
-            }}
-            options={{ theme: turnstileTheme }}
-          />
-        </div>
-      ) : null}
-
       <button type="submit" className="btn btn-primary ripple" id="submit-btn" disabled={submitting}>
         {submitting ? (
           <>
@@ -310,12 +234,6 @@ export default function ContactForm({
           </>
         )}
       </button>
-
-      {!isTurnstileConfigured() ? (
-        <p className="contact-turnstile__notice" role="alert">
-          {getTurnstileSetupMessage()}
-        </p>
-      ) : null}
     </form>
   );
 }

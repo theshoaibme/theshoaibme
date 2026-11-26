@@ -44,12 +44,21 @@ export function LiquidMetalBorder({
   const defaultColorBack = theme === 'light' ? '#888888' : '#aaaaac';
   const defaultColorTint = theme === 'light' ? '#ffffff' : '#ffffff';
 
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [shaderKey, setShaderKey] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const element = containerRef.current;
     if (!element) return;
+
+    const checkRect = () => {
+      const rect = element.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight + 100 && rect.bottom > -100;
+      setIsVisible(inView);
+    };
+
+    checkRect();
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -61,8 +70,26 @@ export function LiquidMetalBorder({
       },
     );
 
+    const handleContextLost = (event: Event) => {
+      event.preventDefault();
+      setShaderKey((prev) => prev + 1);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        checkRect();
+      }
+    };
+
     observer.observe(element);
-    return () => observer.disconnect();
+    element.addEventListener('webglcontextlost', handleContextLost, true);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      observer.disconnect();
+      element.removeEventListener('webglcontextlost', handleContextLost, true);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
   return (
@@ -78,37 +105,23 @@ export function LiquidMetalBorder({
         className="liquid-metal-border-shader"
         style={{ borderRadius, opacity }}
       >
-        {isVisible ? (
-          <LiquidMetal
-            style={{ width: '100%', height: '100%' }}
-            colorBack={colorBack ?? defaultColorBack}
-            colorTint={colorTint ?? defaultColorTint}
-            shape="none"
-            repetition={repetition}
-            softness={softness}
-            shiftRed={shiftRed}
-            shiftBlue={shiftBlue}
-            distortion={distortion}
-            contour={contour}
-            angle={angle}
-            speed={speed}
-            scale={scale}
-            fit="cover"
-          />
-        ) : (
-          <div
-            className={cn(
-              'liquid-metal-border-fallback',
-              theme === 'light' ? 'fallback-light' : 'fallback-dark',
-            )}
-            style={{
-              background:
-                theme === 'light'
-                  ? 'linear-gradient(135deg, #d1d5db 0%, #9ca3af 50%, #d1d5db 100%)'
-                  : 'linear-gradient(135deg, #71717a 0%, #52525b 50%, #71717a 100%)',
-            }}
-          />
-        )}
+        <LiquidMetal
+          key={shaderKey}
+          style={{ width: '100%', height: '100%' }}
+          colorBack={colorBack ?? defaultColorBack}
+          colorTint={colorTint ?? defaultColorTint}
+          shape="none"
+          repetition={repetition}
+          softness={softness}
+          shiftRed={shiftRed}
+          shiftBlue={shiftBlue}
+          distortion={distortion}
+          contour={contour}
+          angle={angle}
+          speed={isVisible ? speed : 0}
+          scale={scale}
+          fit="cover"
+        />
       </div>
 
       <div

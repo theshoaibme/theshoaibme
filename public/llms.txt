@@ -144,7 +144,7 @@
 - **Repository:** https://github.com/theshoaibme/ihaveaplanfoundation
 - **Live Preview:** https://ihaveaplanfoundation.com/
 
-### 2. Orthopedic Surgeon Platform
+### 2. Doctor Portfolio
 - **Description:** Production healthcare platform for Dr. Ab Rahman Miah: public marketing website plus a full admin portal for appointments, chamber management, patient records, CMS content, live chat, and clinic operations.
 - **Tech Stack:** Laravel 12, PHP 8.2/8.3, React, Inertia.js, PostgreSQL, Redis, Tailwind CSS, shadcn/ui, Laravel Reverb, Laravel Horizon, FrankenPHP / Octane, Docker, Bun, Google SSO / WebAuthn / 2FA
 - **Repository:** https://github.com/theshoaibme/orthopedicsurgeon
@@ -167,13 +167,7 @@
 - **Repository:** https://github.com/theshoaibme/meal-sphere
 - **Live Preview:** https://meal-sphere.vercel.app
 
-### 6. Daffodil Intelligence
-- **Description:** 360° multi-agent AI operating system for university life — academic, library, career, research, voice, and automation agents with real-time WebSocket chat, Telegram, and MCP integration.
-- **Tech Stack:** React, Vite, FastAPI, LangGraph, LangChain, PostgreSQL, Redis, Qdrant, WebSockets, Docker, OpenAI, Gemini
-- **Repository:** https://github.com/theshoaibme/daffodil-intelligence
-- **Live Preview:** https://daffodil-intelligence.vercel.app
-
-### 7. SobujBD
+### 6. SobujBD
 - **Description:** AI-powered smart agriculture and eco-monitoring platform with computer vision plant disease detection, geo-spatial mapping, and multi-tenant farm management.
 - **Tech Stack:** React, Vite, Spring Boot, FastAPI, PostGIS, Redis, MinIO, YOLOv8, Tesseract, Docker, Turborepo
 - **Repository:** https://github.com/zionmezba/sobujbd

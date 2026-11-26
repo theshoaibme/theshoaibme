@@ -15,9 +15,20 @@ function ProjectLinks({ github, liveDemo }: { github?: string; liveDemo?: string
       {links.map((link, index) => (
         <span key={link.href}>
           {index > 0 ? ' | ' : null}
-          <a href={link.href} rel="noreferrer noopener">
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="cv-pdf-link-label"
+          >
             {link.label}
           </a>
+          <span className="cv-pdf-link-url">
+            <strong>{link.label}:</strong>{' '}
+            <a href={link.href} target="_blank" rel="noreferrer noopener">
+              {link.href}
+            </a>
+          </span>
         </span>
       ))}
     </p>

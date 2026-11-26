@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 144" width="1500" height="600" fill="none">
+  <g transform="translate(17.5, -3.5)">
+    <!-- Main sweeping initial loop and lower tail -->
+    <path d="M 15 129 C 17 136, 20 135, 34 124 C 48 112, 62 100, 78 88 C 110 62, 132 34, 128 22 C 123 12, 98 20, 72 44 C 46 68, 34 90, 44 102 C 54 112, 74 104, 94 102 C 112 100, 122 106, 114 118 C 108 126, 98 132, 92 135" stroke="#111827" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Connector into tall slanted stem -->
+    <path d="M 116 116 C 128 112, 136 104, 144 90 C 154 72, 162 54, 166 44 C 156 76, 142 112, 138 136" stroke="#111827" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Middle wave sweeping up into final tall loop and end hook -->
+    <path d="M 142 108 C 148 114, 152 128, 160 128 C 168 128, 178 112, 188 112 C 196 112, 200 118, 210 116 C 224 112, 244 96, 268 72 C 292 48, 314 22, 310 15 C 306 10, 290 28, 280 48 C 272 64, 276 74, 288 82 C 298 88, 296 96, 282 102" stroke="#111827" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Signature dot -->
+    <ellipse cx="228" cy="74" rx="5.5" ry="7.8" transform="rotate(14 228 74)" fill="#111827"/>
+  </g>
+</svg>

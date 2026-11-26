@@ -3,7 +3,7 @@
 import { Link } from '@/components/common/UniversalLink';
 import PageStatus from '@/components/common/PageStatus';
 import ImageModal from '@/components/effects/ImageModal';
-import PolicyHeader from '@/components/layout/PolicyHeader';
+import Header from '@/components/layout/Header';
 import ProjectCard from '@/components/sections/ProjectCard';
 import { useDocumentTitle, useSiteData } from '@/hooks/data/useSiteData';
 import { useImageModal } from '@/hooks/ui/useImageModal';
@@ -21,10 +21,12 @@ export default function ProjectsPage() {
 
   return (
     <PageStatus loading={loading} error={error} onRetry={retry}>
-      <PolicyHeader
+      <Header
+        scrollEnabled
         logoText={data?.site.logo.text ?? 'Dev'}
         logoSpan={data?.site.logo.span ?? 'Portfolio.'}
         favicon={data?.site.favicon}
+        nav={data?.site.nav ?? []}
       />
 
       <main className="projects-page reveal active">
@@ -41,7 +43,7 @@ export default function ProjectsPage() {
             </p>
           </div>
 
-          <div className="portfolio-grid projects-page-grid">
+          <div className="projects-page-grid">
             {data?.projects.map((project, index) => (
               <ProjectCard
                 key={project.name}

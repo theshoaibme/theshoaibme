@@ -18,12 +18,19 @@ export interface ResumeReferenceItem {
   name: string;
   lines: string[];
   email: string;
-  phone: string;
+  phone?: string;
 }
 
 export interface ResumeSkillGroup {
   label: string;
   items: string;
+}
+
+export interface ResumeWorkExperienceItem {
+  date: string;
+  role: string;
+  project: string;
+  description: string;
 }
 
 export interface ResumeContent {
@@ -39,12 +46,7 @@ export interface ResumeContent {
     photo: string;
   };
   about: string;
-  workExperience: {
-    date: string;
-    role: string;
-    project: string;
-    description: string;
-  };
+  workExperience: ResumeWorkExperienceItem[];
   education: ResumeEducationItem[];
   projectsPage1: ResumeProjectItem[];
   projectsPage2: ResumeProjectItem[];
@@ -63,21 +65,30 @@ export const RESUME_CONTENT: ResumeContent = {
     github: 'https://github.com/theshoaibme',
     sex: 'Male',
     dateOfBirth: '1 December 2001',
-    photo: 'https://avatars.githubusercontent.com/u/125272364',
+    photo: '/images/about/resume-profile.webp',
   },
   about:
     'I am MD Shoaib Khan, a motivated Computer Science student focused on AI and full-stack development. I specialize in designing scalable, innovative solutions using modern technologies. Committed to continuous growth, I excel at solving complex problems and delivering high-quality software. I aim to contribute my skills to forward-thinking organizations and grow as a technology leader. I thrive in collaborative environments where creativity and teamwork drive success. Passionate about learning, I stay updated with industry trends to deliver impactful results.',
-  workExperience: {
-    date: '(February, 2024- Present)',
-    role: 'AI Engineer & Full Stack Developer',
-    project: 'AURA – Artificial Understanding & Reasoning Assistant',
-    description:
-      'Designed and built full-stack AI systems integrating LLMs, voice interfaces, and dynamic workflows. Worked across backend, frontend, and ML, optimizing for scalability and real-time performance. Developed plugin-based agent infrastructure using modern frameworks and open-source tools. Led end-to-end deployment and continuous improvement of AI-powered applications in production environments.',
-  },
+  workExperience: [
+    {
+      date: '(2026 - Present)',
+      role: 'Backend Developer',
+      project: 'CSE-TECH: Center for Software Development & Emerging Tech',
+      description:
+        'Developing and maintaining scalable backend services, RESTful APIs, and PostgreSQL database architectures. Collaborating with cross-functional engineering teams to design system workflows, ensure code quality, and deliver reliable production software.',
+    },
+    {
+      date: '(February, 2024 - Present)',
+      role: 'AI Engineer & Full Stack Developer',
+      project: 'Freelance & Production Full-Stack AI Systems',
+      description:
+        'Designed and built full-stack web and AI systems integrating LLMs, multi-agent workflows, and real-time APIs. Delivered end-to-end client platforms using modern frameworks, relational/vector databases, and containerized cloud deployments.',
+    },
+  ],
   education: [
     {
-      date: '(November 2022 - December 2026)',
-      degree: 'BSc. in Computer Science and Engineering(CSE)',
+      date: '(November 2022 - Present)',
+      degree: 'BSc. in Computer Science and Engineering',
       institution: 'Daffodil International University, Dhaka, Bangladesh',
       detail: 'CGPA - On Going (CSE)',
     },
@@ -96,48 +107,98 @@ export const RESUME_CONTENT: ResumeContent = {
   ],
   projectsPage1: [
     {
-      date: '(April, 2024- Present)',
-      title: 'AURA – Artificial Understanding & Reasoning Assistant',
+      date: '(2026 - Present)',
+      title: 'CSE Tech – ESS Portal (Enterprise ERP & Workplace Platform)',
       techStack:
-        'TypeScript, Node.js, NestJS, TypeORM, React, LLMs, Whisper, TTS, WebSockets, Redis, Docker, Python (Tools), Postgres, LangChain, PNPM Monorepo.',
+        'Laravel 13, PHP 8.2+, React, Inertia.js, Tailwind CSS, PostgreSQL, Spatie RBAC, TOTP/Email 2FA, Cloudflare Turnstile, MCP, AI Integrations, Google Workspace, Git, Telegram, WhatsApp, Meta APIs, Docker.',
       description:
-        'Built a modular AI agent framework with 100+ dynamic plugins for messaging (Telegram, WhatsApp, API), task automation, and multi-modal reasoning. Integrated real-time voice I/O (Speech-to-Text & TTS), vector/structured memory, and ReAct-style decision logic. Architected a custom plugin system extensible tool chaining and external service orchestration. Supports multilingual speech, microservices, and agent-level reasoning via LLMs.',
-      github: 'https://github.com/theshoaibme',
-      liveDemo: 'https://theshoaib.me',
+        'Built an enterprise ERP and Employee Self-Service (ESS) platform covering project, task, staff, and payroll management, source/Git version control, and granular RBAC with 2FA/Turnstile security. Integrated AI and MCP workflows alongside Google Workspace, Telegram, WhatsApp, and Facebook APIs.',
+      liveDemo: 'https://csetech.diu.edu.bd',
+    },
+    {
+      date: '(2026 - Present)',
+      title: 'BMS Agents – Hybrid Rust & Python Autonomous Agent Runtime',
+      techStack:
+        'Rust (Axum Gateway), Python (FastAPI), Multi-Agent Orchestration, MCP Server, Whisper, LiveKit CallSim, Browser Automation, Sandbox Execution, RBAC Guardrails.',
+      description:
+        'Engineered a high-performance hybrid Rust + Python autonomous agent runtime with an Axum gateway, MCP tool server, real-time Voice CallSim, browser automation, sandboxed code execution, and EN/BN/Banglish support.',
+      liveDemo: 'https://bms.theshoaib.me',
     },
   ],
   projectsPage2: [
     {
-      date: '(December 2024- March 2025)',
-      title: 'Pregnify – AI-Powered Pregnancy Health Platform',
+      date: '(2026 - Present)',
+      title: 'BMS – Multi-Tenant Business Management & E-Commerce Platform',
       techStack:
-        'React.js, Node.js, Express, MongoDB, Python (ML), Docker, TensorFlow, Firebase, WebRTC, Stripe',
+        'Laravel 11, Next.js, React, TypeScript, Inertia.js, PostgreSQL, FastAPI, Rust, Vision OCR, Docker',
       description:
-        'Built a multi-platform AI system to assess pregnancy risks in real time using health data and ML. Implemented secure doctor-patient video calls (WebRTC), role-based access, and integrated payments. Developed real-time dashboards, emergency alerts, and responsive UI for Web, Mobile, and Smartwatch.',
-      github: 'https://github.com/theshoaibme/Pregnify',
+        'Built a multi-tenant SaaS business and e-commerce management platform with 3 portals (Super Admin, Merchant Workspace, Customer Gateway), CRM, inventory, subscriptions, usage-based billing, and AI integration.',
+      liveDemo: 'https://bms.theshoaib.me',
     },
     {
-      date: '(August 2024 – December 2024)',
-      title: 'Super Shop Management – Full Stack E-Commerce Platform',
+      date: '(2026 - Present)',
+      title: 'Pan-Organ Net – Multi-Modality Medical Imaging Framework',
       techStack:
-        'Java, Spring Boot, MongoDB, React.js, Maven, JWT, REST API, Docker, Microservices',
+        'Python, PyTorch, Self-Supervised Learning, Sparse Top-2 MoE, Conformal Calibration, XAI, Pytest',
       description:
-        'Built a full-stack e-commerce platform with Spring Boot and MongoDB, featuring JWT-secured APIs and role-based access. Developed React.js dashboards for product, order, and analytics management. Integrated shopping cart and order processing with a scalable payment gateway via microservices. Tested APIs with Postman and cURL, deployed secure endpoints, and used Docker for scalable infrastructure with Maven and JDK 17.',
-      github: 'https://github.com/theshoaibme/Super-Shop-Management',
+        'Developed a unified 2D + 2.5D multi-modality clinical imaging foundation framework across 5 modalities (CT, MRI, X-Ray, Ultrasound, Mammography) and 6 specialties with SSL pretraining, MT-MoE, and leakage-audited pipelines.',
+      liveDemo: 'https://huggingface.co/theshoaibme/PanOrgan-4.1',
+    },
+    {
+      date: '(Mid 2026 - Present)',
+      title: 'Learning Management System',
+      techStack:
+        'Laravel 13, PHP 8.3+, React, Inertia.js, Vite, Laravel Octane, Redis, Horizon, PostgreSQL, Docker',
+      description:
+        'Developed a multi-role learning management system for Student, Parent, Teacher, and Admin portals with course delivery, assignments, timed auto-graded quizzes, and Redis/Horizon queues.',
+      liveDemo: 'https://theshoaib.me/#portfolio',
+    },
+    {
+      date: '(2026 - Present)',
+      title: 'SobujBD – National Tree Plantation & AI Verification Platform',
+      techStack:
+        'React, Vite, Spring Boot, FastAPI, PostGIS, Redis, MinIO, YOLOv8, Tesseract, Docker, Turborepo',
+      description:
+        'Built a national tree plantation tracking platform with AR verification and an AI engine using YOLOv8 and Tesseract OCR, backed by Spring Boot, FastAPI, PostGIS, and MinIO.',
+      liveDemo: 'https://theshoaib.me/#portfolio',
+    },
+    {
+      date: '(2025 - Present)',
+      title: 'Doctor Portfolio – Clinical Operations & Patient Portal',
+      techStack:
+        'Laravel 12, PHP 8.3, React, Inertia.js, PostgreSQL, Redis, Tailwind CSS, shadcn/ui, Laravel Reverb, Docker',
+      description:
+        'Built a production healthcare platform combining a public website with an admin portal for appointments, chamber management, patient records, and live chat, secured with Google SSO, WebAuthn, and 2FA.',
+      liveDemo: 'https://orthopedicsurgeonrahman.com/',
     },
   ],
   skills: [
-    { label: 'Languages', items: 'C, C++, Python, Java, C#, JavaScript, TypeScript' },
-    { label: 'Frontend', items: 'HTML5, CSS3, React, Vue, Tailwind, Bootstrap' },
-    { label: 'Backend', items: 'Node.js, Express, Django, Flask, Spring Boot, GraphQL, Kafka' },
-    { label: 'Mobile', items: 'React Native, Android (Kotlin)' },
+    {
+      label: 'Languages',
+      items: 'C, C++, C#, Dart, Java, JavaScript, PHP, Python, Rust, TypeScript',
+    },
+    {
+      label: 'Frontend',
+      items: 'HTML5, CSS3, React, Next.js, Vue.js, Angular, Inertia.js, Tailwind CSS, shadcn/ui, Bootstrap',
+    },
+    {
+      label: 'Backend',
+      items: 'Laravel, Node.js, Express.js, FastAPI, Django, Flask, Spring Boot, Axum, GraphQL, Kafka, Prisma, TypeORM',
+    },
+    { label: 'Mobile', items: 'Flutter, React Native, Android (Kotlin), SwiftUI' },
     {
       label: 'AI & Data Science',
-      items: 'TensorFlow, PyTorch, OpenCV, Scikit-learn, Pandas, Seaborn',
+      items: 'PyTorch, TensorFlow, LangGraph, LangChain, MCP, OpenCV, YOLOv8, Tesseract OCR, Whisper, Scikit-learn, Pandas, Seaborn, Vector DB (Qdrant)',
     },
-    { label: 'Databases', items: 'MySQL, PostgreSQL, MongoDB, SQLite, Redis' },
-    { label: 'DevOps & Cloud', items: 'Docker, Git, Bash, Linux, Firebase, AWS' },
-    { label: 'Tools & Platforms', items: 'VS Code, Postman, Electron, Photoshop, Filmora' },
+    { label: 'Databases', items: 'PostgreSQL, PostGIS, MySQL, MongoDB, Redis, SQLite, MinIO' },
+    {
+      label: 'DevOps & Cloud',
+      items: 'Docker, Kubernetes, AWS, GCP, Azure, Vercel, Cloudflare, Git, GitHub Actions, Terraform, Ansible, Nginx, Bash, Linux, Firebase',
+    },
+    {
+      label: 'Tools & Platforms',
+      items: 'VS Code, Postman, Electron, Figma, LiveKit, Photoshop, Filmora',
+    },
     { label: 'Soft Skills', items: 'Problem Solving, Communication, Teamwork, Agile' },
   ],
   references: [
@@ -145,17 +206,6 @@ export const RESUME_CONTENT: ResumeContent = {
       name: 'Engineer Sheikh Ismail Hossein',
       lines: ['Senior Software Engineer,', 'DevStation39 (USA)'],
       email: 'sheikhismailhossein02@gmail.com',
-      phone: '+8801737-308999',
-    },
-    {
-      name: 'Professor A.M.M. Hamidur Rahman',
-      lines: [
-        'Professor, Department of English',
-        'Faculty of Humanities & Social Science',
-        'Daffodil International University',
-      ],
-      email: 'hamidurrahman@diu.edu.bd',
-      phone: '+8801811-458889',
     },
   ],
   declaration:

@@ -1,6 +1,9 @@
+"use client";
+
+import { useEffect, useRef, useState } from 'react';
 import { PROJECT_CARD_LABELS } from '@/data/portfolioData';
 import type { Project } from '@/types';
-import { getProjectImage } from '@/utils/projects';
+import { getProjectFallbackImage, getProjectImages } from '@/utils/projects';
 import { isSafeExternalUrl } from '@/utils/urlValidation';
 
 interface ProjectCardProps {
@@ -16,7 +19,29 @@ export default function ProjectCard({
   animate = true,
   onImageClick,
 }: ProjectCardProps) {
-  const projectImg = getProjectImage(project);
+  const projectImages = getProjectImages(project);
+  const fallbackImg = getProjectFallbackImage(project);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [useFallback, setUseFallback] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const projectImg = useFallback ? fallbackImg : (projectImages[activeIndex] ?? '');
+
+  useEffect(() => {
+    if (projectImages.length <= 1 || isPaused) return;
+    const timer = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % projectImages.length);
+    }, 3500);
+    return () => window.clearInterval(timer);
+  }, [projectImages.length, isPaused]);
+
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth > 0) {
+      img.classList.add('loaded');
+      img.parentElement?.classList.remove('loading');
+    }
+  }, [projectImg]);
 
   return (
     <div
@@ -27,6 +52,8 @@ export default function ProjectCard({
         <div
           className={`project-img loading relative w-full mb-4 border-none rounded-[16px] bg-[var(--background)] overflow-hidden aspect-video aspect-[16/9] flex items-center justify-center${onImageClick ? ' cursor-pointer' : ''}`}
           onClick={onImageClick ? () => onImageClick(projectImg) : undefined}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
           role={onImageClick ? 'button' : undefined}
           tabIndex={onImageClick ? 0 : undefined}
           onKeyDown={
@@ -46,6 +73,7 @@ export default function ProjectCard({
           }
         >
           <img
+            ref={imgRef}
             src={projectImg}
             alt={project.name}
             loading="lazy"
@@ -59,11 +87,33 @@ export default function ProjectCard({
             }}
             onError={(event) => {
               const img = event.currentTarget;
+              if (fallbackImg && !useFallback) {
+                setUseFallback(true);
+                return;
+              }
               img.style.display = 'none';
               img.parentElement?.classList.remove('loading');
               img.parentElement?.classList.add('no-image');
             }}
           />
+          {!useFallback && projectImages.length > 1 ? (
+            <div
+              className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5 rounded-full bg-black/50 px-2.5 py-1 backdrop-blur-sm"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {projectImages.map((src, imgIdx) => (
+                <button
+                  key={src}
+                  type="button"
+                  aria-label={`View ${project.name} screenshot ${imgIdx + 1}`}
+                  onClick={() => setActiveIndex(imgIdx)}
+                  className={`h-2 rounded-full transition-all duration-200 ${
+                    imgIdx === activeIndex ? 'w-5 bg-white' : 'w-2 bg-white/50 hover:bg-white/80'
+                  }`}
+                />
+              ))}
+            </div>
+          ) : null}
           <div className="img-fallback absolute inset-0 -z-[1] flex items-center justify-center w-full h-full bg-[var(--background)] text-[var(--text-secondary)] text-[2rem] aspect-video aspect-[16/9]" />
         </div>
       ) : null}
@@ -78,7 +128,7 @@ export default function ProjectCard({
           ))}
         </div>
         <div className="project-links flex gap-4 mt-auto pt-[14px]">
-          {isSafeExternalUrl(project.repository) ? (
+          {project.repository && isSafeExternalUrl(project.repository) ? (
             <a href={project.repository} target="_blank" rel="noreferrer noopener" className="project-link flex items-center gap-[6px] text-[var(--primary)] text-[0.82rem] font-semibold transition-opacity duration-200 hover:opacity-70">
               <i className="fa-brands fa-github" /> {PROJECT_CARD_LABELS.sourceCode}
             </a>

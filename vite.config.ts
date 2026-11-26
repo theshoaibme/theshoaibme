@@ -33,39 +33,17 @@ const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'theshoaibme.gi
 const isUserPage = repoName.endsWith('.github.io');
 const base = isUserPage ? '/' : `/${repoName}/`;
 
-const contactApiTarget =
-  process.env.VITE_CONTACT_API_URL?.trim() ||
-  'https://portfolio-contact-api.theshoaibme.workers.dev';
-
-const productionOrigin = SITE_URL;
-
-function createContactApiProxy(): ProxyOptions {
-  return {
-    target: contactApiTarget,
-    changeOrigin: true,
-    secure: true,
-    rewrite: () => '',
-    configure: (proxy) => {
-      proxy.on('proxyReq', (proxyReq) => {
-        proxyReq.setHeader('Origin', productionOrigin);
-        proxyReq.setHeader('Referer', `${productionOrigin}/`);
-      });
-    },
-  };
-}
-
 const devCsp = [
   "default-src 'self'",
   "base-uri 'self'",
   "form-action 'self'",
   "object-src 'none'",
-  "script-src 'self' blob: 'unsafe-inline' https://challenges.cloudflare.com",
+  "script-src 'self' blob: 'unsafe-inline'",
   "worker-src 'self' blob:",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
   "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net data:",
   "img-src 'self' data: https:",
-  "connect-src 'self' ws: wss: http://localhost:5173 http://127.0.0.1:5173 https://portfolio-contact-api.theshoaibme.workers.dev https://challenges.cloudflare.com https://github-contributions-api.jogruber.de",
-  "frame-src https://challenges.cloudflare.com",
+  "connect-src 'self' ws: wss: http://localhost:5173 http://127.0.0.1:5173 https://api.telegram.org https://github-contributions-api.jogruber.de",
 ].join('; ');
 
 export default defineConfig({
@@ -79,25 +57,11 @@ export default defineConfig({
     port: 5173,
     strictPort: false,
     open: false,
-    proxy: {
-      '/api/contact': createContactApiProxy(),
-      '/api/resume-download': {
-        ...createContactApiProxy(),
-        rewrite: () => '/resume-download',
-      },
-    },
   },
   preview: {
     host: true,
     port: 4173,
     strictPort: false,
-    proxy: {
-      '/api/contact': createContactApiProxy(),
-      '/api/resume-download': {
-        ...createContactApiProxy(),
-        rewrite: () => '/resume-download',
-      },
-    },
   },
   plugins: [
     tailwindcss(),

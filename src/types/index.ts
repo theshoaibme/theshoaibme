@@ -70,8 +70,9 @@ export interface Project {
   name: string;
   description: string;
   tech_stack: string[];
-  repository: string;
+  repository?: string | null;
   image: string | null;
+  images?: string[] | null;
   live_preview: string | null;
   featured?: boolean;
 }

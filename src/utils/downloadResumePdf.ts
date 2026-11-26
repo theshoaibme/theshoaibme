@@ -1,9 +1,19 @@
 const A4_WIDTH_PX = 794;
 const A4_HEIGHT_PX = 1123;
 
-function getArticlePadding(article: HTMLElement): string {
+function getExportMargins(article: HTMLElement): {
+  marginY: number;
+  marginLeft: string;
+  marginRight: string;
+} {
   const styles = window.getComputedStyle(article);
-  return `${styles.paddingTop} ${styles.paddingRight} ${styles.paddingBottom} ${styles.paddingLeft}`;
+  const parsedTop = Number.parseFloat(styles.paddingTop);
+  const marginY = Number.isFinite(parsedTop) && parsedTop > 0 ? parsedTop : 36;
+  return {
+    marginY,
+    marginLeft: styles.paddingLeft || '46px',
+    marginRight: styles.paddingRight || '46px',
+  };
 }
 
 function releaseCanvas(canvas: HTMLCanvasElement): void {
@@ -34,7 +44,8 @@ export async function downloadResumePdf(
   window.scrollTo(0, 0);
   await document.fonts.ready;
 
-  const padding = getArticlePadding(article);
+  const { marginY, marginLeft, marginRight } = getExportMargins(article);
+  const maxContentHeight = A4_HEIGHT_PX - marginY * 2;
   const pdf = new jsPDF({
     orientation: 'portrait',
     unit: 'px',
@@ -46,8 +57,9 @@ export async function downloadResumePdf(
     const frame = document.createElement('div');
     frame.className = 'cv-document cv-pdf-document cv-pdf-export-frame';
     frame.style.width = `${A4_WIDTH_PX}px`;
-    frame.style.height = `${A4_HEIGHT_PX}px`;
-    frame.style.padding = padding;
+    frame.style.height = 'auto';
+    frame.style.minHeight = `${maxContentHeight}px`;
+    frame.style.padding = `0 ${marginRight} 0 ${marginLeft}`;
     frame.style.background = '#ffffff';
     frame.style.color = '#111111';
     frame.style.setProperty('--cv-paper-bg', '#ffffff');
@@ -59,25 +71,31 @@ export async function downloadResumePdf(
     document.body.appendChild(frame);
 
     try {
+      const contentHeight = Math.max(frame.scrollHeight, maxContentHeight);
       const canvas = await html2canvas(frame, {
         scale: 2,
         useCORS: true,
         backgroundColor: '#ffffff',
         width: A4_WIDTH_PX,
-        height: A4_HEIGHT_PX,
+        height: contentHeight,
         windowWidth: A4_WIDTH_PX,
-        windowHeight: A4_HEIGHT_PX,
+        windowHeight: contentHeight,
         logging: false,
       });
 
       const image = canvas.toDataURL('image/jpeg', 0.94);
       releaseCanvas(canvas);
 
+      const fitScale = Math.min(1, maxContentHeight / contentHeight);
+      const drawWidth = A4_WIDTH_PX * fitScale;
+      const drawHeight = contentHeight * fitScale;
+      const drawX = (A4_WIDTH_PX - drawWidth) / 2;
+
       if (index > 0) {
         pdf.addPage([A4_WIDTH_PX, A4_HEIGHT_PX], 'portrait');
       }
 
-      pdf.addImage(image, 'JPEG', 0, 0, A4_WIDTH_PX, A4_HEIGHT_PX, undefined, 'FAST');
+      pdf.addImage(image, 'JPEG', drawX, marginY, drawWidth, drawHeight, undefined, 'FAST');
     } finally {
       removeExportFrame(frame);
     }

@@ -96,12 +96,24 @@ export function validatePortfolioData(data: unknown): PortfolioData {
     }
     requireString(item.name, `projects[${index}].name`);
     requireString(item.description, `projects[${index}].description`);
-    requireSafeExternalUrl(item.repository, `projects[${index}].repository`);
+    if (
+      item.repository !== null &&
+      item.repository !== undefined &&
+      (typeof item.repository !== 'string' || item.repository.trim() !== '')
+    ) {
+      requireSafeExternalUrl(item.repository, `projects[${index}].repository`);
+    }
     if (item.live_preview !== null && item.live_preview !== undefined) {
       requireSafeExternalUrl(item.live_preview, `projects[${index}].live_preview`);
     }
     if (item.image !== null && item.image !== undefined) {
       requireSafeImageUrl(item.image, `projects[${index}].image`);
+    }
+    if (item.images !== null && item.images !== undefined) {
+      const images = requireArray(item.images, `projects[${index}].images`);
+      for (const [imgIndex, imgUrl] of images.entries()) {
+        requireSafeImageUrl(imgUrl, `projects[${index}].images[${imgIndex}]`);
+      }
     }
   }
   requireArray(data.services, 'services');

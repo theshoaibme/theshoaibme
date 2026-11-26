@@ -257,12 +257,12 @@
                 "REST API"
             ],
             "repository": "https://github.com/theshoaibme/ihaveaplanfoundation",
-            "image": "/images/projects/foundation-management.jpg",
+            "image": "/images/projects/foundation-management.webp",
             "live_preview": "https://ihaveaplanfoundation.com/",
             "featured": true
         },
         {
-            "name": "Orthopedic Surgeon Platform",
+            "name": "Doctor Portfolio",
             "description": "Production healthcare platform for Dr. Ab Rahman Miah: public marketing website plus a full admin portal for appointments, chamber management, patient records, CMS content, live chat, and clinic operations.",
             "tech_stack": [
                 "Laravel 12",
@@ -281,8 +281,38 @@
                 "Google SSO / WebAuthn / 2FA"
             ],
             "repository": "https://github.com/theshoaibme/orthopedicsurgeon",
-            "image": "/images/projects/orthopedicsurgeon.jpg",
+            "image": "/images/projects/orthopedicsurgeon.webp",
             "live_preview": "https://orthopedicsurgeonrahman.com/",
+            "featured": true
+        },
+        {
+            "name": "FA Arabia",
+            "description": "Production web platform for FA Arabia.",
+            "tech_stack": [
+                "Web",
+                "Cloudflare"
+            ],
+            "repository": "",
+            "image": "/images/projects/faarabia.webp",
+            "live_preview": "https://faarabia.com/",
+            "featured": true
+        },
+        {
+            "name": "AYZAH Fashion",
+            "description": "High-end retail e-commerce platform for AYZAH Global featuring luxury Panjabi, Kabli suits, Abayas, westernwear, fine fragrances, and handcrafted footwear.",
+            "tech_stack": [
+                "Next.js",
+                "TypeScript",
+                "Laravel",
+                "PHP",
+                "PostgreSQL",
+                "Tailwind CSS",
+                "REST API",
+                "Vercel"
+            ],
+            "repository": "",
+            "image": "/images/projects/ayzahfashion.webp",
+            "live_preview": "https://ayzahfashion.vercel.app/",
             "featured": true
         },
         {
@@ -299,7 +329,7 @@
                 "Vercel"
             ],
             "repository": "https://github.com/the-shoaib2/deepconnect",
-            "image": "/images/projects/deepconnect.jpg",
+            "image": "/images/projects/deepconnect.webp",
             "live_preview": "https://deepconnect.theshoaib.me/",
             "featured": true
         },
@@ -317,7 +347,11 @@
                 "Node.js"
             ],
             "repository": "https://github.com/theshoaibme/kivorly",
-            "image": "/images/projects/kivorly.jpg",
+            "image": "/images/projects/kivorly-core.webp",
+            "images": [
+                "/images/projects/kivorly-core.webp",
+                "/images/projects/kivorly-services.webp"
+            ],
             "live_preview": null,
             "featured": true
         },
@@ -341,30 +375,8 @@
                 "Nodemailer"
             ],
             "repository": "https://github.com/theshoaibme/meal-sphere",
-            "image": "/images/projects/meal-sphere.jpg",
+            "image": "/images/projects/meal-sphere.webp",
             "live_preview": "https://meal-sphere.vercel.app",
-            "featured": true
-        },
-        {
-            "name": "Daffodil Intelligence",
-            "description": "360° multi-agent AI operating system for university life — academic, library, career, research, voice, and automation agents with real-time WebSocket chat, Telegram, and MCP integration.",
-            "tech_stack": [
-                "React",
-                "Vite",
-                "FastAPI",
-                "LangGraph",
-                "LangChain",
-                "PostgreSQL",
-                "Redis",
-                "Qdrant",
-                "WebSockets",
-                "Docker",
-                "OpenAI",
-                "Gemini"
-            ],
-            "repository": "https://github.com/theshoaibme/daffodil-intelligence",
-            "image": "/images/projects/daffodil-intelligence.jpg",
-            "live_preview": "https://daffodil-intelligence.vercel.app",
             "featured": true
         },
         {
@@ -384,48 +396,112 @@
                 "Turborepo"
             ],
             "repository": "https://github.com/zionmezba/sobujbd",
-            "image": "/images/projects/sobujbd.jpg",
-            "live_preview": "https://app3.csetech.diu.edu.bd/",
+            "image": "/images/projects/sobujbd.webp",
+            "live_preview": "https://theshoaib.me/#portfolio",
             "featured": true
         },
         {
-            "name": "App Pro",
-            "description": "Native Linux desktop app manager built with Rust and GTK4 — install packages, uninstall apps, monitor processes, clean caches, and view live system stats.",
+            "name": "CSE Tech – ESS Portal",
+            "description": "Enterprise Resource Planning and Employee Self-Service platform for project, task, staff, and payroll management, Git version control, AI/MCP integrations, Google Workspace, and Telegram/WhatsApp/Facebook omnichannel workflows.",
             "tech_stack": [
-                "Rust",
-                "GTK4",
-                "Linux",
-                "Cargo"
+                "Laravel 13",
+                "PHP 8.2+",
+                "React",
+                "Inertia.js",
+                "Tailwind CSS",
+                "PostgreSQL",
+                "Spatie RBAC",
+                "2FA / Turnstile",
+                "MCP & AI",
+                "Google Workspace",
+                "Git",
+                "Telegram / WhatsApp / Meta",
+                "Docker"
             ],
-            "repository": "https://github.com/theshoaibme/app-pro",
-            "image": "/images/projects/app-pro.jpg",
-            "live_preview": null,
-            "featured": false
+            "repository": "",
+            "image": null,
+            "live_preview": "https://csetech.diu.edu.bd",
+            "featured": true
         },
         {
-            "name": "Pregnify",
-            "description": "AI-powered platform for personalized pregnancy risk prediction, real-time health monitoring, and seamless patient-doctor communication.",
+            "name": "Learning Management System",
+            "description": "Multi-role learning management platform for students, parents, teachers, and admins featuring course learning, assignments, auto-graded quizzes, and real-time progress tracking.",
             "tech_stack": [
-                "Node.js",
-                "Express.js",
-                "Prisma",
-                "MySQL",
-                "JWT",
-                "OpenAI",
+                "Laravel 13",
+                "PHP 8.3+",
                 "React",
+                "Inertia.js",
                 "Vite",
-                "Tailwind CSS",
-                "ShadCN UI",
-                "Chart.js"
+                "Octane",
+                "Redis",
+                "Horizon",
+                "PostgreSQL",
+                "Docker"
             ],
-            "repository": "https://github.com/theshoaibme/Pregnify",
-            "image": "/images/projects/pregnify.jpg",
-            "live_preview": null,
-            "featured": false
+            "repository": "",
+            "image": null,
+            "live_preview": "https://theshoaib.me/#portfolio",
+            "featured": true
+        },
+        {
+            "name": "BMS",
+            "description": "Multi-tenant SaaS business management platform combining CRM, inventory, subscriptions, usage-based billing, unified customer communications, and autonomous AI agents.",
+            "tech_stack": [
+                "Laravel 11",
+                "Next.js",
+                "React",
+                "TypeScript",
+                "Inertia.js",
+                "PostgreSQL",
+                "FastAPI",
+                "Rust",
+                "Whisper",
+                "LiveKit",
+                "Docker"
+            ],
+            "repository": "",
+            "image": null,
+            "live_preview": "https://bms.theshoaib.me",
+            "featured": true
+        },
+        {
+            "name": "BMS Agents",
+            "description": "Hybrid Rust (Axum) and Python (FastAPI) autonomous AI agent runtime with multi-agent orchestration, MCP server, real-time Voice CallSim, browser automation, sandboxed code execution, and RBAC guardrails.",
+            "tech_stack": [
+                "Rust",
+                "Axum",
+                "Python",
+                "FastAPI",
+                "MCP Server",
+                "Whisper",
+                "LiveKit",
+                "Multi-Agent AI"
+            ],
+            "repository": "",
+            "image": null,
+            "live_preview": "https://bms.theshoaib.me",
+            "featured": true
+        },
+        {
+            "name": "Pan-Organ Net",
+            "description": "Unified 2D + 2.5D multi-modality clinical medical imaging foundation framework spanning 5 modalities (CT, MRI, Chest X-Ray, Ultrasound, Mammography) and 6 specialties with SSL pretraining, Sparse Top-2 MT-MoE, and conformal XAI.",
+            "tech_stack": [
+                "Python",
+                "PyTorch",
+                "Self-Supervised Learning",
+                "Sparse MoE",
+                "Conformal Calibration",
+                "XAI",
+                "Pytest"
+            ],
+            "repository": "",
+            "image": null,
+            "live_preview": "https://huggingface.co/theshoaibme/PanOrgan-4.1",
+            "featured": true
         },
         {
             "name": "Supershop Management System",
-            "description": "Spring Boot-based inventory & sales management application.",
+            "description": "Spring Boot-based inventory & sales management application with Kafka event streaming, JWT security, and React analytics dashboards.",
             "tech_stack": [
                 "Java",
                 "Spring Boot",
@@ -447,6 +523,41 @@
             ],
             "repository": "https://github.com/theshoaibme/Super-Shop-Management",
             "image": "/images/projects/super-shop-management.jpg",
+            "live_preview": null,
+            "featured": false
+        },
+        {
+            "name": "App Pro",
+            "description": "Native Linux desktop app manager built with Rust and GTK4 — install packages, uninstall apps, monitor processes, clean caches, and view live system stats.",
+            "tech_stack": [
+                "Rust",
+                "GTK4",
+                "Linux",
+                "Cargo"
+            ],
+            "repository": "https://github.com/theshoaibme/app-pro",
+            "image": "/images/projects/app-pro.webp",
+            "live_preview": null,
+            "featured": false
+        },
+        {
+            "name": "Pregnify",
+            "description": "AI-powered platform for personalized pregnancy risk prediction, real-time health monitoring, and seamless patient-doctor communication.",
+            "tech_stack": [
+                "Node.js",
+                "Express.js",
+                "Prisma",
+                "MySQL",
+                "JWT",
+                "OpenAI",
+                "React",
+                "Vite",
+                "Tailwind CSS",
+                "ShadCN UI",
+                "Chart.js"
+            ],
+            "repository": "https://github.com/theshoaibme/Pregnify",
+            "image": "/images/projects/pregnify.webp",
             "live_preview": null,
             "featured": false
         }

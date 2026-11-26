@@ -1,20 +1,21 @@
-import { getEnv, isDev } from '@/utils/env';
+import { getEnv } from '@/utils/env';
+
+export function getTelegramBotToken(): string {
+  return getEnv('TELEGRAM_BOT_TOKEN').trim();
+}
+
+export function getTelegramChatId(): string {
+  return getEnv('TELEGRAM_CHAT_ID').trim();
+}
+
+export function isDirectTelegramConfigured(): boolean {
+  return Boolean(getTelegramBotToken() && getTelegramChatId());
+}
 
 export function getContactApiUrl(): string {
-  const configured = getEnv('CONTACT_API_URL').trim();
-
-  // Dev proxy → Cloudflare Worker.
-  if (isDev()) {
-    return '/api/contact';
-  }
-
-  return configured;
+  return '/api/contact';
 }
 
 export function isContactApiConfigured(): boolean {
-  if (isDev()) {
-    return true;
-  }
-
-  return Boolean(getContactApiUrl());
+  return true;
 }

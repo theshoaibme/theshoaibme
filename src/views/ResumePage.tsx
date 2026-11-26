@@ -1,14 +1,11 @@
 "use client";
 
 import { type ReactNode, useCallback, useMemo, useRef, useState } from 'react';
-import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import PageStatus from '@/components/common/PageStatus';
 import Header from '@/components/layout/Header';
 import { EducationEntry, ProjectEntry, ResumeDatedRow } from '@/components/resume/ResumeEntries';
 import { ResumeSection } from '@/components/resume/ResumeSection';
-import { isResumeDownloadTrackingConfigured } from '@/config/download';
 import { RESUME_CONTENT, type ResumeReferenceItem } from '@/config/resumeContent';
-import { getTurnstileSiteKey, isTurnstileConfigured } from '@/config/turnstile';
 import { useDocumentTitle, useSiteData } from '@/hooks/data/useSiteData';
 import { useTheme } from '@/hooks/ui/useTheme';
 import type { NavItem } from '@/types';
@@ -56,7 +53,7 @@ function ReferencesContent({ references }: { references: ResumeReferenceItem[] }
               {reference.email}
             </a>
           </p>
-          <p>Cell-phone: {reference.phone}</p>
+          {reference.phone ? <p>Cell-phone: {reference.phone}</p> : null}
         </article>
       ))}
     </div>
@@ -80,29 +77,11 @@ export default function ResumePage() {
   const resume = data?.site.resume;
   const content = RESUME_CONTENT;
   const resumeRef = useRef<HTMLElement>(null);
-  const turnstileRef = useRef<TurnstileInstance>(null);
-  const pendingDownloadRef = useRef(false);
-  const turnstileReadyRef = useRef(false);
   const [downloading, setDownloading] = useState(false);
   const [honeyPot, setHoneyPot] = useState('');
-  const [turnstileTheme, setTurnstileTheme] = useState<'light' | 'dark'>(() =>
-    typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
-      ? 'dark'
-      : 'light',
-  );
-  const { theme, toggleTheme } = useTheme(() => {
-    if (typeof document !== 'undefined') {
-      setTurnstileTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-    }
-  });
-  const turnstileSiteKey = getTurnstileSiteKey();
-  const secureTrackingEnabled =
-    isTurnstileConfigured() && isResumeDownloadTrackingConfigured() && Boolean(turnstileSiteKey);
-  const photoSrc = resolveImageUrl(data?.profile.profileImage || content.personal.photo || '');
-  const photoIsCrossOrigin =
-    typeof window !== 'undefined' &&
-    photoSrc.length > 0 &&
-    new URL(photoSrc, window.location.origin).origin !== window.location.origin;
+  const { theme, toggleTheme } = useTheme();
+  const photoSrc = resolveImageUrl(content.personal.photo || data?.profile.profileImage || '');
+  const photoIsCrossOrigin = /^https?:\/\//i.test(photoSrc);
   const aboutParts = content.about.split('MD Shoaib Khan');
 
   const pageOneSections = useMemo<ResumeSectionConfig[]>(
@@ -122,15 +101,15 @@ export default function ResumePage() {
       {
         key: 'work-experience',
         label: 'Work Experience',
-        content: (
-          <ResumeDatedRow date={content.workExperience.date}>
+        content: content.workExperience.map((item) => (
+          <ResumeDatedRow key={`${item.role}-${item.project}`} date={item.date}>
             <article className="cv-pdf-stack-item">
-              <h3 className="cv-pdf-heading">{content.workExperience.role}</h3>
-              <p className="cv-pdf-subheading">{content.workExperience.project}</p>
-              <p className="cv-pdf-body">{content.workExperience.description}</p>
+              <h3 className="cv-pdf-heading">{item.role}</h3>
+              <p className="cv-pdf-institution">{item.project}</p>
+              <p className="cv-pdf-body">{item.description}</p>
             </article>
           </ResumeDatedRow>
-        ),
+        )),
       },
       {
         key: 'education',
@@ -186,72 +165,34 @@ export default function ResumePage() {
 
   useDocumentTitle(resume?.title ?? 'Resume | MD Shoaib Khan');
 
-  const runDownload = useCallback(
-    async (turnstileToken?: string) => {
-      if (!resumeRef.current) {
-        return;
-      }
-
-      setDownloading(true);
-
-      try {
-        await runResumeDownloadPipeline({
-          article: resumeRef.current,
-          filename: 'MD_Shoaib_Khan_Resume.pdf',
-          source: 'resume-page',
-          turnstileToken,
-          honey_pot: honeyPot,
-        });
-      } catch (downloadError) {
-        console.error('Failed to generate resume PDF', downloadError);
-      } finally {
-        setDownloading(false);
-        pendingDownloadRef.current = false;
-        turnstileRef.current?.reset();
-      }
-    },
-    [honeyPot],
-  );
-
-  const handleTurnstileSuccess = useCallback(
-    async (token: string) => {
-      if (!pendingDownloadRef.current || !token) {
-        return;
-      }
-
-      await runDownload(token);
-    },
-    [runDownload],
-  );
-
-  const handleTurnstileError = useCallback(() => {
-    if (!pendingDownloadRef.current) {
+  const runDownload = useCallback(async () => {
+    if (!resumeRef.current) {
       return;
     }
 
-    void runDownload();
-  }, [runDownload]);
+    setDownloading(true);
+
+    try {
+      await runResumeDownloadPipeline({
+        article: resumeRef.current,
+        filename: 'MD_Shoaib_Khan_Resume.pdf',
+        source: 'resume-page',
+        honey_pot: honeyPot,
+      });
+    } catch (downloadError) {
+      console.error('Failed to generate resume PDF', downloadError);
+    } finally {
+      setDownloading(false);
+    }
+  }, [honeyPot]);
 
   const handleDownload = useCallback(() => {
     if (!resumeRef.current || downloading) {
       return;
     }
 
-    if (secureTrackingEnabled) {
-      pendingDownloadRef.current = true;
-
-      if (!turnstileReadyRef.current) {
-        pendingDownloadRef.current = false;
-        void runDownload();
-        return;
-      }
-
-      turnstileRef.current?.execute();
-      return;
-    }
-
     void runDownload();
-  }, [downloading, runDownload, secureTrackingEnabled]);
+  }, [downloading, runDownload]);
 
   if (error && !data) {
     return (
@@ -355,6 +296,17 @@ export default function ResumePage() {
                   <footer className="cv-pdf-declaration">
                     <p>{content.declaration}</p>
                     <div className="cv-pdf-signature">
+                      <img
+                        src={resolveImageUrl('/images/signatures/signature.png')}
+                        alt={`${content.personal.name} signature`}
+                        className="cv-pdf-signature-img cv-pdf-signature-img--light"
+                      />
+                      <img
+                        src={resolveImageUrl('/images/signatures/signature-white.png')}
+                        alt=""
+                        aria-hidden="true"
+                        className="cv-pdf-signature-img cv-pdf-signature-img--dark"
+                      />
                       <span className="cv-pdf-signature-line" aria-hidden="true" />
                       <p>{content.personal.name}</p>
                     </div>
@@ -374,30 +326,6 @@ export default function ResumePage() {
                   onChange={(event) => setHoneyPot(event.target.value)}
                 />
               </div>
-
-              {secureTrackingEnabled ? (
-                <div className="cv-download-turnstile" aria-hidden="true">
-                  <Turnstile
-                    ref={turnstileRef}
-                    siteKey={turnstileSiteKey}
-                    options={{
-                      size: 'invisible',
-                      execution: 'execute',
-                      appearance: 'execute',
-                      theme: turnstileTheme,
-                    }}
-                    onWidgetLoad={() => {
-                      turnstileReadyRef.current = true;
-                    }}
-                    onSuccess={handleTurnstileSuccess}
-                    onError={handleTurnstileError}
-                    onExpire={() => {
-                      turnstileReadyRef.current = false;
-                      turnstileRef.current?.reset();
-                    }}
-                  />
-                </div>
-              ) : null}
 
               <button
                 type="button"

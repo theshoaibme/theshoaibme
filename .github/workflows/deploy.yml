@@ -37,6 +37,13 @@ jobs:
       - name: Security audit
         run: pnpm audit --audit-level=high
 
+      - name: Fetch fallback local images when CDN is not configured
+        if: env.VITE_CDN_BASE_URL == '' && env.VITE_CLOUDINARY_CLOUD_NAME == ''
+        env:
+          VITE_CDN_BASE_URL: ${{ secrets.VITE_CDN_BASE_URL }}
+          VITE_CLOUDINARY_CLOUD_NAME: ${{ secrets.VITE_CLOUDINARY_CLOUD_NAME }}
+        run: pnpm cdn:fetch-images
+
       - name: Build
         run: pnpm build
         env:

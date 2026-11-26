@@ -1,21 +1,7 @@
-import { getContactApiUrl } from '@/config/contact';
-
-function normalizeApiUrl(apiUrl: string): string {
-  return apiUrl.trim().replace(/\/+$/, '');
-}
+import { getEnv } from '@/utils/env';
 
 export function getResumeDownloadApiUrl(): string {
-  const contactApiUrl = getContactApiUrl();
-
-  if (!contactApiUrl) {
-    return '';
-  }
-
-  if (contactApiUrl.startsWith('/')) {
-    return '/api/resume-download';
-  }
-
-  return `${normalizeApiUrl(contactApiUrl)}/resume-download`;
+  return getEnv('RESUME_DOWNLOAD_API_URL').trim().replace(/\/+$/, '');
 }
 
 export function isResumeDownloadTrackingConfigured(): boolean {

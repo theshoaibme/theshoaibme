@@ -7,7 +7,6 @@ import {
   type ContactFieldKey,
 } from '@/config/contactValidation';
 import { getContactApiUrl } from '@/config/contact';
-import { getTurnstileSetupMessage, isTurnstileConfigured } from '@/config/turnstile';
 import { sendContactViaApi } from '@/utils/contactApi';
 import { getErrorMessage } from '@/utils/errors';
 
@@ -43,14 +42,6 @@ function isHoneypotTriggered(values: ContactFormValues): boolean {
 }
 
 function getConfigError(): string | null {
-  if (!isTurnstileConfigured()) {
-    return getTurnstileSetupMessage();
-  }
-
-  if (!getContactApiUrl()) {
-    return 'Contact API is not configured. Set VITE_CONTACT_API_URL to enable secure form submissions.';
-  }
-
   return null;
 }
 

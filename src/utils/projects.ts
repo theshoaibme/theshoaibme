@@ -9,8 +9,28 @@ export function getProjectImage(project: Project): string {
     return resolveImageUrl(project.image);
   }
 
-  if (project.live_preview && isSafeExternalUrl(project.live_preview)) {
-    return `https://s0.wp.com/mshots/v1/${encodeURIComponent(project.live_preview)}?w=1200`;
+  return getProjectFallbackImage(project);
+}
+
+export function getProjectImages(project: Project): string[] {
+  if (project.images && project.images.length > 0) {
+    return project.images.map((img) => resolveImageUrl(img)).filter(Boolean);
+  }
+
+  const single = getProjectImage(project);
+  return single ? [single] : [];
+}
+
+/**
+ * Returns a live screenshot fallback URL from live_preview or repository.
+ */
+export function getProjectFallbackImage(project: Project): string {
+  const sourceUrl = [project.live_preview, project.repository].find(
+    (url): url is string => Boolean(url && isSafeExternalUrl(url)),
+  );
+
+  if (sourceUrl) {
+    return `https://image.thum.io/get/width/1200/noanimate/${sourceUrl}`;
   }
 
   return '';
