@@ -22,41 +22,41 @@
     --hero-beam-base: #5f6368;
 
     /* Semantic Colors - Light Mode (Default) */
-    --background: #fafafa;
-    --foreground: #272727;
+    --background: #ffffff;
+    --foreground: #202124;
 
-    --card: rgba(250, 250, 250, 0.85);
-    --card-foreground: #272727;
+    --card: rgba(255, 255, 255, 0.8);
+    --card-foreground: #202124;
 
     --popover: #ffffff;
-    --popover-foreground: #272727;
+    --popover-foreground: #202124;
 
-    --primary: #7b393a;
+    --primary: #000000;
     --primary-foreground: #ffffff;
 
-    --secondary: #f5f2f2;
-    --secondary-foreground: #7f7f7f;
+    --secondary: #f8f9fa;
+    --secondary-foreground: #5f6368;
 
-    --muted: #f2eeee;
-    --muted-foreground: #7f7f7f;
+    --muted: #f1f3f4;
+    --muted-foreground: #5f6368;
 
-    --accent: #f4ebeb;
-    --accent-foreground: #7b393a;
+    --accent: #f1f3f4;
+    --accent-foreground: #000000;
 
     --destructive: #ff0000;
     --destructive-foreground: #ffffff;
 
-    --border: #e5dede;
-    --input: #e5dede;
-    --ring: #7b393a;
+    --border: #dadce0;
+    --input: #dadce0;
+    --ring: #000000;
 
-    --btn-primary-hover-bg: #652e2f;
+    --btn-primary-hover-bg: #202124;
     --btn-primary-hover-fg: #ffffff;
-    --btn-primary-hover-shadow: rgba(123, 57, 58, 0.25);
-    --btn-outline-border: rgba(123, 57, 58, 0.35);
-    --btn-outline-hover-bg: rgba(123, 57, 58, 0.08);
-    --title-gradient-start: #272727;
-    --title-gradient-end: #7b393a;
+    --btn-primary-hover-shadow: rgba(32, 33, 36, 0.2);
+    --btn-outline-border: rgba(0, 0, 0, 0.2);
+    --btn-outline-hover-bg: rgba(11, 87, 208, 0.05);
+    --title-gradient-start: #202124;
+    --title-gradient-end: #6e7278;
 
     /* Legacy Variables Mapped to New Semantic ones where possible */
     --bg-color: var(--background);
@@ -111,40 +111,40 @@
 :root.dark {
     color-scheme: dark;
     /* Semantic Colors - Dark Mode */
-    --background: #120b08;
-    --foreground: #f4efec;
+    --background: #08090a;
+    --foreground: #e8eaed;
 
-    --card: rgba(27, 18, 14, 0.88);
-    --card-foreground: #f4efec;
+    --card: rgba(18, 19, 22, 0.85);
+    --card-foreground: #e8eaed;
 
-    --popover: #1b120e;
-    --popover-foreground: #f4efec;
+    --popover: #121316;
+    --popover-foreground: #e8eaed;
 
-    --primary: #b85c5e;
-    --primary-foreground: #ffffff;
+    --primary: #ffffff;
+    --primary-foreground: #000000;
 
-    --secondary: #1b120e;
-    --secondary-foreground: #bfb0a8;
+    --secondary: #121316;
+    --secondary-foreground: #9aa0a6;
 
-    --muted: #231712;
-    --muted-foreground: #bfb0a8;
+    --muted: #17181c;
+    --muted-foreground: #9aa0a6;
 
-    --accent: #322019;
-    --accent-foreground: #f0b6b7;
+    --accent: #22242a;
+    --accent-foreground: #ffffff;
 
-    --border: #36241c;
-    --input: #36241c;
-    --ring: #b85c5e;
+    --border: #26282e;
+    --input: #26282e;
+    --ring: #1a73e8;
 
-    --btn-primary-hover-bg: #a34d4f;
-    --btn-primary-hover-fg: #ffffff;
-    --btn-primary-hover-shadow: rgba(184, 92, 94, 0.3);
-    --btn-outline-border: rgba(184, 92, 94, 0.45);
-    --btn-outline-hover-bg: rgba(184, 92, 94, 0.15);
+    --btn-primary-hover-bg: #e8eaed;
+    --btn-primary-hover-fg: #000000;
+    --btn-primary-hover-shadow: rgba(26, 115, 232, 0.25);
+    --btn-outline-border: rgba(255, 255, 255, 0.28);
+    --btn-outline-hover-bg: rgba(26, 115, 232, 0.15);
     --google-blue: #1a73e8;
     --hero-beam-base: #80868b;
     --title-gradient-start: #ffffff;
-    --title-gradient-end: #c96b6d;
+    --title-gradient-end: #9aa0a6;
 
     /* Re-map Legacy Variables for Dark Mode */
     --bg-color: var(--background);
