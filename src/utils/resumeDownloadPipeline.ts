@@ -18,10 +18,6 @@ export async function runResumeDownloadPipeline({
 }: ResumeDownloadPipelineOptions): Promise<void> {
   await downloadResumePdf(article, filename);
 
-  if (!turnstileToken?.trim()) {
-    return;
-  }
-
   notifyResumeDownloadAsync({
     source,
     referrer: document.referrer || undefined,

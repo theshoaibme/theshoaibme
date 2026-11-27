@@ -23,8 +23,8 @@ export default function ProjectsPage() {
     <PageStatus loading={loading} error={error} onRetry={retry}>
       <Header
         scrollEnabled
-        logoText={data?.site.logo.text ?? 'Dev'}
-        logoSpan={data?.site.logo.span ?? 'Portfolio.'}
+        logoText={data?.site.logo.text ?? 'the'}
+        logoSpan={data?.site.logo.span ?? 'shoaib.me'}
         favicon={data?.site.favicon}
         nav={data?.site.nav ?? []}
       />

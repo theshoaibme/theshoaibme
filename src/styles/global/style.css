@@ -474,24 +474,18 @@ img {
 }
 
 .logo span {
-    color: var(--text-secondary);
+    color: var(--primary);
 }
 
-.logo span.logo-char-1 {
-    color: var(--google-blue);
-}
-
-.logo span.logo-char-2 {
-    color: var(--google-red);
-}
-
+.logo span.logo-char-1,
+.logo span.logo-char-2,
 .logo span.logo-char-3 {
-    color: var(--google-yellow);
+    color: var(--primary);
 }
 
 .logo span.logo-dot,
 .footer-big-logo span.logo-dot {
-    color: var(--google-green);
+    color: var(--primary);
 }
 
 .navbar {
@@ -3073,19 +3067,13 @@ img {
 }
 
 .footer-big-logo span {
-    color: var(--text-secondary);
+    color: var(--primary);
 }
 
-.footer-big-logo .logo-char-1 {
-    color: var(--google-blue);
-}
-
-.footer-big-logo .logo-char-2 {
-    color: var(--google-red);
-}
-
+.footer-big-logo .logo-char-1,
+.footer-big-logo .logo-char-2,
 .footer-big-logo .logo-char-3 {
-    color: var(--google-yellow);
+    color: var(--primary);
 }
 
 .footer-content {

@@ -16,19 +16,19 @@ export async function trackResumeDownload(
   payload: ResumeDownloadTrackPayload,
 ): Promise<ResumeDownloadTrackResult | null> {
   const url = getResumeDownloadApiUrl();
-  const turnstileToken = payload.turnstileToken?.trim();
-
-  if (!url || !turnstileToken) {
+  if (!url) {
     return null;
   }
 
-  let response: Response;
+  const turnstileToken = payload.turnstileToken?.trim();
+  const isCrossOrigin = /^https?:\/\//i.test(url);
 
+  let response: Response;
   try {
     response = await fetch(url, {
       method: 'POST',
-      mode: 'cors',
-      credentials: 'omit',
+      mode: isCrossOrigin ? 'cors' : 'same-origin',
+      credentials: isCrossOrigin ? 'omit' : 'same-origin',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -36,7 +36,7 @@ export async function trackResumeDownload(
       body: JSON.stringify({
         source: payload.source ?? 'resume-page',
         referrer: payload.referrer ?? (document.referrer || undefined),
-        turnstileToken,
+        ...(turnstileToken ? { turnstileToken } : {}),
         honey_pot: payload.honey_pot,
       }),
     });

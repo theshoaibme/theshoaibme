@@ -2,8 +2,8 @@
     "site": {
         "title": "Portfolio | MD Shoaib Khan",
         "logo": {
-            "text": "Dev",
-            "span": "Portfolio."
+            "text": "the",
+            "span": "shoaib.me"
         },
         "favicon": "/images/favicon.ico",
         "nav": [

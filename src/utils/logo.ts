@@ -11,7 +11,7 @@ export function buildColoredLogoText(logoText: string): string {
 }
 
 export function buildLogoSpan(span: string): string {
-  return span.replace(/\.$/, '<span class="logo-dot">.</span>');
+  return span.replace(/\./g, '<span class="logo-dot">.</span>');
 }
 
 import { resolveImageUrl } from '@/utils/images';

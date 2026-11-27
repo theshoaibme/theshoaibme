@@ -42,8 +42,8 @@ export default function PolicyPageLayout({
     <PageStatus loading={loading} error={error} onRetry={retry}>
       <Header
         scrollEnabled
-        logoText={site?.logo.text ?? 'Dev'}
-        logoSpan={site?.logo.span ?? 'Portfolio.'}
+        logoText={site?.logo.text ?? 'the'}
+        logoSpan={site?.logo.span ?? 'shoaib.me'}
         favicon={site?.favicon}
         nav={site?.nav ?? DEFAULT_NAV}
       />
