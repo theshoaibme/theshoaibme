@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { CONTACT_FIELD_LIMITS } from '@/config/contactValidation';
 import type { ServiceInquiryTemplate } from '@/config/serviceInquiryTemplates';
 import { CONTACT_FORM_TEXT } from '@/data/contactFormData';
@@ -7,6 +8,7 @@ import { scrollToElement } from '@/utils/smoothScroll';
 
 const MESSAGE_MIN_HEIGHT = 96;
 const MESSAGE_MAX_HEIGHT = 360;
+const TURNSTILE_SITE_KEY = (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '').trim();
 
 interface ContactFormProps {
   className?: string;
@@ -18,8 +20,15 @@ export default function ContactForm({
   inquiryTemplate = null,
 }: ContactFormProps) {
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
   const appliedInquiryKeyRef = useRef<string | null>(null);
   const [messageScrollable, setMessageScrollable] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
+
+  const handleResetSecurity = useCallback(() => {
+    setTurnstileToken('');
+    turnstileRef.current?.reset();
+  }, []);
 
   const {
     values,
@@ -30,7 +39,7 @@ export default function ContactForm({
     validateForm,
     sendMessage,
     applyInquiryTemplate,
-  } = useContactForm();
+  } = useContactForm({ onResetSecurity: handleResetSecurity });
 
   const adjustMessageHeight = useCallback(() => {
     const textarea = messageRef.current;
@@ -85,7 +94,7 @@ export default function ContactForm({
       return;
     }
 
-    await sendMessage('');
+    await sendMessage(turnstileToken);
   };
 
   return (
@@ -211,6 +220,18 @@ export default function ContactForm({
           </p>
         ) : null}
       </div>
+
+      {TURNSTILE_SITE_KEY ? (
+        <div className="contact-turnstile" style={{ marginBottom: '12px' }}>
+          <Turnstile
+            ref={turnstileRef}
+            siteKey={TURNSTILE_SITE_KEY}
+            onSuccess={setTurnstileToken}
+            onExpire={() => setTurnstileToken('')}
+            onError={() => setTurnstileToken('')}
+          />
+        </div>
+      ) : null}
 
       <div
         id="contact-status"
