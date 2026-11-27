@@ -1,4 +1,5 @@
 import { Redis } from '@upstash/redis';
+import { getNotificationDateKey } from '@/lib/requestMetadata';
 
 export interface ResumeDownloadStats {
   totalDownloads: number;
@@ -46,10 +47,6 @@ function getRedisClient(): Redis | null {
   return cachedRedisClient;
 }
 
-function getUtcDateKey(now = new Date()): string {
-  return now.toISOString().slice(0, 10);
-}
-
 function recordFallbackDownload(visitorHash: string, dateKey: string): ResumeDownloadStats {
   fallbackTotalDownloads += 1;
 
@@ -76,7 +73,7 @@ function recordFallbackDownload(visitorHash: string, dateKey: string): ResumeDow
  * (or falls back cleanly in-memory when Redis credentials are not configured).
  */
 export async function recordResumeDownload(visitorHash: string): Promise<ResumeDownloadStats> {
-  const dateKey = getUtcDateKey();
+  const dateKey = getNotificationDateKey();
   const redis = getRedisClient();
 
   if (!redis) {

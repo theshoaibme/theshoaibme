@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getContactFieldErrors, getFirstContactFieldError } from '@/config/contactValidation';
 import { getClientIp, isRateLimited, verifyTurnstileIfConfigured } from '@/lib/apiSecurity';
+import { formatNotificationTimestamp, resolveVisitorMetadata } from '@/lib/requestMetadata';
 import { escapeHtml, sendTelegramMessage } from '@/lib/telegram';
 
 interface ContactRequestBody {
@@ -60,13 +61,16 @@ export async function POST(request: Request) {
     );
   }
 
-  const sentAt = new Date().toISOString();
+  const visitor = await resolveVisitorMetadata(request, clientIp);
+  const sentAt = formatNotificationTimestamp();
+
   const text = [
-    '<b>New Portfolio Contact Message</b>',
+    '✉️ <b>New Portfolio Contact Message</b>',
     '',
     `<b>Name:</b> ${escapeHtml(name)}`,
     `<b>Email:</b> ${escapeHtml(email)}`,
     `<b>Subject:</b> ${subject ? escapeHtml(subject) : '(No subject)'}`,
+    `<b>Location:</b> ${escapeHtml(visitor.location)}`,
     `<b>Time:</b> ${escapeHtml(sentAt)}`,
     '',
     '<b>Message:</b>',

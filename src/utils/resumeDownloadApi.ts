@@ -3,6 +3,7 @@ import { getResumeDownloadApiUrl } from '@/config/download';
 export interface ResumeDownloadTrackPayload {
   source?: string;
   referrer?: string;
+  timezone?: string;
   turnstileToken?: string;
   honey_pot?: string;
 }
@@ -40,6 +41,10 @@ export async function trackResumeDownload(
       body: JSON.stringify({
         source: payload.source ?? 'resume-page',
         referrer: payload.referrer ?? (document.referrer || undefined),
+        timezone:
+          payload.timezone ??
+          Intl.DateTimeFormat().resolvedOptions().timeZone ??
+          undefined,
         ...(turnstileToken ? { turnstileToken } : {}),
         honey_pot: payload.honey_pot,
       }),
