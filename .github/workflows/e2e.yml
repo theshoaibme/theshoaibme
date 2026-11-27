@@ -1,10 +1,7 @@
 name: E2E Tests
 
+# Automatic CI/CD disabled for Vercel deployment (manual trigger only)
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
