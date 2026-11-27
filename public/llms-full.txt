@@ -1,0 +1,82 @@
+# MD Shoaib Khan — Complete Engineering Profile & Knowledge Base
+
+> Canonical Source: https://theshoaib.me
+> Summary Index: https://theshoaib.me/llms.txt
+
+## 1. Identity & Verified Profiles
+
+- **Legal / Professional Name:** MD Shoaib Khan
+- **Alternate Names:** Md Shoaib Khan, Shoaib Khan, Mohammad Shoaib Khan, theshoaibme, মোঃ শোয়েব খান
+- **Primary Titles:** Full Stack Software Engineer | Spring Boot & Backend Architect | Frontend (React & Next.js) Engineer | AI & Autonomous Agent Systems Engineer
+- **Base Location:** Daffodil Smart City, Ashulia, Dhaka, Bangladesh (Serving US, UK, Europe, Middle East & Asia-Pacific remotely)
+- **Email:** theshoaib.me@gmail.com
+- **Phone:** +8801909978166
+- **Website:** https://theshoaib.me
+- **Portrait (JPEG 746x933):** https://theshoaib.me/images/md-shoaib-khan.jpg
+- **Headshot (JPEG 512x512):** https://theshoaib.me/images/md-shoaib-khan-headshot.jpg
+- **GitHub:** https://github.com/theshoaibme | https://github.com/the-shoaib2
+- **LinkedIn:** https://www.linkedin.com/in/theshoaibme
+- **Facebook:** https://www.facebook.com/theshoaib.me
+- **Instagram:** https://www.instagram.com/theshoaib.me | https://instagram.com/the.shoaib3
+- **Telegram:** https://telegram.me/the_shoaib2
+- **Hugging Face:** https://huggingface.co/theshoaibme
+
+---
+
+## 2. Complete Technical Stack
+
+- **Languages:** Java, TypeScript, JavaScript (ES2024+), Python, Rust, PHP, Dart, Kotlin, Swift, C, C++, C#, SQL, Bash
+- **Frontend:** Next.js (App Router, SSR/SSG, RSC), React 19, TypeScript, Vue.js, Angular, Inertia.js, Tailwind CSS v4, shadcn/ui, Radix UI, Motion, HTML5, CSS3
+- **Backend & Distributed Systems:** Java Spring Boot, Python FastAPI, Django, Flask, Node.js, Express.js, PHP Laravel 11–13 (Octane, FrankenPHP, Reverb, Horizon), Rust (Axum), GraphQL, REST/OpenAPI, WebSockets, Apache Kafka, Prisma, TypeORM
+- **AI, Agents & ML:** OpenAI, Anthropic Claude, Google Gemini, Multi-Agent Orchestration, Model Context Protocol (MCP), LangChain, LangGraph, Vector Databases (Qdrant), RAG, PyTorch, TensorFlow, Scikit-learn, OpenCV, YOLOv8, Tesseract/Vision OCR, Whisper STT, LiveKit WebRTC
+- **Databases & Storage:** PostgreSQL, PostGIS, MongoDB, MySQL, Redis, Upstash Redis, SQLite, Cloudflare D1/KV/R2, MinIO
+- **Cloud & DevOps:** AWS, GCP, Microsoft Azure, Vercel, Cloudflare (Workers, Pages, R2, Turnstile, Edge DNS), Docker, Kubernetes, Terraform, Ansible, Nginx, Linux, GitHub Actions CI/CD
+- **Mobile & Desktop:** Flutter, React Native, Android (Kotlin, Jetpack Compose), iOS (SwiftUI), Linux GTK4 (Rust), Electron
+
+---
+
+## 3. Production Case Studies & Featured Systems
+
+1. **CSE Tech – ESS Portal (`https://csetech.diu.edu.bd`)**
+   - Enterprise ERP & Employee Self-Service platform for project, task, staff, and payroll management, Git version control, Spatie RBAC, TOTP/Email 2FA, Cloudflare Turnstile, MCP/AI workflows, and Google Workspace + Telegram/WhatsApp/Facebook integrations.
+2. **BMS Agents (`https://bms.theshoaib.me`)**
+   - Hybrid Rust (Axum gateway) + Python (FastAPI) autonomous multi-agent runtime featuring MCP tool execution, LiveKit voice CallSim, Whisper STT, browser automation, sandboxed code execution, and RBAC guardrails across English, Bengali, and Banglish.
+3. **BMS – Multi-Tenant SaaS & E-Commerce Platform (`https://bms.theshoaib.me`)**
+   - Multi-tenant SaaS ecosystem with Super Admin, Merchant Workspace, and Customer Gateway portals, CRM, inventory, usage-based subscription billing, and Vision OCR.
+4. **Doctor Portfolio & Healthcare ERP (`https://orthopedicsurgeonrahman.com/`)**
+   - Full clinical platform and admin portal for appointments, chamber scheduling, patient records, live chat (Laravel Reverb), Google SSO / WebAuthn / 2FA, Docker, and PostgreSQL/Redis.
+5. **Foundation Management (`https://ihaveaplanfoundation.com/`)**
+   - Non-profit foundation platform handling volunteer verification, program management, and transparent digital donations (Laravel, React, Inertia.js, PostgreSQL, Cloudflare).
+6. **Pan-Organ Net (`https://huggingface.co/theshoaibme/PanOrgan-4.1`)**
+   - Unified 2D + 2.5D multi-modality medical imaging foundation framework in PyTorch across 5 clinical imaging modalities (CT, MRI, X-Ray, Ultrasound, Mammography) with self-supervised pretraining, Sparse Top-2 Mixture-of-Experts, and conformal calibration.
+7. **DeepConnect Provider (`https://deepconnect.theshoaib.me/`)**
+   - OAuth 2.0 integration middleware connecting web platforms to Google Workspace, Meta APIs, Slack, and webhooks with AES-256 token encryption (Next.js, TypeScript).
+8. **SobujBD (`https://app3.csetech.diu.edu.bd/`)**
+   - AI smart-agriculture platform combining **Spring Boot**, **FastAPI**, **React**, **PostGIS**, **Redis**, **MinIO**, and **YOLOv8** plant disease detection.
+9. **Supershop Management System (`https://github.com/theshoaibme/Super-Shop-Management`)**
+   - Enterprise retail POS, barcode, inventory, and analytics platform powered by **Java Spring Boot**, **Apache Kafka**, **MongoDB**, **JWT**, **OpenAPI**, and **React**.
+10. **Kivorly (`https://github.com/theshoaibme/kivorly`)**
+    - On-demand multi-service super-app (ride-sharing, food, grocery, courier, tickets) across 64 districts of Bangladesh built with SwiftUI, Jetpack Compose, Next.js, and Node.js.
+11. **Meal Sphere (`https://meal-sphere.vercel.app`)** — Next.js, TypeScript, Prisma, MongoDB community nutrition & meal planning platform.
+12. **Pregnify (`https://github.com/theshoaibme/Pregnify`)** — AI-assisted maternal health & risk monitoring platform (Node.js, Express, Prisma, MySQL, OpenAI, React).
+13. **App Pro (`https://github.com/theshoaibme/app-pro`)** — Native Linux desktop utility suite written in Rust & GTK4.
+
+---
+
+## 4. Work Experience & Education
+
+- **Backend Developer — CSE-TECH (Center for Software Development & Emerging Tech)** *(2026 – Present)*
+- **AI Engineer & Full Stack Developer — Global Freelance & Consulting** *(2023 – Present)*
+- **Freelance Web & Frontend Developer** *(2019 – 2023)*
+- **BSc in Computer Science and Engineering (CSE)** — Daffodil International University, Dhaka *(2022 – Present)*
+- **HSC in Science** — Birshreshtha Munshi Abdur Rouf Public College, Dhaka *(GPA 4.58/5.00)*
+- **SSC in Science** — Gazipur Shaheen Cadet Academy, Gazipur *(GPA 5.00/5.00)*
+
+---
+
+## 5. Frequently Asked Questions
+
+- **Q: Who is MD Shoaib Khan?**
+  A: MD Shoaib Khan (`theshoaib.me` / `@theshoaibme`) is a Full Stack Software Engineer specializing in Frontend (React, Next.js, TypeScript), Backend (Java Spring Boot, FastAPI, Node.js, Laravel, Rust), AI/LLM Agent Systems, and Mobile Apps.
+- **Q: How to contact or hire MD Shoaib Khan?**
+  A: Submit a project inquiry at https://theshoaib.me/#contact, email `theshoaib.me@gmail.com`, or message on Telegram at https://telegram.me/the_shoaib2 or LinkedIn at https://www.linkedin.com/in/theshoaibme.

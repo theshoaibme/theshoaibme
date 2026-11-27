@@ -59,7 +59,9 @@ export default function About({
             >
               <img
                 src={aboutImage}
-                alt={profileName}
+                alt={`${profileName} — Full Stack Software Engineer, Spring Boot Backend & AI Developer`}
+                title={`${profileName} — Full Stack, Spring Boot, Next.js & AI Engineer`}
+                itemProp="image"
                 className="about-img"
                 id="about-img"
                 loading="lazy"

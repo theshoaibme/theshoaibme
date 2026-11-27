@@ -68,7 +68,7 @@ export default function Hero({ section, profile, profileImageUrl, onProfileClick
             >
               <img
                 src={profileImageUrl}
-                alt={profile.name}
+                alt="3D developer workspace illustration"
                 id="hero-img"
                 loading="eager"
                 width={460}

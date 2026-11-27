@@ -4,6 +4,12 @@ import { type ReactNode } from 'react';
 import { SiteDataProvider } from '@/app/providers/SiteDataProvider';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 import SmoothScrollProvider from '@/components/layout/SmoothScrollProvider';
+import {
+  CORE_SEO_KEYWORDS,
+  getUnifiedSameAs,
+  REAL_PORTRAIT_ASSETS,
+  SEO_ENTITY,
+} from '@/config/seo';
 import { SITE_URL } from '@/config/site';
 import { portfolioService } from '@/services';
 
@@ -33,40 +39,96 @@ export const viewport: Viewport = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const { data } = await portfolioService.getPortfolioData();
+  const primaryPortrait = REAL_PORTRAIT_ASSETS[0];
+  const headshotPortrait = REAL_PORTRAIT_ASSETS[1];
 
   return {
     metadataBase: new URL(SITE_URL),
     title: {
       default: data.site.title,
-      template: `%s | ${data.profile.name}`,
+      template: `%s | ${SEO_ENTITY.name}`,
     },
-    description: data.profile.description,
+    description: SEO_ENTITY.defaultDescription,
+    applicationName: `${SEO_ENTITY.name} Portfolio`,
+    authors: [{ name: SEO_ENTITY.name, url: SITE_URL }],
+    creator: SEO_ENTITY.name,
+    publisher: SEO_ENTITY.name,
+    category: 'technology',
+    keywords: [...CORE_SEO_KEYWORDS],
     referrer: 'strict-origin-when-cross-origin',
+    manifest: '/manifest.webmanifest',
     alternates: {
       canonical: '/',
     },
     icons: {
       icon: data.site.favicon || '/images/favicon.ico',
+      apple: '/images/md-shoaib-khan-headshot.jpg',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: false,
+      googleBot: {
+        index: true,
+        follow: true,
+        noimageindex: false,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
     },
     openGraph: {
-      type: 'website',
+      type: 'profile',
+      locale: 'en_US',
       url: SITE_URL,
-      title: data.site.title,
-      description: data.profile.description,
-      siteName: data.profile.name,
-      images: data.profile.profileImage ? [{ url: data.profile.profileImage }] : undefined,
+      siteName: `${SEO_ENTITY.name} — Portfolio`,
+      title: SEO_ENTITY.headline,
+      description: SEO_ENTITY.defaultDescription,
+      firstName: SEO_ENTITY.givenName,
+      lastName: SEO_ENTITY.familyName,
+      username: 'theshoaibme',
+      gender: 'male',
+      images: [
+        {
+          url: '/opengraph-image',
+          width: 1200,
+          height: 630,
+          alt: SEO_ENTITY.headline,
+        },
+        {
+          url: primaryPortrait.url,
+          width: primaryPortrait.width,
+          height: primaryPortrait.height,
+          type: primaryPortrait.mimeType,
+          alt: primaryPortrait.caption,
+        },
+        {
+          url: headshotPortrait.url,
+          width: headshotPortrait.width,
+          height: headshotPortrait.height,
+          type: headshotPortrait.mimeType,
+          alt: headshotPortrait.caption,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: data.site.title,
-      description: data.profile.description,
-      images: data.profile.profileImage ? [data.profile.profileImage] : undefined,
+      title: SEO_ENTITY.headline,
+      description: SEO_ENTITY.defaultDescription,
+      creator: SEO_ENTITY.handle,
+      images: ['/twitter-image', primaryPortrait.url],
+    },
+    other: {
+      'geo.region': 'BD-C',
+      'geo.placename': 'Dhaka, Bangladesh',
+      'profile:username': 'theshoaibme',
     },
   };
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const { data: initialData } = await portfolioService.getPortfolioData();
+  const sameAsLinks = getUnifiedSameAs(initialData);
 
   return (
     <html
@@ -75,6 +137,21 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       suppressHydrationWarning
     >
       <head>
+        <link
+          rel="alternate"
+          type="text/plain"
+          href="/llms.txt"
+          title="LLM Summary — MD Shoaib Khan"
+        />
+        <link
+          rel="alternate"
+          type="text/plain"
+          href="/llms-full.txt"
+          title="LLM Complete Knowledge Base — MD Shoaib Khan"
+        />
+        {sameAsLinks.map((profileUrl) => (
+          <link key={profileUrl} rel="me" href={profileUrl} />
+        ))}
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"

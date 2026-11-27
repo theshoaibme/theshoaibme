@@ -101,15 +101,19 @@
             },
             {
                 "icon": "fa-brands fa-linkedin-in",
-                "url": "https://linkedin.com/in/theshoaibme"
+                "url": "https://www.linkedin.com/in/theshoaibme"
+            },
+            {
+                "icon": "fa-brands fa-facebook-f",
+                "url": "https://www.facebook.com/theshoaib.me"
+            },
+            {
+                "icon": "fa-brands fa-instagram",
+                "url": "https://www.instagram.com/theshoaib.me"
             },
             {
                 "icon": "fa-brands fa-telegram",
                 "url": "https://telegram.me/the_shoaib2"
-            },
-            {
-                "icon": "fa-brands fa-instagram",
-                "url": "https://instagram.com/the.shoaib3"
             }
         ]
     },

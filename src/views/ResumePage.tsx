@@ -228,7 +228,11 @@ export default function ResumePage() {
                       {photoSrc ? (
                         <img
                           src={photoSrc}
-                          alt={content.personal.name}
+                          alt={`${content.personal.name} — Full Stack, Spring Boot & AI Software Engineer Portrait`}
+                          title={`${content.personal.name} — Official Resume Portrait`}
+                          itemProp="image"
+                          width={512}
+                          height={512}
                           className="cv-pdf-photo"
                           loading="eager"
                           crossOrigin={photoIsCrossOrigin ? 'anonymous' : undefined}
