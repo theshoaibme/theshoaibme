@@ -121,6 +121,13 @@ export function LiquidMetalBorder({
           speed={isVisible ? speed : 0}
           scale={scale}
           fit="cover"
+          minPixelRatio={1}
+          maxPixelCount={128_000}
+          webGlContextAttributes={{
+            antialias: false,
+            powerPreference: 'low-power',
+            preserveDrawingBuffer: false,
+          }}
         />
       </div>
 
