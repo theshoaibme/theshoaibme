@@ -17,6 +17,10 @@ export function getCachedPortfolioData(): PortfolioData | null {
   return cachedPortfolioData;
 }
 
+export function seedPortfolioDataCache(data: PortfolioData): void {
+  cachedPortfolioData = data;
+}
+
 export function clearPortfolioDataCache(): void {
   cachedPortfolioData = null;
   inFlightRequest = null;

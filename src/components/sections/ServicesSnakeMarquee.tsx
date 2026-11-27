@@ -68,7 +68,9 @@ interface ServicesSnakeMarqueeProps {
 
 function ServicesSnakeWave({ icons = DEVELOPMENT_SNAKE_ICONS }: ServicesSnakeMarqueeProps) {
   const velocityFactor = useScrollVelocityFactor();
-  const [metrics, setMetrics] = useState(() => getSnakeWaveMetrics(window.innerWidth));
+  const [metrics, setMetrics] = useState(() =>
+    getSnakeWaveMetrics(typeof window === 'undefined' ? 0 : window.innerWidth),
+  );
   const metricsRef = useRef(metrics);
   const phase = useMotionValue(0);
   const horizontalX = useMotionValue(0);

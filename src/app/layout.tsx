@@ -3,6 +3,7 @@ import { type ReactNode } from 'react';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 import SmoothScrollProvider from '@/components/layout/SmoothScrollProvider';
 import { SiteDataProvider } from '@/app/providers/SiteDataProvider';
+import { portfolioService } from '@/services';
 
 import '@/styles/global/style.css';
 import '@/styles/modules/errors.css';
@@ -26,7 +27,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const { data: initialData } = await portfolioService.getPortfolioData();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -68,7 +71,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <ErrorBoundary>
-          <SiteDataProvider>
+          <SiteDataProvider initialData={initialData}>
             <SmoothScrollProvider>{children}</SmoothScrollProvider>
           </SiteDataProvider>
         </ErrorBoundary>

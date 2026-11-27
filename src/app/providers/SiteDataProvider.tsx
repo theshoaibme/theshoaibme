@@ -6,6 +6,7 @@ import {
   clearPortfolioDataCache,
   getCachedPortfolioData,
   portfolioService,
+  seedPortfolioDataCache,
 } from '@/services';
 import { getErrorMessage, isAbortError } from '@/utils/errors';
 
@@ -18,7 +19,16 @@ interface SiteDataContextValue {
 
 const SiteDataContext = createContext<SiteDataContextValue | null>(null);
 
-export function SiteDataProvider({ children }: { children: ReactNode }) {
+interface SiteDataProviderProps {
+  children: ReactNode;
+  initialData?: PortfolioData | null;
+}
+
+export function SiteDataProvider({ children, initialData = null }: SiteDataProviderProps) {
+  if (initialData && !getCachedPortfolioData()) {
+    seedPortfolioDataCache(initialData);
+  }
+
   const initialCache = getCachedPortfolioData();
   const [data, setData] = useState<PortfolioData | null>(initialCache);
   const [error, setError] = useState<string | null>(null);
