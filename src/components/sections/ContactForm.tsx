@@ -24,6 +24,7 @@ export default function ContactForm({
   const appliedInquiryKeyRef = useRef<string | null>(null);
   const [messageScrollable, setMessageScrollable] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileActive, setTurnstileActive] = useState(false);
 
   const handleResetSecurity = useCallback(() => {
     setTurnstileToken('');
@@ -89,6 +90,7 @@ export default function ContactForm({
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setTurnstileActive(true);
 
     if (!validateForm()) {
       return;
@@ -98,7 +100,13 @@ export default function ContactForm({
   };
 
   return (
-    <form className={className} id="contact-form" onSubmit={onSubmit} noValidate>
+    <form
+      className={className}
+      id="contact-form"
+      onFocusCapture={() => setTurnstileActive(true)}
+      onSubmit={onSubmit}
+      noValidate
+    >
       <div style={{ display: 'none' }}>
         <input
           type="text"
@@ -221,8 +229,8 @@ export default function ContactForm({
         ) : null}
       </div>
 
-      {TURNSTILE_SITE_KEY ? (
-        <div className="contact-turnstile" style={{ marginBottom: '12px' }}>
+      {TURNSTILE_SITE_KEY && turnstileActive ? (
+        <div className="contact-turnstile contact-turnstile--visible" style={{ marginBottom: '12px' }}>
           <Turnstile
             ref={turnstileRef}
             siteKey={TURNSTILE_SITE_KEY}

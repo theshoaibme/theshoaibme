@@ -16,6 +16,32 @@ function toAbsoluteUrl(pathOrUrl: string): string {
   return `${SITE_URL}${trimmed.startsWith('/') ? '' : '/'}${trimmed}`;
 }
 
+function buildPortraitImageObject(
+  img: (typeof REAL_PORTRAIT_ASSETS)[number],
+  options: { id?: string; representativeOfPage?: boolean } = {},
+) {
+  return {
+    '@type': 'ImageObject',
+    ...(options.id ? { '@id': options.id } : {}),
+    url: img.url,
+    contentUrl: img.url,
+    width: img.width,
+    height: img.height,
+    encodingFormat: img.mimeType,
+    caption: img.caption,
+    name: img.caption,
+    ...(options.representativeOfPage !== undefined
+      ? { representativeOfPage: options.representativeOfPage }
+      : {}),
+    creator: { '@id': SEO_ENTITY.id },
+    copyrightHolder: { '@id': SEO_ENTITY.id },
+    creditText: SEO_ENTITY.name,
+    copyrightNotice: `© ${new Date().getFullYear()} ${SEO_ENTITY.name}. All rights reserved.`,
+    license: `${SITE_URL}/terms`,
+    acquireLicensePage: `${SITE_URL}/#contact`,
+  };
+}
+
 export function buildPersonSchema(data: PortfolioData) {
   const skills = getAllSkillsFlat(data);
   const sameAs = getUnifiedSameAs(data);
@@ -32,19 +58,12 @@ export function buildPersonSchema(data: PortfolioData) {
     description: SEO_ENTITY.defaultDescription,
     url: SITE_URL,
     mainEntityOfPage: { '@id': SEO_ENTITY.profilePageId },
-    image: REAL_PORTRAIT_ASSETS.map((img, idx) => ({
-      '@type': 'ImageObject',
-      '@id': `${SITE_URL}/#portrait-${idx + 1}`,
-      url: img.url,
-      contentUrl: img.url,
-      width: img.width,
-      height: img.height,
-      encodingFormat: img.mimeType,
-      caption: img.caption,
-      name: img.caption,
-      representativeOfPage: idx === 0,
-      creator: { '@id': SEO_ENTITY.id },
-    })),
+    image: REAL_PORTRAIT_ASSETS.map((img, idx) =>
+      buildPortraitImageObject(img, {
+        id: `${SITE_URL}/#portrait-${idx + 1}`,
+        representativeOfPage: idx === 0,
+      }),
+    ),
     thumbnailUrl: primaryPortrait.url,
     email: `mailto:${data.contact.email}`,
     telephone: RESUME_CONTENT.personal.phone || data.contact.phone,
@@ -319,13 +338,9 @@ export function buildResumePageJsonLd(data: PortfolioData) {
           'Curriculum Vitae and professional engineering resume of MD Shoaib Khan — Full Stack Developer, Backend & Spring Boot Engineer, Next.js Frontend Architect, and AI Systems Developer.',
         isPartOf: { '@id': SEO_ENTITY.websiteId },
         mainEntity: { '@id': SEO_ENTITY.id },
-        primaryImageOfPage: {
-          '@type': 'ImageObject',
-          url: REAL_PORTRAIT_ASSETS[1].url,
-          width: REAL_PORTRAIT_ASSETS[1].width,
-          height: REAL_PORTRAIT_ASSETS[1].height,
-          caption: REAL_PORTRAIT_ASSETS[1].caption,
-        },
+        primaryImageOfPage: buildPortraitImageObject(REAL_PORTRAIT_ASSETS[1], {
+          representativeOfPage: true,
+        }),
       },
       buildPersonSchema(data),
       buildBreadcrumbSchema([
