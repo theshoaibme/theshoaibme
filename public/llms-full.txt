@@ -6,7 +6,7 @@
 ## 1. Identity & Verified Profiles
 
 - **Legal / Professional Name:** MD Shoaib Khan
-- **Alternate Names:** Md Shoaib Khan, Shoaib Khan, Mohammad Shoaib Khan, theshoaibme, মোঃ শোয়েব খান
+- **Alternate Names:** Md Shoaib Khan, Shoaib Khan, Mohammad Shoaib Khan, theshoaibme, মোঃ শোয়াইব খান, শোয়াইব খান
 - **Primary Titles:** Full Stack Software Engineer | Spring Boot & Backend Architect | Frontend (React & Next.js) Engineer | AI & Autonomous Agent Systems Engineer
 - **Base Location:** Daffodil Smart City, Ashulia, Dhaka, Bangladesh (Serving US, UK, Europe, Middle East & Asia-Pacific remotely)
 - **Email:** theshoaib.me@gmail.com

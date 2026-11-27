@@ -4,7 +4,7 @@
 
 ## Canonical Entity & Verified Social Graph
 
-- **Full Name:** MD Shoaib Khan (Alternate: Md Shoaib Khan, Shoaib Khan, Mohammad Shoaib Khan, মোঃ শোয়েব খান)
+- **Full Name:** MD Shoaib Khan (Alternate: Md Shoaib Khan, Shoaib Khan, Mohammad Shoaib Khan, মোঃ শোয়াইব খান, শোয়াইব খান)
 - **Primary Handle:** `@theshoaibme`
 - **Official Website:** https://theshoaib.me
 - **Official Portrait (High-Res JPEG):** https://theshoaib.me/images/md-shoaib-khan.jpg

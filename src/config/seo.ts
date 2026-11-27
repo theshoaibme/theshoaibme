@@ -25,8 +25,9 @@ export const SEO_ENTITY = {
     'Mohammad Shoaib Khan',
     'theshoaibme',
     'theshoaib.me',
-    'মোঃ শোয়েব খান',
-    'শোয়েব খান',
+    'মোঃ শোয়াইব খান',
+    'শোয়াইব খান',
+    'মোহাম্মদ শোয়াইব খান',
   ],
   jobTitles: [
     'Full Stack Software Engineer',
