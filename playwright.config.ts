@@ -35,11 +35,11 @@ export default defineConfig({
     timeout: isCI ? 180_000 : 120_000,
     env: {
       GITHUB_REPOSITORY: process.env.GITHUB_REPOSITORY ?? 'theshoaibme/theshoaibme.github.io',
-      VITE_TURNSTILE_SITE_KEY: process.env.VITE_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA',
-      VITE_CONTACT_API_URL:
-        process.env.VITE_CONTACT_API_URL ?? 'https://portfolio-contact-api.theshoaibme.workers.dev',
-      VITE_CDN_BASE_URL: process.env.VITE_CDN_BASE_URL ?? '',
-      VITE_CLOUDINARY_CLOUD_NAME: process.env.VITE_CLOUDINARY_CLOUD_NAME ?? '',
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA',
+      NEXT_PUBLIC_CONTACT_API_URL:
+        process.env.NEXT_PUBLIC_CONTACT_API_URL ?? 'https://portfolio-contact-api.theshoaibme.workers.dev',
+      NEXT_PUBLIC_CDN_BASE_URL: process.env.NEXT_PUBLIC_CDN_BASE_URL ?? '',
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '',
     },
   },
 });

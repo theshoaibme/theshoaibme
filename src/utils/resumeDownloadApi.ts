@@ -10,6 +10,10 @@ export interface ResumeDownloadTrackPayload {
 export interface ResumeDownloadTrackResult {
   success: boolean;
   tracked: boolean;
+  totalDownloads?: number;
+  todayDownloads?: number;
+  uniqueVisitors?: number;
+  persistent?: boolean;
 }
 
 export async function trackResumeDownload(

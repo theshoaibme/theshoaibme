@@ -36,8 +36,8 @@ jobs:
         env:
           CI: true
           GITHUB_REPOSITORY: ${{ github.repository }}
-          VITE_TURNSTILE_SITE_KEY: ${{ secrets.VITE_TURNSTILE_SITE_KEY }}
-          VITE_CONTACT_API_URL: ${{ secrets.VITE_CONTACT_API_URL }}
+          NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
+          NEXT_PUBLIC_CONTACT_API_URL: ${{ secrets.NEXT_PUBLIC_CONTACT_API_URL }}
 
       - name: Upload Playwright report
         if: failure()

@@ -14,9 +14,9 @@ const portfolioData = JSON.parse(
   readFileSync(resolve(process.cwd(), 'public/data.json'), 'utf-8'),
 ) as PortfolioData;
 
-const cloudName = process.env.VITE_CLOUDINARY_CLOUD_NAME ?? '';
+const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
 const cdnBase =
-  process.env.VITE_CDN_BASE_URL?.replace(/\/+$/, '') ??
+  process.env.NEXT_PUBLIC_CDN_BASE_URL?.replace(/\/+$/, '') ??
   (cloudName ? `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto` : '');
 
 function expectedSrc(localPath: string): string | RegExp {

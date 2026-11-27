@@ -2,12 +2,12 @@
 /**
  * Smoke-test image CDN endpoints (Cloudinary, R2, or custom base URL).
  */
-const CLOUD_NAME = process.env.VITE_CLOUDINARY_CLOUD_NAME ?? process.env.CLOUDINARY_CLOUD_NAME ?? 'ddp8owdtu';
-const TRANSFORMS = process.env.VITE_CLOUDINARY_TRANSFORMS ?? 'f_auto,q_auto';
+const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? process.env.CLOUDINARY_CLOUD_NAME ?? 'ddp8owdtu';
+const TRANSFORMS = process.env.NEXT_PUBLIC_CLOUDINARY_TRANSFORMS ?? 'f_auto,q_auto';
 
 function getCdnBaseUrl() {
-  if (process.env.CDN_BASE_URL || process.env.VITE_CDN_BASE_URL) {
-    return (process.env.CDN_BASE_URL ?? process.env.VITE_CDN_BASE_URL).replace(/\/+$/, '');
+  if (process.env.CDN_BASE_URL || process.env.NEXT_PUBLIC_CDN_BASE_URL) {
+    return (process.env.CDN_BASE_URL ?? process.env.NEXT_PUBLIC_CDN_BASE_URL).replace(/\/+$/, '');
   }
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${TRANSFORMS}`;
 }

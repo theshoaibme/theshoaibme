@@ -1,4 +1,4 @@
-import { motion, type Variants } from 'framer-motion';
+import { motion, type Variants } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import ServicesSnakeMarquee from '@/components/sections/ServicesSnakeMarquee';
 import { SERVICE_LUCIDE_MAP, SERVICES_LABELS } from '@/data/servicesData';

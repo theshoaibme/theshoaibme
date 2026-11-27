@@ -1,13 +1,29 @@
 import type { Metadata, Viewport } from 'next';
+import { Outfit, Space_Grotesk } from 'next/font/google';
 import { type ReactNode } from 'react';
+import { SiteDataProvider } from '@/app/providers/SiteDataProvider';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 import SmoothScrollProvider from '@/components/layout/SmoothScrollProvider';
-import { SiteDataProvider } from '@/app/providers/SiteDataProvider';
+import { SITE_URL } from '@/config/site';
 import { portfolioService } from '@/services';
 
 import '@/styles/global/style.css';
 import '@/styles/modules/errors.css';
 import '@/styles/modules/ruler.css';
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-outfit',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -15,30 +31,50 @@ export const viewport: Viewport = {
   themeColor: '#0b57d0',
 };
 
-export const metadata: Metadata = {
-  title: {
-    default: 'MD Shoaib Khan | Full-Stack Software Engineer',
-    template: '%s | MD Shoaib Khan',
-  },
-  description:
-    'Full-stack software engineer portfolio showcasing web applications, enterprise systems, and developer tools.',
-  icons: {
-    icon: '/favicon.ico',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { data } = await portfolioService.getPortfolioData();
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: data.site.title,
+      template: `%s | ${data.profile.name}`,
+    },
+    description: data.profile.description,
+    referrer: 'strict-origin-when-cross-origin',
+    alternates: {
+      canonical: '/',
+    },
+    icons: {
+      icon: data.site.favicon || '/images/favicon.ico',
+    },
+    openGraph: {
+      type: 'website',
+      url: SITE_URL,
+      title: data.site.title,
+      description: data.profile.description,
+      siteName: data.profile.name,
+      images: data.profile.profileImage ? [{ url: data.profile.profileImage }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: data.site.title,
+      description: data.profile.description,
+      images: data.profile.profileImage ? [data.profile.profileImage] : undefined,
+    },
+  };
+}
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const { data: initialData } = await portfolioService.getPortfolioData();
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${outfit.variable} ${spaceGrotesk.variable}`}
+      suppressHydrationWarning
+    >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-        />
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"

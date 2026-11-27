@@ -65,6 +65,10 @@ export function SiteDataProvider({ children, initialData = null }: SiteDataProvi
   }, []);
 
   useEffect(() => {
+    if (attempt === 0 && getCachedPortfolioData()) {
+      return;
+    }
+
     const controller = new AbortController();
     void loadData(controller.signal, attempt > 0);
 

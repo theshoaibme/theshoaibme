@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { Link } from '@/components/common/UniversalLink';
-import { useLocation } from '@/hooks/useLocation';
+import { usePathname } from 'next/navigation';
 import type { NavItem } from '@/types';
 import LogoMark from '@/components/common/LogoMark';
 import { useActiveNavSection } from '@/hooks/scroll/useActiveNavSection';
@@ -20,7 +20,7 @@ interface HeaderProps {
 }
 
 export default function Header({ logoText, logoSpan, favicon, nav, scrollEnabled = true }: HeaderProps) {
-  const { pathname } = useLocation();
+  const pathname = usePathname() ?? '/';
   const isHomePage = isHomePath(pathname);
   const activeSection = useActiveNavSection();
   const [menuOpen, setMenuOpen] = useState(false);

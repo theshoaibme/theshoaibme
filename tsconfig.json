@@ -36,8 +36,6 @@
     "workers",
     "e2e",
     "scripts",
-    "vite.config.ts",
     "playwright.config.ts",
-    "eslint.config.js"
   ]
 }

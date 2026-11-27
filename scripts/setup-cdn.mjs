@@ -55,7 +55,7 @@ function main() {
   console.log('  Add theshoaib.me to Cloudflare, then attach custom domain on the Worker.');
   console.log('  Until then use: https://portfolio-image-cdn.theshoaibme.workers.dev');
   console.log('\nGitHub secret (production site):');
-  console.log('  VITE_CDN_BASE_URL=https://images.theshoaib.me');
+  console.log('  NEXT_PUBLIC_CDN_BASE_URL=https://images.theshoaib.me');
 }
 
 main();

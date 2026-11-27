@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { isProductionHost } from '@/config/site';
 
 interface RateLimitEntry {
   timestamps: number[];
@@ -62,6 +63,49 @@ export function isRateLimited(key: string, maxRequests: number, windowMs: number
   }
 
   return false;
+}
+
+/**
+ * Validates that a browser request originates from the same host or an allowed production domain.
+ */
+export function isAllowedOrigin(request: Request): boolean {
+  const candidateHeader = request.headers.get('origin') ?? request.headers.get('referer');
+
+  if (!candidateHeader) {
+    return process.env.NODE_ENV !== 'production';
+  }
+
+  try {
+    const candidateHost = new URL(candidateHeader).hostname.toLowerCase();
+    if (isProductionHost(candidateHost)) {
+      return true;
+    }
+
+    const hostHeaders = [
+      request.headers.get('x-forwarded-host'),
+      request.headers.get('host'),
+      new URL(request.url).hostname,
+    ];
+
+    for (const rawHost of hostHeaders) {
+      if (!rawHost) continue;
+      const normalized = rawHost.split(',')[0]?.trim().replace(/:\d+$/, '').toLowerCase();
+      if (normalized && normalized === candidateHost) {
+        return true;
+      }
+    }
+
+    if (
+      process.env.NODE_ENV !== 'production' &&
+      (candidateHost === 'localhost' || candidateHost === '127.0.0.1')
+    ) {
+      return true;
+    }
+
+    return false;
+  } catch {
+    return false;
+  }
 }
 
 /**
